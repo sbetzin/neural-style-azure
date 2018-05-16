@@ -19,7 +19,8 @@ namespace NeuralStyle.Service.Controllers
         [HttpGet]
         public string Get([FromQuery] string source, [FromQuery] string style)
         {
-            return "value";
+            // ReSharper disable once InvokeAsExtensionMethod
+            return Shell.Bash(source);
         }
 
         // POST api/values

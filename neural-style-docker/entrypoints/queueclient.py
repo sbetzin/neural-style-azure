@@ -26,7 +26,7 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", styleId, file_path= "/app/images/style.jpg")
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer(["/app/images/source.jpg"], ["/app/images/style.jpg"], "/app/images/out.jpg", 1200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
+        styletransfer(["/app/images/source.jpg"], ["/app/images/style.jpg"], "/app/images/out.jpg", 200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
 
         print("file /app/images/out.jpg=" + os.path.exists("/app/images/out.jpg"))
 

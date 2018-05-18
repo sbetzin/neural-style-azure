@@ -25,7 +25,7 @@ namespace NeuralStyle.ConsoleClient
             var sourceId = @"C:\Data\images\in\Ana.jpg".UploadToBlob(images).Result;
             var styleId = @"C:\Data\images\style\karl_otto_goetz_ohne_titel.jpg".UploadToBlob(images).Result;
 
-            var job = new Job() { Source = sourceId, Style = styleId, Sizes = new List<int> { 1500 } };
+            var job = new Job() { Source = sourceId, Style = styleId, Iterations = new List<int> { 500 }, Size = 1200 };
 
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);

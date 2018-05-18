@@ -25,7 +25,8 @@ def handle_message(message):
         job = json.loads(message.content)
         sourceId = job["Source"]
         styleId = job["Style"]
-        sizes = job["Sizes"]
+        size = job["Size"]
+        iterations = job["Iterations"]
 
         source_file = "/app/images" + sourceId + ".jpg"
         style_file = "/app/images/" + styleId + ".jpg"
@@ -35,7 +36,7 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", styleId, file_path= style_file)
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer([source_file], [style_file], out_file, sizes, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
+        styletransfer([source_file], [style_file], out_file, size, "gatys", iterations, [50.0], [1.0], 1700, 100, [1], None)
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)

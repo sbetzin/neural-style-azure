@@ -6,6 +6,7 @@ namespace NeuralStyle.ConsoleClient.Model
     {
         public string Source { get; set; }
         public string Style { get; set; }
-        public List<int> Sizes { get; set; }
+        public int Size { get; set; }
+        public List<int> Iterations { get; set; }
     }
 }

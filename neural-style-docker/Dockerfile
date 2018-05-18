@@ -36,9 +36,6 @@ RUN conda clean -y -i -l -p -t && rm -f conda.txt
 COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
 
-# Install Azure Dependencies
-RUN pip install wheel azure-storage-queue
-
 # Clone neural-style app
 WORKDIR /app
 RUN set -ex && \
@@ -66,6 +63,9 @@ RUN rm -rf /app/style-swap/models
 RUN ln -s /app/neural-style/models /app/style-swap/models
 # Add precomputed inverse network model
 ADD models/dec-tconv-sigmoid.t7 /app/style-swap/models/dec-tconv-sigmoid.t7
+
+# Install Azure Dependencies
+RUN pip install wheel azure-storage-queue azure-storage-blob
 
 # Copy wrapper scripts and config files
 COPY ["/entrypoints/*.py" ,"/app/entrypoint/"]

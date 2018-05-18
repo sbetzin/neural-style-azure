@@ -34,7 +34,7 @@ def handle_message(message):
         tile_overlap = job["TileOverlap"]
         use_orig_colors = job["UseOriginalColors"]
 
-        source_file = "/app/images" + source_name + ".jpg"
+        source_file = "/app/images/" + source_name + ".jpg"
         style_file = "/app/images/" + style_name + ".jpg"
         out_file = "/app/images/" + target_name + ".jpg"
 

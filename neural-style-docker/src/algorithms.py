@@ -52,7 +52,7 @@ ALGORITHMS = {
 }
 
 
-def styletransfer(content, style, outfile, size, alg, iterations, weight, stylescale, tilesize, tileoverlap, origcolor, otherparams=None):
+def styletransfer(content, style, outfile, size, alg, iterations, weight, stylescale, tilesize, tileoverlap, origcolor, otherparams=""):
 
     # If the desired size is smaller than the maximum tile size, use a direct neural style
     if fitsingletile(targetshape(content, size), alg, tilesize):

@@ -3,6 +3,7 @@ import datetime
 import time
 import json
 import base64
+import os.path
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
 from neuralstyle.algorithms import styletransfer
@@ -25,7 +26,9 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", styleId, file_path= "/app/images/style.jpg")
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer(["/app/images/source.jpg"], ["/app/images/style.jpg"], "app/images/out.jpg", 1200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
+        styletransfer(["/app/images/source.jpg"], ["/app/images/style.jpg"], "/app/images/out.jpg", 1200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
+
+        print("file /app/images/out.jpg=" + os.path.exists("/app/images/out.jpg"))
 
     except Exception as e:
         print(e)

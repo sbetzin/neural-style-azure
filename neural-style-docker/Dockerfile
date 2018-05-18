@@ -10,12 +10,7 @@ RUN set -ex && \
 	protobuf-compiler \
 	wget \
 	git \
-	python-setuptools \
-	python-pip \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Install Azure Dependencies
-RUN pip install wheel azure-storage-queue
 
 # Install torch
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && bash install-deps
@@ -40,6 +35,9 @@ RUN conda install -y --file=conda.txt
 RUN conda clean -y -i -l -p -t && rm -f conda.txt
 COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
+
+# Install Azure Dependencies
+RUN pip install wheel azure-storage-queue
 
 # Clone neural-style app
 WORKDIR /app

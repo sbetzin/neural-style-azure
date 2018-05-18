@@ -1,0 +1,1 @@
+ sudo nvidia-docker run --rm -d   sbetzin/neural-style

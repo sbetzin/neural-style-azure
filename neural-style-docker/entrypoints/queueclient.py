@@ -24,7 +24,7 @@ def handle_message(message):
 
         source_file = "/app/images" + sourceId + ".jpg"
         style_file = "/app/images/" + styleId + ".jpg"
-        out_file = "/app/images/" + source_file + "_out.jpg"
+        out_file = "/app/images/" + sourceId + "_out.jpg"
 
         blob_service.get_blob_to_path("images", sourceId, file_path= source_file)
         blob_service.get_blob_to_path("images", styleId, file_path= style_file)

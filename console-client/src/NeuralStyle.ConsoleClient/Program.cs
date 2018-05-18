@@ -49,7 +49,7 @@ namespace NeuralStyle.ConsoleClient
             var sourceId = source.UploadToBlob(images).Result;
             var styleId = style.UploadToBlob(images).Result;
 
-            var job = new Job() { Source = sourceId, Style = styleId, Iterations = new List<int> { 500 }, Size = 1200 };
+            var job = new Job() { Source = sourceId, Style = styleId, Iterations = 500, Size = 1200 };
 
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);

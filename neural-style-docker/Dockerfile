@@ -68,14 +68,10 @@ ADD models/dec-tconv-sigmoid.t7 /app/style-swap/models/dec-tconv-sigmoid.t7
 RUN pip install wheel azure-storage-queue azure-storage-blob
 
 # Copy wrapper scripts and config files
-COPY ["/entrypoints/*.py" ,"/app/entrypoint/"]
-COPY ["/neuralstyle/*.py", "/app/entrypoint/neuralstyle/"]
+COPY ["/src/*.py" ,"/app/"]
 RUN mkdir images
 
-WORKDIR /app/entrypoint
-#ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]
-ENTRYPOINT ["python", "/app/entrypoint/queueclient.py"]
-#ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["python", "/app/queueclient.py"]
 
 
 

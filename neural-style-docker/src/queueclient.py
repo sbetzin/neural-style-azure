@@ -7,7 +7,7 @@ import os.path
 import logging
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
-from neuralstyle.algorithms import styletransfer
+from algorithms import styletransfer
 
 queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
@@ -25,18 +25,24 @@ def handle_message(message):
         job = json.loads(message.content)
         sourceId = job["Source"]
         styleId = job["Style"]
+        target_name = job["TargetName"]
+        style_weight = job["StyleWeight"]
+        style_scale = job["StyleScale"]
         size = job["Size"]
         iterations = job["Iterations"]
+        tile_size = job["TileSize"]
+        tile_overlap = job["TileOverlap"]
+        use_orig_colors = job["UseOriginalColors"]
 
         source_file = "/app/images" + sourceId + ".jpg"
         style_file = "/app/images/" + styleId + ".jpg"
-        out_file = "/app/images/" + sourceId + "_out.jpg"
+        out_file = "/app/images/" + target_name + ".jpg"
 
         blob_service.get_blob_to_path("images", sourceId, file_path= source_file)
         blob_service.get_blob_to_path("images", styleId, file_path= style_file)
 
-        print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer([source_file], [style_file], out_file, size, "gatys", iterations, [50.0], [1.0], 1700, 100, [1], None)
+        print('start job with SourceId=' + sourceId + ', StyleId='+ styleId + ' to target=' + target_name)
+        styletransfer(source_file, style_file, out_file, size, "gatys", iterations, style_weight, style_scale, tile_size, tile_overlap, use_orig_colors)
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)

@@ -1,7 +1,7 @@
 # Convenience functions to perform Image Magicks
 from subprocess import run, PIPE
 from glob import glob
-from neuralstyle.utils import filename
+from utils import filename
 
 
 def convert(origin, dest):

@@ -10,8 +10,8 @@ import numpy as np
 import json
 import GPUtil
 import datetime
-from neuralstyle.utils import filename, fileext
-from neuralstyle.imagemagick import (convert, resize, shape, assertshape, choptiles, feather, smush, composite, extractalpha, mergealpha)
+from utils import filename, fileext
+from imagemagick import (convert, resize, shape, assertshape, choptiles, feather, smush, composite, extractalpha, mergealpha)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -52,49 +52,17 @@ ALGORITHMS = {
 }
 
 
-def styletransfer(contents, styles, outfile, size, alg, iterations, weights, stylescales, tilesize, tileoverlap, colors, otherparams):
-    """General style transfer routine over multiple sets of options"""
-    # Check arguments
-    if alg not in ALGORITHMS.keys():
-        raise ValueError("Unrecognized algorithm %s, must be one of %s" % (alg, str(list(ALGORITHMS.keys()))))
+def styletransfer(content, style, outfile, size, alg, iterations, weight, stylescale, tilesize, tileoverlap, origcolor, otherparams=None):
 
-    for color in colors:
-        if color not in [0, 1]:
-            raise ValueError("Unnaceptable colors. Only use 0 or 1")
-
-    if weights is None:
-    	weights = [5.0]
-    if stylescales is None:
-    	stylescales = [1.0]
-    if tileoverlap is None:
-        tileoverlap = 100
-    if tilesize is None:
-        tilesize = 700
-    if otherparams is None:
-        otherparams = []
-    if colors is None:
-        colors = [0]
-    if iterations is None:
-        iterations = [500]
-    
-    # Iterate through all combinations
-    for content, style, weight, stylescale, iteration, color in product(contents, styles, weights, stylescales, iterations, colors):
-        LOGGER.info("working on %s, style=%s, sw=%d, ss=%d, iterations=%d, tilesize=%d, tileoverlap=%d, color=%d" % (content, style, weight, stylescale, iteration, tilesize, tileoverlap, color))
-
-        if outfile is None:
-            outfile = outname(savefolder, content, style, alg, iteration, size, stylescale, weight, color)
-
-        LOGGER.info("%s" % outfile)
-
-        # If the desired size is smaller than the maximum tile size, use a direct neural style
-        if fitsingletile(targetshape(content, size), alg, tilesize):
-            styletransfer_single(content, style, outfile, size, alg, iteration, weight, stylescale, color, otherparams)
-        # Else use a tiling strategy
-        else:
-            neuraltile(content, style, outfile, size, tilesize, tileoverlap, alg, iteration, weight, stylescale, color, otherparams)
+    # If the desired size is smaller than the maximum tile size, use a direct neural style
+    if fitsingletile(targetshape(content, size), alg, tilesize):
+        styletransfer_single(content, style, outfile, size, alg, iterations, weight, stylescale, origcolor, otherparams)
+    # Else use a tiling strategy
+    else:
+        styletransfer_tiling(content, style, outfile, size, tilesize, tileoverlap, alg, iterations, weight, stylescale, origcolor, otherparams)
 
 
-def styletransfer_single(content, style, outfile, size, alg, iteration, weight, stylescale, color, otherparams):
+def styletransfer_single(content, style, outfile, size, alg, iteration, weight, stylescale, origcolor, otherparams):
     """General style transfer routine over a single set of options"""
     workdir = TemporaryDirectory()
 
@@ -110,9 +78,9 @@ def styletransfer_single(content, style, outfile, size, alg, iteration, weight, 
     # Call style transfer algorithm
     algfile = workdir.name + "/" + "algoutput.png"
     if alg == "gatys":
-        gatys(rgbfile, stylepng, algfile, iteration, size, weight, stylescale, color, otherparams)
+        gatys(rgbfile, stylepng, algfile, iteration, size, weight, stylescale, origcolor, otherparams)
     elif alg == "gatys-multiresolution":
-        gatys_multiresolution(rgbfile, stylepng, algfile, size, weight, stylescale, color, otherparams)
+        gatys_multiresolution(rgbfile, stylepng, algfile, size, weight, stylescale, origcolor, otherparams)
     elif alg in ["chen-schmidt", "chen-schmidt-inverse"]:
         chenschmidt(alg, rgbfile, stylepng, algfile, size, stylescale, otherparams)
     # Enforce correct size
@@ -123,7 +91,7 @@ def styletransfer_single(content, style, outfile, size, alg, iteration, weight, 
     mergealpha(algfile, alphafile, outfile)
 
 
-def neuraltile(content, style, outfile, size, tilesize, tileoverlap, alg, iteration, weight, stylescale, color, otherparams):
+def styletransfer_tiling(content, style, outfile, size, tilesize, tileoverlap, alg, iteration, weight, stylescale, origcolor, otherparams):
     """Strategy to generate a high resolution image by running style transfer on overlapping image tiles"""
     LOGGER.info("Starting tiling strategy")
     if otherparams is None:
@@ -148,7 +116,7 @@ def neuraltile(content, style, outfile, size, tilesize, tileoverlap, alg, iterat
     highrestiles = []
     for i, tile in enumerate(lowrestiles):
         name = workdir.name + "/" + "highres_tiles_" + str(i) + ".png"
-        styletransfer_single(tile, style, name, None, alg, iteration, weight, stylescale, color, otherparams)
+        styletransfer_single(tile, style, name, None, alg, iteration, weight, stylescale, origcolor, otherparams)
         highrestiles.append(name)
 
     # Feather tiles
@@ -173,7 +141,7 @@ def neuraltile(content, style, outfile, size, tilesize, tileoverlap, alg, iterat
     assertshape(outfile, fullshape)
 
 
-def gatys(content, style, outfile, iteration, size, weight, stylescale, color, otherparams):
+def gatys(content, style, outfile, iteration, size, weight, stylescale, origcolor, otherparams):
     """Runs Gatys et al style-transfer algorithm
 
     References:
@@ -190,7 +158,7 @@ def gatys(content, style, outfile, iteration, size, weight, stylescale, color, o
         "-style_scale", stylescale,
         "-output_image", tmpout.name,
         "-image_size", size if size is not None else shape(content)[0],
-        "-original_colors", color,
+        "-original_colors", 1 if origcolor == True else 0,
         *otherparams
     ])
     # Transform to original file format
@@ -198,7 +166,7 @@ def gatys(content, style, outfile, iteration, size, weight, stylescale, color, o
     tmpout.close()
 
 
-def gatys_multiresolution(content, style, outfile, size, weight, stylescale, otherparams, startres=256):
+def gatys_multiresolution(content, style, outfile, size, weight, stylescale, origcolor, otherparams, startres=256):
     """Runs a multiresolution version of Gatys et al method
 
     The multiresolution strategy starts by generating a small image, then using that image as initializer
@@ -235,11 +203,11 @@ def gatys_multiresolution(content, style, outfile, size, weight, stylescale, oth
     # Iterate over rounds
     for roundnumber, (optimizer, steps) in enumerate(strategy):
         LOGGER.info("gatys-multiresolution round %d with %s optimizer and %d steps" % (roundnumber, optimizer, steps))
-        roundmax = min(maxtile(), maxres) if optimizer == "lbfgs" else maxres
+        roundmax = min(1500, maxres) if optimizer == "lbfgs" else maxres
         resolutions = np.linspace(startres, roundmax, steps, dtype=int)
         iters = 1000
         for stepnumber, res in enumerate(resolutions):
-            stepopt = "adam" if res > maxtile() else "lbfgs"
+            stepopt = "adam" if res > 1500 else "lbfgs"
             LOGGER.info("Step %d, resolution %d, optimizer %s" % (stepnumber, res, stepopt))
             passparams = otherparams[:]
             passparams.extend([
@@ -253,7 +221,7 @@ def gatys_multiresolution(content, style, outfile, size, weight, stylescale, oth
                     "-init", "image",
                     "-init_image", seed
                 ])
-            gatys(content, style, tmpout, res, weight, stylescale, color, passparams)
+            gatys(content, style, tmpout, res, size, weight, stylescale, origcolor, passparams)
             seed = workdir.name + "/seed.png"
             copyfile(tmpout, seed)
             iters = max(iters/2.0, 100)
@@ -301,23 +269,6 @@ def runalgorithm(alg, params):
     command += " " + " ".join([str(p) for p in params])
     #LOGGER.info("Running command: %s" % command)
     call(command, shell=True)
-
-
-def outname(savefolder, content, style, alg, iteration, size, stylescale, weight, color):
-    """Creates an output filename that reflects the style transfer parameters"""
-    return (
-        savefolder + "/" +
-	datetime.datetime.now().strftime('%Y-%m-%d_') +
-        filename(content) +
-        "_" + filename(style) +
-        "_" + str(size) + "px" +
-        "_" + alg + "_" + str(iteration) + "x" +
-        "_ss_" + str(stylescale) +
-        "_sw_" + str(weight) +
-        "_color_" + str(color) +
-        fileext(content)
-    )
-
 
 def correctshape(result, original, size=None):
     """Corrects the result of style transfer to ensure shape is coherent with original image and desired output size

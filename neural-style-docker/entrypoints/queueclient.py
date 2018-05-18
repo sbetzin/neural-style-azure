@@ -22,13 +22,21 @@ def handle_message(message):
         sourceId = job["Source"]
         styleId = job["Style"]
 
-        blob_service.get_blob_to_path("images", sourceId, file_path= "/app/images/source.jpg")
-        blob_service.get_blob_to_path("images", styleId, file_path= "/app/images/style.jpg")
+        source_file = "/app/images" + sourceId + ".jpg"
+        style_file = "/app/images/" + styleId + ".jpg"
+        out_file = "/app/images/" + source_file + "_out.jpg"
+
+        blob_service.get_blob_to_path("images", sourceId, file_path= source_file)
+        blob_service.get_blob_to_path("images", styleId, file_path= style_file)
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer(["/app/images/source.jpg"], ["/app/images/style.jpg"], "/app/images/out.jpg", 200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
+        styletransfer([source_file], [style_file], out_file, 200, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
 
-        print("file /app/images/out.jpg=" + os.path.exists("/app/images/out.jpg"))
+        if os.path.exists(out_file):
+            print ("uploading file " + out_file)
+            blob_service.create_blob_from_path("results", sourceId, out_file)
+        else:
+            print("file " + out_file + " does not exit" ))
 
     except Exception as e:
         print(e)

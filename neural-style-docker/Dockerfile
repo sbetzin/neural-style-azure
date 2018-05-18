@@ -10,6 +10,7 @@ RUN set -ex && \
 	protobuf-compiler \
 	wget \
 	git \
+	python-setuptools \
 	python-pip \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

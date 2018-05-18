@@ -12,6 +12,9 @@ RUN set -ex && \
 	git \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install Azure Dependencies
+RUN pip install azure-storage-queue
+
 # Install torch
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && bash install-deps
 RUN cd /root/torch && ./clean.sh && export TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" && ./install.sh

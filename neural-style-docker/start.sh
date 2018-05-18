@@ -1,1 +1,1 @@
- sudo nvidia-docker run --rm -d   sbetzin/neural-style
+sudo nvidia-docker run --rm -d --restart=unless-stopped  sbetzin/neural-style

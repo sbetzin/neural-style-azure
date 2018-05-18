@@ -12,7 +12,7 @@ from neuralstyle.algorithms import styletransfer
 queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 
 def prepare_queue():
@@ -35,7 +35,7 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", styleId, file_path= style_file)
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
-        styletransfer([source_file], [style_file], out_file, sizes, "gatys", 500, [50.0], [1.0], 1700, 100, [1], None)
+        styletransfer([source_file], [style_file], out_file, sizes, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
 
         if os.path.exists(out_file):
             print ("uploading file " + out_file)

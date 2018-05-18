@@ -39,7 +39,7 @@ def main(argv=None):
         # Default parameters
         contents = []
         styles = []
-        savefolder = "/images"
+        outfile = None
         size = None
         alg = "gatys"
         weights = None
@@ -62,7 +62,7 @@ def main(argv=None):
                 i += len(styles) + 1
             # Other general parameters
             elif argv[i] == "--output":
-                savefolder = "/images/" + argv[i+1]
+                outfile = argv[i+1]
                 i += 2
             elif argv[i] == "--alg":
                 alg = argv[i+1]
@@ -104,7 +104,7 @@ def main(argv=None):
             raise ValueError("At least one style image must be provided")
 
         LOGGER.info("Starting...")
-        styletransfer(contents, styles, savefolder, size, alg, iterations, weights, stylescales, tilesize, tileoverlap, colors, otherparams)
+        styletransfer(contents, styles, outfile, size, alg, iterations, weights, stylescales, tilesize, tileoverlap, colors, otherparams)
 
         return 1
 

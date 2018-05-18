@@ -53,7 +53,7 @@ ALGORITHMS = {
 }
 
 
-def styletransfer(contents, styles, savefolder, size, alg, iterations, weights, stylescales, tilesize, tileoverlap, colors, otherparams):
+def styletransfer(contents, styles, outfile, size, alg, iterations, weights, stylescales, tilesize, tileoverlap, colors, otherparams):
     """General style transfer routine over multiple sets of options"""
     # Check arguments
     if alg not in ALGORITHMS.keys():
@@ -77,12 +77,14 @@ def styletransfer(contents, styles, savefolder, size, alg, iterations, weights, 
         colors = [0]
     if iterations is None:
         iterations = [500]
-
+    
     # Iterate through all combinations
     for content, style, weight, stylescale, iteration, color in product(contents, styles, weights, stylescales, iterations, colors):
         LOGGER.info("working on %s, style=%s, sw=%d, ss=%d, iterations=%d, tilesize=%d, tileoverlap=%d, color=%d" % (content, style, weight, stylescale, iteration, tilesize, tileoverlap, color))
 
-        outfile = outname(savefolder, content, style, alg, iteration, size, stylescale, weight, color)
+        if outfile is None:
+            outfile = outname(savefolder, content, style, alg, iteration, size, stylescale, weight, color)
+
         LOGGER.info("%s" % outfile)
 
         # If the desired size is smaller than the maximum tile size, use a direct neural style

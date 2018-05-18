@@ -1,4 +1,4 @@
-# Main entrypoint script to the neural-style app
+# Main manuel entrypoint script to the neural-style app
 import sys
 import traceback
 import logging

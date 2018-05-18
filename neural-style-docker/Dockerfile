@@ -65,11 +65,13 @@ RUN ln -s /app/neural-style/models /app/style-swap/models
 ADD models/dec-tconv-sigmoid.t7 /app/style-swap/models/dec-tconv-sigmoid.t7
 
 # Copy wrapper scripts and config files
-COPY ["entrypoint.py" ,"/app/entrypoint/"]
+COPY ["/entrypoints/*.py" ,"/app/entrypoint/"]
 COPY ["/neuralstyle/*.py", "/app/entrypoint/neuralstyle/"]
 
 WORKDIR /app/entrypoint
-ENTRYPOINT ["python", "/app/entrypoint/entrypoint.py"]
+ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]
+ENTRYPOINT ["python", "/app/entrypoint/queueclient.py"]
+
 
 
 

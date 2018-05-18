@@ -74,6 +74,7 @@ COPY ["/neuralstyle/*.py", "/app/entrypoint/neuralstyle/"]
 WORKDIR /app/entrypoint
 ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]
 ENTRYPOINT ["python", "/app/entrypoint/queueclient.py"]
+ENTRYPOINT ["/bin/bash"]
 
 
 

@@ -13,11 +13,11 @@ queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0
 blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 
 logging.basicConfig(level=logging.INFO)
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 def prepare_queue():
     if not queue_service.exists('jobs'):
-        print('creating queue: jobs')
+        logger.info('creating queue: jobs')
         queue_service.create_queue('jobs')
 
 def handle_message(message):
@@ -38,18 +38,18 @@ def handle_message(message):
         styletransfer([source_file], [style_file], out_file, sizes, "gatys", [500], [50.0], [1.0], 1700, 100, [1], None)
 
         if os.path.exists(out_file):
-            print ("uploading file " + out_file)
+            logger.info ("uploading file " + out_file)
             blob_service.create_blob_from_path("results", sourceId, out_file)
         else:
-            print("file " + out_file + " does not exit" )
+            logger.info("file " + out_file + " does not exit" )
 
     except Exception as e:
-        print(e)
+        logger.error(e)
 
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
 
 def poll_queue():
-    print ("starting to poll jobs queue")
+    logger.info ("starting to poll jobs queue")
     while True:
         messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
 
@@ -58,7 +58,7 @@ def poll_queue():
         
         time.sleep(1)
 
-print ("starting queue client")
+logger.info ("starting queue client")
 prepare_queue()
 poll_queue()
 

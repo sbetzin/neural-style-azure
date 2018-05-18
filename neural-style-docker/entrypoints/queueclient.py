@@ -36,7 +36,7 @@ def handle_message(message):
             print ("uploading file " + out_file)
             blob_service.create_blob_from_path("results", sourceId, out_file)
         else:
-            print("file " + out_file + " does not exit" ))
+            print("file " + out_file + " does not exit" )
 
     except Exception as e:
         print(e)

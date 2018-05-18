@@ -73,9 +73,9 @@ COPY ["/neuralstyle/*.py", "/app/entrypoint/neuralstyle/"]
 RUN mkdir images
 
 WORKDIR /app/entrypoint
-ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]
+#ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]
 ENTRYPOINT ["python", "/app/entrypoint/queueclient.py"]
-ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]
 
 
 

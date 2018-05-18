@@ -4,12 +4,16 @@ import time
 import json
 import base64
 import os.path
+import logging
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
 from neuralstyle.algorithms import styletransfer
 
 queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
+
+logging.basicConfig(level=logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 def prepare_queue():
     if not queue_service.exists('jobs'):
@@ -45,6 +49,7 @@ def handle_message(message):
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
 
 def poll_queue():
+    print ("starting to poll jobs queue")
     while True:
         messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
 
@@ -53,6 +58,7 @@ def poll_queue():
         
         time.sleep(1)
 
+print ("starting queue client")
 prepare_queue()
 poll_queue()
 

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NeuralStyle.ConsoleClient.Model;
 using Newtonsoft.Json;
@@ -22,15 +25,38 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            var sourceId = @"C:\Data\images\in\Ana.jpg".UploadToBlob(images).Result;
-            var styleId = @"C:\Data\images\style\karl_otto_goetz_ohne_titel.jpg".UploadToBlob(images).Result;
+            CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg").Wait();
+
+            //CreateSimple(images, queue).Wait();
+        }
+
+        private static async Task CreateStyleBatch(CloudBlobContainer images, CloudQueue queue, string source)
+        {
+            var styles = Directory.GetFiles(@"C:\Data\images\style", "*.jpg");
+            foreach (var style in styles)
+            {
+                await CreateJob(images, queue, source, style);
+            }
+        }
+
+        private static async Task CreateSimple(CloudBlobContainer images, CloudQueue queue)
+        {
+            await CreateJob(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style\karl_otto_goetz_ohne_titel.jpg");
+        }
+
+        private static async Task CreateJob(CloudBlobContainer images, CloudQueue queue, string source, string style)
+        {
+            var sourceId = source.UploadToBlob(images).Result;
+            var styleId = style.UploadToBlob(images).Result;
 
             var job = new Job() { Source = sourceId, Style = styleId, Iterations = new List<int> { 500 }, Size = 1200 };
 
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);
 
-            queue.AddMessageAsync(message).Wait();
+            await queue.AddMessageAsync(message);
+
+            Console.WriteLine($"Created job for {source} with style {style}");
         }
     }
 }

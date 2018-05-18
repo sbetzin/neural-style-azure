@@ -23,8 +23,8 @@ def prepare_queue():
 def handle_message(message):
     try:
         job = json.loads(message.content)
-        sourceId = job["Source"]
-        styleId = job["Style"]
+        source_name = job["SourceName"]
+        style_name = job["StyleName"]
         target_name = job["TargetName"]
         style_weight = job["StyleWeight"]
         style_scale = job["StyleScale"]
@@ -34,19 +34,19 @@ def handle_message(message):
         tile_overlap = job["TileOverlap"]
         use_orig_colors = job["UseOriginalColors"]
 
-        source_file = "/app/images" + sourceId + ".jpg"
-        style_file = "/app/images/" + styleId + ".jpg"
+        source_file = "/app/images" + source_name + ".jpg"
+        style_file = "/app/images/" + style_name + ".jpg"
         out_file = "/app/images/" + target_name + ".jpg"
 
-        blob_service.get_blob_to_path("images", sourceId, file_path= source_file)
-        blob_service.get_blob_to_path("images", styleId, file_path= style_file)
+        blob_service.get_blob_to_path("images", source_name, file_path= source_file)
+        blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        print('start job with SourceId=' + sourceId + ', StyleId='+ styleId + ' to target=' + target_name)
+        print('start job with Source=' + source_name + ', Style='+ style_name + ' to Target=' + target_name)
         styletransfer(source_file, style_file, out_file, size, "gatys", iterations, style_weight, style_scale, tile_size, tile_overlap, use_orig_colors)
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)
-            blob_service.create_blob_from_path("results", sourceId, out_file)
+            blob_service.create_blob_from_path("results", source_name, out_file)
         else:
             logger.info("file " + out_file + " does not exit" )
 

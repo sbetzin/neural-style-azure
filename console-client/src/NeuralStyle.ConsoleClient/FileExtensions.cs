@@ -9,13 +9,12 @@ namespace NeuralStyle.ConsoleClient
     {
         public static async Task<string> UploadToBlob(this string file, CloudBlobContainer container)
         {
-            var id = Guid.NewGuid().ToString();
-
-            var blob = container.GetBlockBlobReference(id);
+            var name = Path.GetFileName(file);
+            var blob = container.GetBlockBlobReference(name);
 
             await blob.UploadFromFileAsync(file);
         
-            return id;
+            return name;
         }
     }
 }

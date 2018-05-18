@@ -4,8 +4,8 @@ namespace NeuralStyle.ConsoleClient.Model
 {
     public class Job
     {
-        public string Source { get; set; }
-        public string Style { get; set; }
+        public string SourceName { get; set; }
+        public string StyleName { get; set; }
         public string TargetName { get; set; }
         public double StyleWeight { get; set; } = 5.0;
         public double StyleScale { get; set; } = 1.0;

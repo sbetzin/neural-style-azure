@@ -24,9 +24,9 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            //CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg").Wait();
+            CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg").Wait();
 
-            CreateSimple(images, queue).Wait();
+            //CreateSimple(images, queue).Wait();
         }
 
         private static async Task CreateStyleBatch(CloudBlobContainer images, CloudQueue queue, string source)

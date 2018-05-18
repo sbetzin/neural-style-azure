@@ -48,7 +48,7 @@ namespace NeuralStyle.ConsoleClient
             var sourceName = source.UploadToBlob(images).Result;
             var styleName = style.UploadToBlob(images).Result;
 
-            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 1200 };
+            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 1200, StyleWeight = 50, StyleScale = 1 };
             job.TargetName = $"{job.SourceName}_{job.StyleName}_{job.Size}px_sw_{job.StyleWeight}_ss_{job.StyleScale}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}";
 
             var json = JsonConvert.SerializeObject(job);

@@ -4,9 +4,10 @@ import time
 import json
 import base64
 from azure.storage.queue import QueueService
+from azure.storage.blob import BlockBlobService
 
 queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
-
+blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
 
 def prepare_queue():
     if not queue_service.exists('jobs'):
@@ -18,13 +19,13 @@ def handle_message(message):
 
     try:
         job = json.loads(message.content)
-        source = job["source"]
-        data = base64.b64decode(source)
-        image = open("test.jpg","wb")
-        image.write(data)
-        image.close
+        sourceId = job["Source"]
+        styleId = job["Style"]
 
-        print('job id=' + job["id"])
+        blob_service.get_blob_to_path("images", sourceId, file_path= "~/images/source.jpg")
+        blob_service.get_blob_to_path("images", styleId, file_path= "~/images/style.jpg")
+
+        print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
     except Exception as e:
         print(e)
 

@@ -15,7 +15,7 @@ RUN set -ex && \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install Azure Dependencies
-RUN pip install azure-storage-queue
+RUN pip install wheel azure-storage-queue
 
 # Install torch
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && bash install-deps

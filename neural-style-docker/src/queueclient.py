@@ -46,7 +46,7 @@ def handle_message(message):
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)
-            blob_service.create_blob_from_path("results", source_name, out_file)
+            blob_service.create_blob_from_path("results", target_name, out_file)
         else:
             logger.info("file " + out_file + " does not exit" )
 

@@ -5,7 +5,7 @@ import logging
 from neuralstyle.algorithms import styletransfer
 from neuralstyle.utils import sublist
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
 HELP = """

@@ -13,7 +13,7 @@ import datetime
 from neuralstyle.utils import filename, fileext
 from neuralstyle.imagemagick import (convert, resize, shape, assertshape, choptiles, feather, smush, composite, extractalpha, mergealpha)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
 # Folders and commands for style-transfer algorithms

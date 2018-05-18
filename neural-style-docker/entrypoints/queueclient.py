@@ -16,8 +16,6 @@ def prepare_queue():
         queue_service.create_queue('jobs')
 
 def handle_message(message):
-    #print(message.id + ' - ' + message.content + ' - ' + message.pop_receipt)
-
     try:
         job = json.loads(message.content)
         sourceId = job["Source"]
@@ -34,11 +32,7 @@ def handle_message(message):
 
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
 
-
-
 def poll_queue():
-    #queue_service.put_message('jobs', u'{"id":"test","source":"abc"}')
-
     while True:
         messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
 

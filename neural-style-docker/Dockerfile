@@ -70,6 +70,7 @@ RUN pip install wheel azure-storage-queue azure-storage-blob
 # Copy wrapper scripts and config files
 COPY ["/entrypoints/*.py" ,"/app/entrypoint/"]
 COPY ["/neuralstyle/*.py", "/app/entrypoint/neuralstyle/"]
+RUN mkdir images
 
 WORKDIR /app/entrypoint
 ENTRYPOINT ["python", "/app/entrypoint/manualclient.py"]

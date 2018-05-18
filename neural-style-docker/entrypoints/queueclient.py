@@ -22,8 +22,8 @@ def handle_message(message):
         sourceId = job["Source"]
         styleId = job["Style"]
 
-        blob_service.get_blob_to_path("images", sourceId, file_path= "~/images/source.jpg")
-        blob_service.get_blob_to_path("images", styleId, file_path= "~/images/style.jpg")
+        blob_service.get_blob_to_path("images", sourceId, file_path= "/app/images/source.jpg")
+        blob_service.get_blob_to_path("images", styleId, file_path= "/app/images/style.jpg")
 
         print('start job with SourceId=' + sourceId + ', StyleId='+ styleId)
     except Exception as e:

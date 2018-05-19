@@ -1,0 +1,11 @@
+sudo -H nano /etc/environment
+AzureStorageConnectionString="<storageconnection>"
+
+
+echo AzureStorageConnectionString
+
+docker run -e "${docker_env[@]}"
+
+
+
+http://serverascode.com/2014/05/29/environment-variables-with-docker.html

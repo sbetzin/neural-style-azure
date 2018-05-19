@@ -3,14 +3,19 @@ import datetime
 import time
 import json
 import base64
+import os
 import os.path
 import logging
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
 from algorithms import styletransfer
 
-queue_service = QueueService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
-blob_service = BlockBlobService(account_name='neuralstylefiles', account_key='mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==')
+connection = os.environ['AzureStorageConnectionString']
+
+print (connection)
+
+queue_service = QueueService(connection_string=connection)
+blob_service = BlockBlobService(connection_string=connection)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -34,9 +34,9 @@ def handle_message(message):
         tile_overlap = job["TileOverlap"]
         use_orig_colors = job["UseOriginalColors"]
 
-        source_file = "/app/images/" + source_name + ".jpg"
-        style_file = "/app/images/" + style_name + ".jpg"
-        out_file = "/app/images/" + target_name + ".jpg"
+        source_file = "/app/images/" + source_name
+        style_file = "/app/images/" + style_name
+        out_file = "/app/images/" + target_name
 
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)

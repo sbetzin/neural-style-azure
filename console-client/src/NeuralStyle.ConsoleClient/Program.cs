@@ -24,17 +24,19 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg").Wait();
+            CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg", @"C:\Users\gensb\Desktop\new").Wait();
 
             //CreateSimple(images, queue).Wait();
         }
 
-        private static async Task CreateStyleBatch(CloudBlobContainer images, CloudQueue queue, string source)
+        private static async Task CreateStyleBatch(CloudBlobContainer images, CloudQueue queue, string source, string style)
         {
-            var styles = Directory.GetFiles(@"C:\Data\images\style", "*.jpg");
-            foreach (var style in styles)
+
+
+            var styleFiles = Directory.GetFiles(style, "*.jpg");
+            foreach (var styleFile in styleFiles)
             {
-                await CreateJob(images, queue, source, style);
+                await CreateJob(images, queue, source, styleFile);
             }
         }
 
@@ -48,8 +50,8 @@ namespace NeuralStyle.ConsoleClient
             var sourceName = source.UploadToBlob(images).Result;
             var styleName = style.UploadToBlob(images).Result;
 
-            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 1200, StyleWeight = 50, StyleScale = 1 };
-            job.TargetName = $"{job.SourceName}_{job.StyleName}_{job.Size}px_sw_{job.StyleWeight}_ss_{job.StyleScale}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}";
+            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 1200, StyleWeight = 50, StyleScale = 1, UseOriginalColors = true };
+            job.TargetName = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight}_ss_{job.StyleScale}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}.jpg";
 
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);

@@ -13,7 +13,8 @@ namespace NeuralStyle.ConsoleClient
     {
         private static void Main(string[] args)
         {
-            var storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=neuralstylefiles;AccountKey=mMxv0dYg1xyEqE5VsrZejnH1PKQL5NsvG2gwYAfyHCrN1LDGYTXztCLoyfXa7ObB9BpPvXhGBtBg2A6owaV3gQ==;EndpointSuffix=core.windows.net");
+            var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
+            var storageAccount = CloudStorageAccount.Parse(connectionString);
 
             var queueClient = storageAccount.CreateCloudQueueClient();
 

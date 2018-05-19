@@ -12,18 +12,23 @@ from algorithms import styletransfer
 
 connection = os.environ['AzureStorageConnectionString']
 
-print (connection)
-
-queue_service = QueueService(connection_string=connection)
-blob_service = BlockBlobService(connection_string=connection)
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+try:
+    queue_service = QueueService(connection_string=connection)
+    blob_service = BlockBlobService(connection_string=connection)
+except Exception as e:
+    logger.error(e)
+        
+
 def prepare_queue():
-    if not queue_service.exists('jobs'):
-        logger.info('creating queue: jobs')
-        queue_service.create_queue('jobs')
+    try:
+        if not queue_service.exists('jobs'):
+            logger.info('creating queue: jobs')
+            queue_service.create_queue('jobs')
+    except Exception as e:
+        logger.error(e)
 
 def handle_message(message):
     try:
@@ -61,14 +66,18 @@ def handle_message(message):
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
 
 def poll_queue():
-    logger.info ("starting to poll jobs queue")
-    while True:
-        messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
+    try:
+        logger.info ("starting to poll jobs queue")
+        while True:
+            messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
 
-        if len(messages) > 0:
-            handle_message(messages[0])
-        
-        time.sleep(1)
+            if len(messages) > 0:
+                handle_message(messages[0])
+            
+            time.sleep(1)
+    except Exception as e:
+        logger.error(e)
+
 
 logger.info ("starting queue client")
 prepare_queue()

@@ -10,3 +10,5 @@ docker run -e env_var_name
 
 
 http://serverascode.com/2014/05/29/environment-variables-with-docker.html
+
+sudo docker logs <containerid>

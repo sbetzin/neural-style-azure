@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -25,7 +26,7 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            CreateStyleBatch(images, queue, @"C:\Data\images\in\Ana.jpg", @"C:\Users\gensb\Desktop\new").Wait();
+            CreateStyleBatch(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style").Wait();
 
             //CreateSimple(images, queue).Wait();
         }
@@ -51,8 +52,8 @@ namespace NeuralStyle.ConsoleClient
             var sourceName = source.UploadToBlob(images).Result;
             var styleName = style.UploadToBlob(images).Result;
 
-            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 1200, StyleWeight = 50, StyleScale = 1, UseOriginalColors = true };
-            job.TargetName = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight}_ss_{job.StyleScale}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}.jpg";
+            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 750, StyleWeight = 50, StyleScale = 0.2, UseOriginalColors = true };
+            job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);
@@ -60,6 +61,13 @@ namespace NeuralStyle.ConsoleClient
             await queue.AddMessageAsync(message);
 
             Console.WriteLine($"Created job for {source} with style {style}");
+        }
+
+        private static string CreateTargetName(Job job)
+        {
+            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight:F1}_ss_{job.StyleScale:F1}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}.jpg";
+
+            return name.ToString(new CultureInfo("en-US"));
         }
     }
 }

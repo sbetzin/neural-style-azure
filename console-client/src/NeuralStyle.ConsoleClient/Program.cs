@@ -26,25 +26,20 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            CreateStyleBatch(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style").Wait();
+            CreateBatch(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style").Wait();
 
             //CreateSimple(images, queue).Wait();
         }
 
-        private static async Task CreateStyleBatch(CloudBlobContainer images, CloudQueue queue, string source, string style)
+        private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style)
         {
+            var sourceFiles = source.GetFiles();
+            var styleFiles = style.GetFiles();
 
-
-            var styleFiles = Directory.GetFiles(style, "*.jpg");
-            foreach (var styleFile in styleFiles)
+            foreach (var (sourceFile, styleFile) in sourceFiles.Product(styleFiles))
             {
-                await CreateJob(images, queue, source, styleFile);
+                await CreateJob(images, queue, sourceFile, styleFile);
             }
-        }
-
-        private static async Task CreateSimple(CloudBlobContainer images, CloudQueue queue)
-        {
-            await CreateJob(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style\karl_otto_goetz_ohne_titel.jpg");
         }
 
         private static async Task CreateJob(CloudBlobContainer images, CloudQueue queue, string source, string style)

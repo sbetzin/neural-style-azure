@@ -26,28 +26,28 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            CreateBatch(images, queue, @"C:\Data\images\in\Berge.jpg", @"C:\Data\images\style").Wait();
+            CreateBatch(images, queue, @"C:\Data\images\in\ana.jpg", @"C:\Data\images\style\monochrome_zeichnung_garage.jpg", 500, 750, 50, 1, 800, 100).Wait();
 
             //CreateSimple(images, queue).Wait();
         }
 
-        private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style)
+        private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style, int iterations, int size, int styleWeight, int styleScale, int tileSize, int tileOverlap)
         {
             var sourceFiles = source.GetFiles();
             var styleFiles = style.GetFiles();
 
             foreach (var (sourceFile, styleFile) in sourceFiles.Product(styleFiles))
             {
-                await CreateJob(images, queue, sourceFile, styleFile);
+                await CreateJob(images, queue, sourceFile, styleFile, iterations, size, styleWeight, styleScale, true, tileSize, tileOverlap);
             }
         }
 
-        private static async Task CreateJob(CloudBlobContainer images, CloudQueue queue, string source, string style)
+        private static async Task CreateJob(CloudBlobContainer images, CloudQueue queue, string source, string style, int iterations, int size, int styleWeight, int styleScale, bool useOriginalColors, int tileSize, int tileOverlap)
         {
             var sourceName = source.UploadToBlob(images).Result;
             var styleName = style.UploadToBlob(images).Result;
 
-            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = 500, Size = 750, StyleWeight = 50, StyleScale = 0.2, UseOriginalColors = true };
+            var job = new Job { SourceName = sourceName, StyleName = styleName, Iterations = iterations, Size = size, StyleWeight = styleWeight, StyleScale = styleScale, UseOriginalColors = useOriginalColors, TileSize = tileSize, TileOverlap = tileOverlap };
             job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);

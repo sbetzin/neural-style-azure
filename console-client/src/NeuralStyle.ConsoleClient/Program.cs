@@ -36,26 +36,26 @@ namespace NeuralStyle.ConsoleClient
             var picassoStyles = Directory.GetFiles(@"C:\Data\images\style\", "picasso_*.jpg");
             var corinth = Directory.GetFiles(@"C:\Data\images\style\", "lovis_corinth_*.jpg");
 
-            var ana = Directory.GetFiles(@"C:\Data\images\in\", "ana_*.jpg");
+            var ana = Directory.GetFiles(@"C:\Data\images\in\", "ana*.jpg");
             var sebastian = Directory.GetFiles(@"C:\Data\images\in\", "sebastian_*.jpg");
 
-            //CreateBatch(images, queue, @"C:\Data\images\in\messe.jpg", @"C:\Data\images\style\kandinsky_schwarz-und-violett.jpg", 500, 1500, 50.0, 1, 800, 100).Wait();
-            CreateJobs(images, queue, ana, picassoStyles, 500, 750, 50.0, 1, 800, 100).Wait();
+            //CreateBatch(images, queue, @"C:\Data\images\in\messe.jpg", @"C:\Data\images\style\kandinsky_schwarz-und-violett.jpg", 500, 1500, 50.0, 1, 800, 100, false).Wait();
+            CreateJobs(images, queue, ana, picassoStyles, 500, 750, 50.0, 1, 800, 100, true).Wait();
         }
 
-        private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap)
+        private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
         {
             var sourceFiles = source.GetFiles();
             var styleFiles = style.GetFiles();
 
-            await CreateJobs(images, queue, sourceFiles, styleFiles, iterations, size, styleWeight, styleScale, tileSize, tileOverlap);
+            await CreateJobs(images, queue, sourceFiles, styleFiles, iterations, size, styleWeight, styleScale, tileSize, tileOverlap, useOriginalColors);
         }
 
-        private static async Task CreateJobs(CloudBlobContainer images, CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap)
+        private static async Task CreateJobs(CloudBlobContainer images, CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
         {
             foreach (var (sourceFile, styleFile) in sourceFiles.Product(styleFiles))
             {
-                await CreateJob(images, queue, sourceFile, styleFile, iterations, size, styleWeight, styleScale, true, tileSize, tileOverlap);
+                await CreateJob(images, queue, sourceFile, styleFile, iterations, size, styleWeight, styleScale, useOriginalColors, tileSize, tileOverlap);
             }
         }
 

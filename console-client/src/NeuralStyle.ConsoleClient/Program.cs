@@ -27,7 +27,20 @@ namespace NeuralStyle.ConsoleClient
 
             var images = blobClient.GetContainerReference("images");
 
-            CreateBatch(images, queue, @"C:\Data\images\in\ana.jpg", @"C:\Data\images\style\kandinsky_schwarz-und-violett.jpg", 500, 1400, 50.0, 1.0, 750, 100).Wait();
+            var kandinskyStyles = Directory.GetFiles(@"C:\Data\images\style\", "kandinsky_*.jpg");
+            var modernArtStyle = Directory.GetFiles(@"C:\Data\images\style\", "modern_art_*.jpg");
+            var danceStyles = Directory.GetFiles(@"C:\Data\images\style\", "elena_prokopenko_*.jpg");
+            var goghStyles = Directory.GetFiles(@"C:\Data\images\style\", "gogh_*.jpg");
+            var afremovStyles = Directory.GetFiles(@"C:\Data\images\style\", "Leonid_afremov*.jpg");
+            var comicStyles = Directory.GetFiles(@"C:\Data\images\style\", "comic_*.jpg");
+            var picassoStyles = Directory.GetFiles(@"C:\Data\images\style\", "picasso_*.jpg");
+            var corinth = Directory.GetFiles(@"C:\Data\images\style\", "lovis_corinth_*.jpg");
+
+            var ana = Directory.GetFiles(@"C:\Data\images\in\", "ana_*.jpg");
+            var sebastian = Directory.GetFiles(@"C:\Data\images\in\", "sebastian_*.jpg");
+
+            //CreateBatch(images, queue, @"C:\Data\images\in\messe.jpg", @"C:\Data\images\style\kandinsky_schwarz-und-violett.jpg", 500, 1500, 50.0, 1, 800, 100).Wait();
+            CreateJobs(images, queue, ana, picassoStyles, 500, 750, 50.0, 1, 800, 100).Wait();
         }
 
         private static async Task CreateBatch(CloudBlobContainer images, CloudQueue queue, string source, string style, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap)

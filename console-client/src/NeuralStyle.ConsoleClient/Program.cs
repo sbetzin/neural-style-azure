@@ -44,9 +44,9 @@ namespace NeuralStyle.ConsoleClient
             var ana = Directory.GetFiles(inPath, "ana*.jpg");
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
 
-            var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg" };
+            var newPics = new[] { $@"{inPath}\e_r_pool.jpg",  $@"{inPath}\eric_pool.jpg", $@"{inPath}\ricardo_pool.jpg" };
 
-            RunIt(blobContainer, queue, newPics, allStyles, 500, 1500, 50.0, 1, 1500, 100, true);
+            RunIt(blobContainer, queue, newPics, allStyles, 500, 1200, 50.0, 1, 1500, 100, true);
         }
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int styleScale, int tileSize, int tileOverlap, bool useOriginalColors)

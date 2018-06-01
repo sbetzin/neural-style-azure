@@ -103,6 +103,7 @@ def styletransfer_tiling(content, style, outfile, size, tilesize, tileoverlap, a
 
     # Compute number of tiles required to map all the image
     xtiles, ytiles = tilegeometry(fullshape, alg, tilesize, tileoverlap)
+    LOGGER.info("x tiles=%s, y tiles=%s" % xtiles, ytiles)
 
     # First scale image to target resolution
     firstpass = workdir.name + "/" + "lowres.png"
@@ -115,6 +116,7 @@ def styletransfer_tiling(content, style, outfile, size, tilesize, tileoverlap, a
     # High resolution pass over each tile
     highrestiles = []
     for i, tile in enumerate(lowrestiles):
+        LOGGER.info("working on tile=%s" % i)
         name = workdir.name + "/" + "highres_tiles_" + str(i) + ".png"
         styletransfer_single(tile, style, name, None, alg, iteration, weight, stylescale, origcolor, otherparams)
         highrestiles.append(name)
@@ -284,9 +286,6 @@ def tilegeometry(imshape, alg, tilesize, tileoverlap):
     xtiles = ceil(float(imshape[0] - tilesize) / float(tilesize - tileoverlap) + 1)
     ytiles = ceil(float(imshape[1] - tilesize) / float(tilesize - tileoverlap) + 1)
 	
-    LOGGER.info("number x tiles: %s" % xtiles)
-    LOGGER.info("number y tiles: %s" % ytiles)
-
     return xtiles, ytiles
 
 

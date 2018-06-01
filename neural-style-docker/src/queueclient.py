@@ -15,6 +15,10 @@ connection = os.environ['AzureStorageConnectionString']
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+azure_logger = logging.getLogger('azure.storage')
+azure_logger.setLevel(logging.ERROR)
+
+
 try:
     queue_service = QueueService(connection_string=connection)
     blob_service = BlockBlobService(connection_string=connection)

@@ -74,7 +74,7 @@ def poll_queue():
             if len(messages) > 0:
                 handle_message(messages[0])
             
-            time.sleep(1)
+            time.sleep(5)
     except Exception as e:
         logger.error(e)
 

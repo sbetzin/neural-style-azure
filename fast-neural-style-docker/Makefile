@@ -1,5 +1,5 @@
 # ad-hoc user to make it possible to run from devconf user
-USER=jkremser
+USER=sbetzin
 LOCAL_IMAGE=$(USER)/fast-neural-style
 TRAIN_IMAGE=$(USER)/fast-neural-style:training
 YOLO_IMAGE=$(USER)/fast-neural-style:yolo

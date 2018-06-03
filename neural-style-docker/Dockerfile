@@ -37,7 +37,10 @@ COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
 
 # Install fast-neural-style train dependencies
-RUN sudo apt-get -y install python2.7-dev && sudo apt-get install libhdf5-dev
+RUN set -ex && \
+	apt-get install --no-install-recommends --no-install-suggests -y \
+	python2.7-dev \
+	libhdf5-dev
 RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec
 
 # Clone neural-style app and fast-neural-style

@@ -10,8 +10,15 @@ RUN set -ex && \
 	protobuf-compiler \
 	wget \
 	git \
+	nano \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install fast-neural-style train dependencies
+RUN set -ex && \
+	apt-get install --no-install-recommends --no-install-suggests -y \
+	python2.7-dev \
+	libhdf5-dev
+	
 # Install torch
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && bash install-deps
 RUN cd /root/torch && ./clean.sh && export TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" && ./install.sh
@@ -36,11 +43,7 @@ RUN conda clean -y -i -l -p -t && rm -f conda.txt
 COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
 
-# Install fast-neural-style train dependencies
-RUN set -ex && \
-	apt-get install --no-install-recommends --no-install-suggests -y \
-	python2.7-dev \
-	libhdf5-dev
+# install hdf5 for fast neural style training
 RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec
 
 # Clone neural-style app and fast-neural-style
@@ -53,7 +56,8 @@ RUN bash models/download_models.sh
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
-RUN wget http://webia.lip6.fr/~cadene/Downloads/vgg16.t7
+RUN wget --progress=dot --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  && wget --progress=dot --output-document=vgg16_2.t7 http://webia.lip6.fr/~cadene/Downloads/vgg16.t7 
+
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

@@ -12,12 +12,6 @@ RUN set -ex && \
 	git \
 	nano \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Install fast-neural-style train dependencies
-RUN set -ex && \
-	apt-get install --no-install-recommends --no-install-suggests -y \
-	python2.7-dev \
-	libhdf5-dev
 	
 # Install torch
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd /root/torch && bash install-deps
@@ -43,6 +37,12 @@ RUN conda clean -y -i -l -p -t && rm -f conda.txt
 COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
 
+# Install fast-neural-style train dependencies
+RUN set -ex && \
+	apt-get install --no-install-recommends --no-install-suggests -y \
+	python2.7-dev \
+	libhdf5-dev
+	
 # install hdf5 for fast neural style training
 RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec
 

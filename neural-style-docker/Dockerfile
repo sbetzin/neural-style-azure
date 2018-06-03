@@ -50,7 +50,7 @@ RUN bash models/download_models.sh
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
-wget http://webia.lip6.fr/~cadene/Downloads/vgg16.t7
+RUN wget http://webia.lip6.fr/~cadene/Downloads/vgg16.t7
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

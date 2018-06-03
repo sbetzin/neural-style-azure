@@ -36,20 +36,25 @@ RUN conda clean -y -i -l -p -t && rm -f conda.txt
 COPY pip.txt pip.txt
 RUN pip install -r pip.txt && rm -f pip.txt
 
-# Clone neural-style app
-WORKDIR /app
-RUN set -ex && \
-	wget --no-check-certificate https://github.com/jcjohnson/neural-style/archive/master.tar.gz && \
-	tar -xvzf master.tar.gz && \
-    mv neural-style-master neural-style && \
-	rm master.tar.gz
+# Install fast-neural-style train dependencies
+RUN sudo apt-get -y install python2.7-dev && sudo apt-get install libhdf5-dev
+RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec
 
+# Clone neural-style app and fast-neural-style
+WORKDIR /app
+RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https://github.com/jcjohnson/fast-neural-style.git
+	
 # Download precomputed VGG network weights
 WORKDIR /app/neural-style
 RUN bash models/download_models.sh
 
+# Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
+WORKDIR /app/fast-neural-style
+wget http://webia.lip6.fr/~cadene/Downloads/vgg16.t7
+
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH
+ENV PATH /app/fast-neural-style:$PATH
 
 # Clone style-swap app
 WORKDIR /app

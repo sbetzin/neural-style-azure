@@ -18,7 +18,7 @@ RUN git clone --depth 1 https://github.com/jcjohnson/fast-neural-style.git \
 
 RUN cd fast-neural-style && bash models/download_style_transfer_models.sh \
     && apt-get update \
-	&& apt-get update \
+	&& apt-get upgrade \
 	&& apt-get install wget \
     && rm -rf /var/lib/apt/lists/*
 

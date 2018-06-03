@@ -12,3 +12,12 @@ docker run -e env_var_name
 http://serverascode.com/2014/05/29/environment-variables-with-docker.html
 
 sudo docker logs <containerid>
+
+
+
+
+Extend azure VM with data disks
+https://docs.microsoft.com/de-de/azure/virtual-machines/linux/add-disk
+
+partitions anzeigen
+sudo parted -l

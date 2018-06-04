@@ -15,3 +15,8 @@ sudo nvidia-docker run --rm  -it  sbetzin/neural-style
 
 # run docker with environment vars 
 sudo nvidia-docker run -it -e AzureStorageConnectionString --name neural-style sbetzin/neural-style
+
+
+
+sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/fast-neural-style
+

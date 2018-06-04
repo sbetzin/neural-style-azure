@@ -1,0 +1,17 @@
+#train a new style
+th train.lua -h5_file /training/train.h5 -style_image /training/style/expressionismus.jpg -content_weights 100 -style_weights 50 -loss_network models/vgg16.t7
+
+#create fast neural style on a single image
+th fast_neural_style.lua -model /training/checkpoint.t7 -input_image /training/in/Ana.jpg -output_image /training/out/out.png
+
+# create fast neural style on a folder
+th fast_neural_style.lua -model /training/expressionismus.t7 -input_dir /training/in/ -output_dir /training/out/ -gpu 0
+
+# Run docker console with mapped folder
+sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style
+
+# default startup docker image
+sudo nvidia-docker run --rm  -it  sbetzin/neural-style
+
+# run docker with environment vars 
+sudo nvidia-docker run -it -e AzureStorageConnectionString --name neural-style sbetzin/neural-style

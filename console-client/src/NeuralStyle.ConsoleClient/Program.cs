@@ -48,9 +48,9 @@ namespace NeuralStyle.ConsoleClient
             var newPics = new[] { $@"{inPath}\sebastian_jump.jpg" };
 
             //var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg",  $@"{inPath}\Lofoten_Reine.jpg" };
-            var newStyle = new[] {$@"{stylePath}\kandinsky_muenter.jpg"};
+            var newStyle = new[] {$@"{stylePath}\candy.jpg"};
 
-            RunIt(blobContainer, queue, newPics, allStyles, 500, 700, 50.0, 1, 900, 100, true);
+            RunIt(blobContainer, queue, allIn, newStyle, 500, 700, 50.0, 1, 900, 100, false);
         }
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int styleScale, int tileSize, int tileOverlap, bool useOriginalColors)

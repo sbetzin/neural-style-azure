@@ -53,8 +53,8 @@ RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https:/
 # Download precomputed VGG network weights as in script models/download_models.sh
 WORKDIR /app/neural-style/models
 RUN wget --progress=bar:force https://gist.githubusercontent.com/ksimonyan/3785162f95cd2d5fee77/raw/bb2b4fe0a9bb0669211cf3d0bc949dfdda173e9e/VGG_ILSVRC_19_layers_deploy.prototxt \
-	wget --progress=bar:force --no-check-certificate https://bethgelab.org/media/uploads/deeptextures/vgg_normalised.caffemodel \
-	wget --progress=bar:force http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel
+	&& wget --progress=bar:force --no-check-certificate https://bethgelab.org/media/uploads/deeptextures/vgg_normalised.caffemodel \
+	&& wget --progress=bar:force http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style

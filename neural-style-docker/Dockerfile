@@ -50,13 +50,15 @@ RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/maste
 WORKDIR /app
 RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https://github.com/jcjohnson/fast-neural-style.git
 	
-# Download precomputed VGG network weights
-WORKDIR /app/neural-style
-RUN bash models/download_models.sh
+# Download precomputed VGG network weights as in script models/download_models.sh
+WORKDIR /app/neural-style/models
+RUN wget --progress=bar:force https://gist.githubusercontent.com/ksimonyan/3785162f95cd2d5fee77/raw/bb2b4fe0a9bb0669211cf3d0bc949dfdda173e9e/VGG_ILSVRC_19_layers_deploy.prototxt \
+	wget --progress=bar:force --no-check-certificate https://bethgelab.org/media/uploads/deeptextures/vgg_normalised.caffemodel \
+	wget --progress=bar:force http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
-RUN wget --progress=dot --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
+RUN wget --progress=bar:force --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
 
 #Install Python requirements for training
 RUN pip install -r scripts/requirements.txt

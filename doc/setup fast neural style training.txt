@@ -23,8 +23,12 @@ rm train2014.zip
 rm val2014.zip
 
 # create the h5 file
-# first start the docker file in bash mode
-sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style
+# first start the fast neural style docker file 
+sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/fast-neural-style
 
 #run python script to create the h5 file using the mapped datadrive
 python scripts/make_style_dataset.py --train_dir /training/train2014 --val_dir /training/val2014 --output_file /training/coco2014.h5
+
+
+
+https://pypi.org/project/blobxfer/0.11.5/

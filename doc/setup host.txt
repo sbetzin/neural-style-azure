@@ -37,3 +37,11 @@ git clone git@github.com:sbetzin/neural-style-azure.git
 # Build Docker image
 cd neural-style-docker
 sudo make
+
+sudo -H nano /etc/environment
+AzureStorageConnectionString="<storageconnection>"
+
+sudo reboot
+
+#check it
+echo $AzureStorageConnectionString

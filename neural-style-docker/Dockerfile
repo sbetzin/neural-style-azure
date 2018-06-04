@@ -48,7 +48,7 @@ RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/maste
 
 # Clone neural-style app and fast-neural-style
 WORKDIR /app
-RUN git clone https://github.com/jcjohnson/neural-style.git && RUN git clone https://github.com/jcjohnson/fast-neural-style.git
+RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https://github.com/jcjohnson/fast-neural-style.git
 	
 # Download precomputed VGG network weights
 WORKDIR /app/neural-style

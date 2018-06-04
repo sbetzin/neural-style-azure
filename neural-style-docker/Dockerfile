@@ -48,8 +48,7 @@ RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/maste
 
 # Clone neural-style app and fast-neural-style
 WORKDIR /app
-RUN git clone https://github.com/jcjohnson/neural-style.git
-RUN git clone https://github.com/jcjohnson/fast-neural-style.git
+RUN git clone https://github.com/jcjohnson/neural-style.git && RUN git clone https://github.com/jcjohnson/fast-neural-style.git
 	
 # Download precomputed VGG network weights
 WORKDIR /app/neural-style
@@ -58,7 +57,9 @@ RUN bash models/download_models.sh
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
 RUN wget --progress=dot --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
-#RUN wget --progress=dot --output-document=vgg16_2.t7 http://webia.lip6.fr/~cadene/Downloads/vgg16.t7 
+
+#Install Python requirements for training
+RUN pip install -r scripts/requirements.txt
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

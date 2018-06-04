@@ -60,8 +60,8 @@ RUN wget --progress=bar:force https://gist.githubusercontent.com/ksimonyan/37851
 WORKDIR /app/fast-neural-style
 RUN wget --progress=bar:force --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
 
-#Install Python requirements for training
-RUN pip install -r scripts/requirements.txt
+#Install Python requirements for training (in requirements.txt)
+RUN pip install -r h5py==2.6.0 && pip install -r numpy==1.11.1 && pip install -r Pillow==3.3.1 && pip install -r scipy==0.18.0 && pip install -r six==1.10.0
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH
@@ -83,7 +83,7 @@ ADD models/dec-tconv-sigmoid.t7 /app/style-swap/models/dec-tconv-sigmoid.t7
 # Install Azure Dependencies
 RUN pip install wheel azure-storage-queue azure-storage-blob
 
-# Copy wrapper scripts and config files
+# Copy wrapper scripts
 COPY ["/src/*.py" ,"/app/"]
 RUN mkdir images
 

@@ -31,7 +31,6 @@ RUN curl -o Miniconda3-latest-Linux-x86_64.sh https://repo.continuum.io/minicond
   && chmod +x Miniconda3-latest-Linux-x86_64.sh \
   && ./Miniconda3-latest-Linux-x86_64.sh -b -p "${MINICONDA_HOME}" \
   && rm Miniconda3-latest-Linux-x86_64.sh
-COPY conda.txt conda.txt
 RUN conda install -y numpy
 RUN conda clean -y -i -l -p -t && rm -f conda.txt
 RUN pip install gputil
@@ -39,7 +38,6 @@ RUN pip install gputil
 # Install fast-neural-style train dependencies
 RUN set -ex && \
 	apt-get install --no-install-recommends --no-install-suggests -y \
-#	python2.7-dev \
 	libhdf5-dev
 	
 # install hdf5 for fast neural style training
@@ -58,9 +56,6 @@ RUN wget --progress=bar:force https://gist.githubusercontent.com/ksimonyan/37851
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
 RUN wget --progress=bar:force --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
-
-#Install Python requirements for training (in requirements.txt)
-#RUN pip install h5py==2.6.0 && pip install numpy==1.11.1 && pip install Pillow==3.3.1 && pip install scipy==0.18.0 && pip install six==1.10.0
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

@@ -16,12 +16,13 @@ RUN git clone https://github.com/jcjohnson/fast-neural-style.git
 #	&& luarocks install hdf5 \
 #    && /root/torch/update.sh
 
-RUN apt-get update && apt-get upgrade && apt-get install wget && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get upgrade && apt-get install wget && rm -rf /var/lib/apt/lists/*
 
 #RUN echo 'source /exports.sh' >> /root/.bashrc
 #RUN wget -O /root/torch/fast-neural-style/models/vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7
 
 RUN pip install -r /root/torch/fast-neural-style/requirements.txt
+#RUN pip install h5py==2.6.0 && pip install numpy==1.11.1 && pip install Pillow==3.3.1 && pip install scipy==0.18.0 && pip install six==1.10.0
 
 WORKDIR /root/torch/fast-neural-style
 

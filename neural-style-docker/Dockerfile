@@ -51,7 +51,7 @@ RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https:/
 WORKDIR /app/neural-style/models
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/VGG_ILSVRC_19_layers_deploy.prototxt.txt \
 	&& wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg_normalised.caffemodel \
-	&& wget --progress=bar:force http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel
+	&& wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/VGG_ILSVRC_19_layers.caffemodel
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style

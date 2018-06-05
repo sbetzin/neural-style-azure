@@ -1,4 +1,4 @@
-LOCAL_IMAGE=sbetzin/fast-neural-style
+LOCAL_IMAGE=sbetzin/h8-creation
 
 .PHONY: build clean
 

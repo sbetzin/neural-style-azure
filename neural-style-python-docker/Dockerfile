@@ -3,6 +3,8 @@ MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties nano wget git
+RUN apt-get install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
+RUN apt-get install python3-pip python3-dev
 #RUN apt-get install python3.6
 
 WORKDIR /app

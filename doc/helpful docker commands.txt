@@ -7,7 +7,7 @@ th fast_neural_style.lua -model /training/model/expressionismus_cw_10_sw_50.t7 -
 # create fast neural style on a folder
 th fast_neural_style.lua -model /training/model/expressionismus_cw_10_sw_50.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -timing 0 -median_filter 0 -gpu 0
 
-sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/model/expressionismus_cw_10_sw_50.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
+
 
 
 # Run docker console with mapped folder
@@ -18,7 +18,11 @@ sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /b
 # Run the train lua script with mapped network in the background
 sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th train.lua -h5_file /training/coco2014.h5 -style_image /training/style/expressionismus.jpg -content_weights 1.0 -style_weights 5.0 -loss_network /app/fast-neural-style/vgg19.t7 -checkpoint_name /training/models/style/expressionismus_vgg19_cw_1_sw_5 -checkpoint_every 500 -content_layers 22 -style_layers 2,6,11,20,29' &
 
+sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th train.lua -h5_file /training/coco2014.h5 -style_image /training/style/elena_prokopenko_tanz7.jpg -content_weights 1.0 -style_weights 5.0 -loss_network /app/fast-neural-style/vgg19.t7 -checkpoint_name /training/models/style/lena_prokopenko_tanz7_vgg19_cw_1_sw_5 -checkpoint_every 500 -content_layers 22 -style_layers 2,6,11,20,29' &
 
+
+# Run the fast neural style on all in images
+sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/models/style/elena_prokopenko_tanz7_vgg16_cw_10_sw_10.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
 
 
 

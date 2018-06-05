@@ -65,7 +65,7 @@ ENV PATH /app/fast-neural-style:$PATH
 # Install Azure Dependencies
 RUN pip install wheel azure-storage-queue azure-storage-blob blobxfer 
 
-RUN mkdir images && mkdir convert-models
+RUN mkdir /app/images && mkdir /app/convert-models
 
 # Copy wrapper scripts
 COPY ["/src/*.py" ,"/app/"]

@@ -13,6 +13,8 @@ th fast_neural_style.lua -model /training/model/expressionismus_cw_10_sw_50.t7 -
 # Run docker console with mapped folder
 sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style
 
+# Run python docker console
+sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-style-python
 
 
 # Run the train lua script with mapped network in the background

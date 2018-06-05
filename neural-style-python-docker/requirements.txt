@@ -2,3 +2,7 @@ wheel
 azure-storage-queue
 azure-storage-blob
 blobxfer
+tensorflow
+Pillow
+matplotlib
+scipy

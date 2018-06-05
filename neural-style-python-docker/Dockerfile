@@ -1,3 +1,7 @@
+FROM ubuntu:16.04
+RUN apt-get update
+RUN apt-get install -y software-properties-common nano
+
 FROM python:3.6.5
 MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 

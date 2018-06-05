@@ -49,37 +49,30 @@ RUN git clone https://github.com/jcjohnson/neural-style.git && git clone https:/
 	
 # Download precomputed VGG network weights as in script models/download_models.sh
 WORKDIR /app/neural-style/models
-RUN wget --progress=bar:force https://gist.githubusercontent.com/ksimonyan/3785162f95cd2d5fee77/raw/bb2b4fe0a9bb0669211cf3d0bc949dfdda173e9e/VGG_ILSVRC_19_layers_deploy.prototxt \
-	&& wget --progress=bar:force --no-check-certificate https://bethgelab.org/media/uploads/deeptextures/vgg_normalised.caffemodel \
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/VGG_ILSVRC_19_layers_deploy.prototxt.txt \
+	&& wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg_normalised.caffemodel \
 	&& wget --progress=bar:force http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel
 
 # Download t7  source: https://github.com/Cadene/torchnet-vision/tree/master/models
 WORKDIR /app/fast-neural-style
-RUN wget --progress=bar:force --output-document=vgg16.t7 https://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7  
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg16.t7
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH
 ENV PATH /app/fast-neural-style:$PATH
 
-# Clone style-swap app
-WORKDIR /app
-RUN set -ex && \
-	wget --no-check-certificate https://github.com/rtqichen/style-swap/archive/master.tar.gz && \
-	tar -xvzf master.tar.gz && \
-    mv style-swap-master style-swap && \
-	rm master.tar.gz
-# Link precomputed VGG network weights
-RUN rm -rf /app/style-swap/models
-RUN ln -s /app/neural-style/models /app/style-swap/models
-# Add precomputed inverse network model
-ADD models/dec-tconv-sigmoid.t7 /app/style-swap/models/dec-tconv-sigmoid.t7
-
 # Install Azure Dependencies
-RUN pip install wheel azure-storage-queue azure-storage-blob
+RUN pip install wheel azure-storage-queue azure-storage-blob blobxfer 
+
+RUN mkdir images && mkdir convert-models
 
 # Copy wrapper scripts
 COPY ["/src/*.py" ,"/app/"]
-RUN mkdir images
+COPY ["/lua/correct_colors.lua", "/app/"]
+COPY ["/lua/fast_neural_style.lua", "/app/fast-neural-style/"]
+COPY ["/lua/convert-models/*.lua", "/app/convert-models/"]
+
 
 ENTRYPOINT ["python", "/app/queueclient.py"]
 

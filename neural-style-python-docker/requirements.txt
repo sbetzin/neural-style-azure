@@ -1,1 +1,4 @@
+wheel
+azure-storage-queue
+azure-storage-blob
 blobxfer

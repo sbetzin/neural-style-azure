@@ -5,6 +5,8 @@ MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 #RUN apt-get install -y python3-pip
 #RUN apt-get install -y python3.5-tk
 
+RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
+
 WORKDIR /app
 #COPY requirements.txt ./
 #RUN pip3 install -r requirements.txt

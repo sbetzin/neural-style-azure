@@ -112,7 +112,6 @@ local function main()
 
     if opt.median_filter > 0 then
       img_out = utils.median_filter(img_out, opt.median_filter)
-      print_images_sizes(img_out, "out median")
     end
 
     print('Writing output image to ' .. out_path)

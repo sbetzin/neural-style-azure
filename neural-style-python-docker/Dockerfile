@@ -12,7 +12,7 @@ RUN git clone https://github.com/VainF/Neural-Style-Transfer-Gatys.git
 
 
 #ENTRYPOINT ["python", "/app/queueclient.py"]
-ENTRYPOINT ["bin/bash", ""]
+ENTRYPOINT ["/bin/bash"]
 
 
 

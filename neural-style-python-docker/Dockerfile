@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 
 RUN apt-get update
-RUN apt-get install -y software-properties-common python-software-properties nano
+RUN apt-get install -y software-properties-common python-software-properties nano wget git
 #RUN apt-get install python3.6
 
 WORKDIR /app

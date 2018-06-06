@@ -40,6 +40,7 @@ sudo make
 
 sudo -H nano /etc/environment
 AzureStorageConnectionString="<storageconnection>"
+TileSize="1500"
 
 sudo reboot
 

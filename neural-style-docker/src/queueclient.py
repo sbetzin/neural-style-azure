@@ -60,7 +60,7 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        print('start job with Source=' + source_name + ', Style='+ style_name + ' to Target=' + target_name)
+        print('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size + ', TileSize=' + tile_size)
         styletransfer(source_file, style_file, out_file, size, "gatys", iterations, style_weight, style_scale, tile_size, tile_overlap, use_orig_colors)
 
         if os.path.exists(out_file):

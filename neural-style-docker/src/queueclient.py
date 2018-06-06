@@ -13,7 +13,7 @@ from algorithms import styletransfer
 env_connection = os.environ['AzureStorageConnectionString']
 
 if "TileSize" in os.environ:
-    env_tile_size = os.environ['TileSize']
+    env_tile_size = int(os.environ['TileSize'])
     print ("found environment tilesize=", env_tile_size)
 else:
     env_tile_size = None

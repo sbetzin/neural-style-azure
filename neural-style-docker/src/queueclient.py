@@ -11,15 +11,18 @@ from azure.storage.blob import BlockBlobService
 from algorithms import styletransfer
 
 env_connection = os.environ['AzureStorageConnectionString']
-env_tile_size = os.environ['TileSize']
+
+if "TileSize" in os.environ:
+    env_tile_size = os.environ['TileSize']
+    print ("found environment tilesize=", env_tile_size)
+else:
+    env_tile_size = None
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 azure_logger = logging.getLogger('azure.storage')
 azure_logger.setLevel(logging.ERROR)
-
-print ("found environment tilesize=", env_tile_size)
 
 try:
     queue_service = QueueService(connection_string=env_connection)

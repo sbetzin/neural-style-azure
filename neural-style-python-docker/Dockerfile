@@ -10,9 +10,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sud
 WORKDIR /app
 #COPY requirements.txt ./
 #RUN pip3 install -r requirements.txt
-RUN git clone https://github.com/VainF/Neural-Style-Transfer-Gatys.git
+RUN git clone https://github.com/cysmith/neural-style-tf.git
 
-WORKDIR Neural-Style-Transfer-Gatys
+WORKDIR neural-style-tf
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.npy
 
 WORKDIR /app

@@ -6,7 +6,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sud
 WORKDIR /app
 
 RUN pip install --upgrade pip
-RUN pip install tensorflow opencv-python-headless
+RUN pip install opencv-python-headless
 
 
 RUN git clone https://github.com/cysmith/neural-style-tf.git
@@ -16,7 +16,4 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 #COPY ["/src/*.py" ,"/app/"]
 
-ENTRYPOINT ["/bin/bash", "stylize_image.sh"]
-
-
-
+ENTRYPOINT ["python", "neural_style.py"]

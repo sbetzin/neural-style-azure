@@ -8,7 +8,6 @@ WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install opencv-python-headless
 
-
 RUN git clone https://github.com/cysmith/neural-style-tf.git
 
 WORKDIR /app/neural-style-tf

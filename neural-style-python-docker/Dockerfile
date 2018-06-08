@@ -7,6 +7,8 @@ RUN pip install --upgrade pip && pip install opencv-python-headless wheel azure-
 WORKDIR /app
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/imagenet-vgg-verydeep-19.mat
 
+RUN mkdir /app/images
+
 COPY ["/src/*.py" ,"/app/"]
 
 ENTRYPOINT ["python", "/app/queueclient.py"]

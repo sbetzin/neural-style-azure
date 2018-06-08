@@ -588,13 +588,18 @@ def stylize(content_img, style_imgs, init_img, frame=None):
     
     output_img = sess.run(net['input'])
     
-    if args.original_colors:
-      output_img = convert_to_original_colors(np.copy(content_img), output_img)
+    
 
     if args.video:
-      write_video_output(frame, output_img)
+      if args.original_colors:
+        output_img = convert_to_original_colors(np.copy(content_img), output_img)
+        write_video_output(frame, output_img)
     else:
-      write_image_output(output_img, content_img, style_imgs, init_img)
+      write_image(os.path.join(args.img_output_dir, args.img_name.replace("#origcolor","0") + ".png"), output_img)
+      
+      if args.original_colors:
+        output_img = convert_to_original_colors(np.copy(content_img), output_img)
+        write_image(os.path.join(args.img_output_dir, args.img_name.replace("#origcolor","1") + ".png"), output_img)
 
 def minimize_with_lbfgs(sess, net, optimizer, init_img):
   if args.verbose: print('\nMINIMIZING LOSS USING: L-BFGS OPTIMIZER')

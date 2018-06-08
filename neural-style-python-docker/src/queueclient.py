@@ -49,7 +49,6 @@ def handle_message(message):
         image_dir = "/app/images/"
         source_file = os.path.join(image_dir, source_name)
         style_file =  os.path.join(image_dir, style_name)
-        out_file =  os.path.join(image_dir, target_name)
 
         args = ["--content_img", source_file]
         args.extend(["--style_imgs", style_file])
@@ -68,18 +67,27 @@ def handle_message(message):
 
         logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s", source_name, style_name, target_name, size)
 
+        target_name_origcolor_0 = target_name.replace("#origcolor#", "0")
+        target_name_origcolor_1 = target_name.replace("#origcolor#", "1")
+
+        out_file_origcolor_0 =  os.path.join(image_dir, target_name_origcolor_0)
+        out_file_origcolor_1 =  os.path.join(image_dir, target_name_origcolor_1)
+
         neural_style_calc(args)
 
-        if os.path.exists(out_file):
-            logger.info ("uploading file %s", out_file)
-            blob_service.create_blob_from_path("results", target_name, out_file)
-        else:
-            logger.info("file %s does not exit", out_file)
-
+        upload_file(target_name_origcolor_0, out_file_origcolor_0)
+        upload_file(target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.error(e)
 
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
+
+def upload_file(target_name, file_name):
+    if os.path.exists(file_name):
+        logger.info ("uploading file %s", file_name)
+        blob_service.create_blob_from_path("results", target_name, file_name)
+    else:
+        logger.info("file %s does not exit", file_name)
 
 def poll_queue():
     try:

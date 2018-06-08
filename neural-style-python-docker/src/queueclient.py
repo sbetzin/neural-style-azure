@@ -46,18 +46,19 @@ def handle_message(message):
         size = job["Size"]
         iterations = job["Iterations"]
 
-        args = ["--content_img", source_name]
-        args.extend(["--style_imgs", style_name])
+        image_dir = "/app/images/"
+        source_file = os.path.join(image_dir, source_name)
+        style_file =  os.path.join(image_dir, style_name)
+        out_file =  os.path.join(image_dir, target_name)
+
+        args = ["--content_img", source_file]
+        args.extend(["--style_imgs", style_file])
         args.extend(["--content_weight", "1"])
         args.extend(["--style_weight", str(style_weight)])
         args.extend(["--max_size", str(size)])
         args.extend(["--max_iterations", str(iterations)])
-        args.extend(["--img_output_dir", "/app/images/"])
+        args.extend(["--img_output_dir", image_dir])
         args.extend(["--verbose"])
-
-        source_file = "/app/images/" + source_name
-        style_file = "/app/images/" + style_name
-        out_file = "/app/images/" + target_name
 
         logger.info("downloading %s", source_file )
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)

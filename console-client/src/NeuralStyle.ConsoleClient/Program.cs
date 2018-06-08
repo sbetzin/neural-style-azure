@@ -50,7 +50,7 @@ namespace NeuralStyle.ConsoleClient
             //var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg",  $@"{inPath}\Lofoten_Reine.jpg" };
             var newStyle = new[] {$@"{stylePath}\picasso_la_muse.jpg"};
 
-            RunIt(blobContainer, queue, allIn, newStyle, 500, 1500, 50.0, 1, 1600, 100, false);
+            RunIt(blobContainer, queue, allIn, newStyle, 50, 300, 50.0, 1, 1600, 100, false);
         }
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
@@ -69,7 +69,6 @@ namespace NeuralStyle.ConsoleClient
                 image.UploadToBlob(blobContainer).Wait();
             }
         }
-
 
         private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
         {
@@ -97,7 +96,7 @@ namespace NeuralStyle.ConsoleClient
 
         private static string CreateTargetName(Job job)
         {
-            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight:F1}_ss_{job.StyleScale:F1}_iter_{job.Iterations}_origcolor_{job.UseOriginalColors}.jpg";
+            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight:F1}_ss_{job.StyleScale:F1}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

@@ -15,7 +15,7 @@ from neural_style import main as neural_style_calc
 env_connection = os.environ['AzureStorageConnectionString']
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("queueclient")
 
 azure_logger = logging.getLogger('azure.storage')
 azure_logger.setLevel(logging.ERROR)
@@ -59,21 +59,21 @@ def handle_message(message):
         style_file = "/app/images/" + style_name
         out_file = "/app/images/" + target_name
 
-        logger.info("downloading " + source_file )
+        logger.info("downloading %s", source_file )
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
 
-        logger.info("downloading " + style_file )
+        logger.info("downloading %s", style_file )
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        logger.info('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)
+        logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s", source_name, style_name, target_name, size)
 
         neural_style_calc(args)
 
         if os.path.exists(out_file):
-            logger.info ("uploading file " + out_file)
+            logger.info ("uploading file %s", out_file)
             blob_service.create_blob_from_path("results", target_name, out_file)
         else:
-            logger.info("file " + out_file + " does not exit" )
+            logger.info("file %s does not exit", out_file)
 
     except Exception as e:
         logger.error(e)

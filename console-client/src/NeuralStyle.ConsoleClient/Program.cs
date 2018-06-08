@@ -48,12 +48,12 @@ namespace NeuralStyle.ConsoleClient
             var newPics = new[] { $@"{inPath}\sebastian_jump.jpg" };
 
             //var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg",  $@"{inPath}\Lofoten_Reine.jpg" };
-            var newStyle = new[] { $@"{stylePath}\picasso_la_muse.jpg" };
+            var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my.jpg" };
 
-            RunIt(blobContainer, queue, allIn, newStyle, 50, 300, 50.0, 1, false);
+            RunIt(blobContainer, queue, allIn, newStyle, 500, 750, 1.0, 50.0, false);
         }
 
-        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int contentWeight, bool useOriginalColors)
+        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
         {
             UploadImages(blobContainer, images);
             UploadImages(blobContainer, styles);
@@ -70,7 +70,7 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double contentWeight, bool useOriginalColors)
+        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
@@ -81,7 +81,7 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double styleWeight, double contentWeight, bool useOriginalColors)
+        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
         {
             var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight, UseOriginalColors = useOriginalColors };
             job.TargetName = CreateTargetName(job);

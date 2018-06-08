@@ -42,20 +42,15 @@ def handle_message(message):
         style_name = job["StyleName"]
         target_name = job["TargetName"]
         style_weight = job["StyleWeight"]
-        # style_scale = job["StyleScale"]
         size = job["Size"]
         iterations = job["Iterations"]
-        # tile_size =  env_tile_size if env_tile_size is not None else job["TileSize"]
-        # tile_overlap = job["TileOverlap"]
-        # use_orig_colors = job["UseOriginalColors"]
 
         args = ["--content_img", source_name]
         args.extend(["--style_imgs", style_name])
         args.extend(["--content_weight", "1"])
-        args.extend(["--style_weight", style_weight])
-        args.extend(["--max_size", size])
-        args.extend(["--max_iterations", iterations])
-        args.extend(["--device","/cpu:0"])
+        args.extend(["--style_weight", str(style_weight)])
+        args.extend(["--max_size", str(size)])
+        args.extend(["--max_iterations", str(iterations)])
         args.extend(["--img_output_dir", "/app/images/"])
         args.extend(["--verbose"])
 
@@ -66,7 +61,7 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        print('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)
+        logger.info('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)
 
         main(args)
 

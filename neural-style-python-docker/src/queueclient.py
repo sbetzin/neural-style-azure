@@ -56,7 +56,7 @@ def handle_message(message):
         args.extend(["--max_size", size])
         args.extend(["--max_iterations", iterations])
         args.extend(["--device","/cpu:0"])
-        atgs.extend(["--img_output_dir", "/app/images/"])
+        args.extend(["--img_output_dir", "/app/images/"])
         args.extend(["--verbose"])
 
         source_file = "/app/images/" + source_name

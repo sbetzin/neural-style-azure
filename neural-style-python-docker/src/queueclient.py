@@ -84,12 +84,15 @@ def handle_message(message):
     queue_service.delete_message('jobs', message.id, message.pop_receipt)
 
 def upload_file(target_name, file_name):
-    if os.path.exists(file_name):
-        logger.info ("uploading file %s", file_name)
-        blob_service.create_blob_from_path("results", target_name, file_name)
-    else:
-        logger.info("file %s does not exit", file_name)
-
+    try:
+        if os.path.exists(file_name):
+            logger.info ("uploading file %s", file_name)
+            blob_service.create_blob_from_path("results", target_name, file_name)
+        else:
+            logger.info("file %s does not exit", file_name)
+    except Exception as e:
+        logger.error(e)
+        
 def poll_queue():
     try:
         logger.info ("starting to poll jobs queue")

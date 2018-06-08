@@ -52,6 +52,7 @@ def handle_message(message):
 
         args = ["--content_img", source_file]
         args.extend(["--style_imgs", style_file])
+        args.extend(["--img_name", target_name])
         args.extend(["--content_weight", "1"])
         args.extend(["--style_weight", str(style_weight)])
         args.extend(["--max_size", str(size)])

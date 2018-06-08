@@ -7,6 +7,6 @@ RUN pip install --upgrade pip && pip install opencv-python-headless
 WORKDIR /app
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/imagenet-vgg-verydeep-19.mat
 
-#COPY ["/src/*.py" ,"/app/"]
+COPY ["/src/*.py" ,"/app/"]
 
 ENTRYPOINT ["python", "/app/queueclient.py"]

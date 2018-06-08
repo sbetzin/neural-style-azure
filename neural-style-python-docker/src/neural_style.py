@@ -599,7 +599,7 @@ def stylize(content_img, style_imgs, init_img, frame=None):
         output_img = convert_to_original_colors(np.copy(content_img), output_img)
         write_video_output(frame, output_img)
     else:
-      output_img_original_color = output_img = convert_to_original_colors(np.copy(content_img), output_img)
+      output_img_original_color = convert_to_original_colors(np.copy(content_img), output_img)
 
       write_image(os.path.join(args.img_output_dir, args.img_name.replace("#origcolor#","0")), output_img)
       write_image(os.path.join(args.img_output_dir, args.img_name.replace("#origcolor#","1")), output_img_original_color)

@@ -6,13 +6,13 @@ import base64
 import os
 import os.path
 import logging
+import numpy
+
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
 from neural_style import main
 
 env_connection = os.environ['AzureStorageConnectionString']
-
-main(["--content_img", "C:/Data/images/in/e_r_pool.JPG", "--style_imgs", "C:/Data/images/style/elena_prokopenko_tanz7.jpg","--max_iterations","500","--device","/cpu:0","--max_size","400", "--verbose"])
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,12 +42,22 @@ def handle_message(message):
         style_name = job["StyleName"]
         target_name = job["TargetName"]
         style_weight = job["StyleWeight"]
-        style_scale = job["StyleScale"]
+        # style_scale = job["StyleScale"]
         size = job["Size"]
         iterations = job["Iterations"]
-        tile_size =  env_tile_size if env_tile_size is not None else job["TileSize"]
-        tile_overlap = job["TileOverlap"]
-        use_orig_colors = job["UseOriginalColors"]
+        # tile_size =  env_tile_size if env_tile_size is not None else job["TileSize"]
+        # tile_overlap = job["TileOverlap"]
+        # use_orig_colors = job["UseOriginalColors"]
+
+        args = ["--content_img", source_name]
+        args.extend(["--style_imgs", style_name])
+        args.extend(["--content_weight", "1"])
+        args.extend(["--style_weight", style_weight])
+        args.extend(["--max_size", size])
+        args.extend(["--max_iterations", iterations])
+        args.extend(["--device","/cpu:0"])
+        atgs.extend(["--img_output_dir", "/app/images/"])
+        args.extend(["--verbose"])
 
         source_file = "/app/images/" + source_name
         style_file = "/app/images/" + style_name
@@ -56,8 +66,9 @@ def handle_message(message):
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        print('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size + ', TileSize=' + tile_size)
-        styletransfer(source_file, style_file, out_file, size, "gatys", iterations, style_weight, style_scale, tile_size, tile_overlap, use_orig_colors)
+        print('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)
+
+        main(args)
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)

@@ -10,7 +10,7 @@ import numpy
 
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
-from neural_style import main
+from neural_style import main as neural_style_calc
 
 env_connection = os.environ['AzureStorageConnectionString']
 
@@ -20,7 +20,6 @@ logger = logging.getLogger(__name__)
 azure_logger = logging.getLogger('azure.storage')
 azure_logger.setLevel(logging.ERROR)
 
-time.sleep(5)
 try:
     queue_service = QueueService(connection_string=env_connection)
     blob_service = BlockBlobService(connection_string=env_connection)
@@ -38,6 +37,7 @@ def prepare_queue():
 
 def handle_message(message):
     try:
+        logger.info("handling new message " + message.id )
         job = json.loads(message.content)
         source_name = job["SourceName"]
         style_name = job["StyleName"]
@@ -64,7 +64,7 @@ def handle_message(message):
 
         logger.info('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)
 
-        main(args)
+        neural_style_calc(args)
 
         if os.path.exists(out_file):
             logger.info ("uploading file " + out_file)

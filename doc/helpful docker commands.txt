@@ -11,19 +11,19 @@ th fast_neural_style.lua -model /training/model/expressionismus_cw_10_sw_50.t7 -
 
 
 # Run docker console with mapped folder
-sudo nvidia-docker run --rm -it -e AzureStorageConnectionString -e TileSize -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style
+sudo nvidia-docker run --rm -it -e AzureStorageConnectionString -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style
 
 # Run python docker console
-sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-style-python
+sudo nvidia-docker run --rm -it -e AzureStorageConnectionString -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style-python
 
 
 # Run the train lua script with mapped network in the background
-sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th train.lua -h5_file /training/coco2014.h5 -style_image /training/style/abstract.jpg -content_weights 100 -style_weights 500 -style_image_size 512 -loss_network /app/fast-neural-style/vgg16.t7 -checkpoint_name /training/models/style/abstract_vgg16_cw_100_sw_500_size_512 -checkpoint_every 500' &
+sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th train.lua -h5_file /training/coco2014.h5 -style_image /training/style/expressionismus.jpg -content_weights 5 -style_weights 1000 -style_image_size 512 -loss_network /app/fast-neural-style/vgg16.t7 -checkpoint_name /training/models/style/expressionismus_vgg16_cw_5_sw_1000_size_512 -checkpoint_every 500' &
 
 
 
 # Run the fast neural style on all in images
-sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/models/style/expressionismus_vgg16_cw_100_sw_5_size_512.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
+sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/models/style/expressionismus_vgg16_cw_100_sw_500.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
 
 
 
@@ -40,9 +40,9 @@ sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-
 
 
 # Fürs DACH
-sudo nvidia-docker run --rm -it -v ~/images:/training sbetzin/neural-style-python --content_img /training/in/e_r_pool.JPG --style_imgs /training/style/expressionismus.jpg --max_size 1200 --max_iterations 500 --img_output_dir /training/out --content_weight 1 --style_weight 10000 --original_colors --verbose --pooling_type max --img_name /training/out/e_r_pool_expressionismus_cw_1_sw_10000_pooling_max
+sudo nvidia-docker run --rm -it -v ~/images:/training sbetzin/neural-style-python --content_img /training/in/e_r_pool.JPG --style_imgs /training/style/comic_style_1.jpg --max_size 1200 --max_iterations 500 --img_output_dir /training/out --content_weight 1 --style_weight 10000 --original_colors --verbose --pooling_type max --img_name /training/out/e_r_pool_comic_style_1_cw_1_sw_10000_pooling_max
 
 
-
+sudo nohup bash batch.sh &
 
 

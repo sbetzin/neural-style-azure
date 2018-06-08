@@ -9,6 +9,9 @@ import cv2
 import sys
 import os
 
+
+logger = logging.getLogger("neural_style")
+
 '''
   parsing and configuration
 '''
@@ -233,17 +236,17 @@ def parse_args(argv):
 '''
 
 def build_model(input_img):
-  if args.verbose: print('\nBUILDING VGG-19 NETWORK')
+  if args.verbose: logger.info('\nBUILDING VGG-19 NETWORK')
   net = {}
   _, h, w, d     = input_img.shape
   
-  if args.verbose: print('loading model weights...')
+  if args.verbose: logger.info('loading model weights...')
   vgg_rawnet     = scipy.io.loadmat(args.model_weights)
   vgg_layers     = vgg_rawnet['layers'][0]
-  if args.verbose: print('constructing layers...')
+  if args.verbose: logger.info('constructing layers...')
   net['input']   = tf.Variable(np.zeros((1, h, w, d), dtype=np.float32))
 
-  if args.verbose: print('LAYER GROUP 1')
+  if args.verbose: logger.info('LAYER GROUP 1')
   net['conv1_1'] = conv_layer('conv1_1', net['input'], W=get_weights(vgg_layers, 0))
   net['relu1_1'] = relu_layer('relu1_1', net['conv1_1'], b=get_bias(vgg_layers, 0))
 
@@ -252,7 +255,7 @@ def build_model(input_img):
   
   net['pool1']   = pool_layer('pool1', net['relu1_2'])
 
-  if args.verbose: print('LAYER GROUP 2')  
+  if args.verbose: logger.info('LAYER GROUP 2')  
   net['conv2_1'] = conv_layer('conv2_1', net['pool1'], W=get_weights(vgg_layers, 5))
   net['relu2_1'] = relu_layer('relu2_1', net['conv2_1'], b=get_bias(vgg_layers, 5))
   
@@ -261,7 +264,7 @@ def build_model(input_img):
   
   net['pool2']   = pool_layer('pool2', net['relu2_2'])
   
-  if args.verbose: print('LAYER GROUP 3')
+  if args.verbose: logger.info('LAYER GROUP 3')
   net['conv3_1'] = conv_layer('conv3_1', net['pool2'], W=get_weights(vgg_layers, 10))
   net['relu3_1'] = relu_layer('relu3_1', net['conv3_1'], b=get_bias(vgg_layers, 10))
 
@@ -276,7 +279,7 @@ def build_model(input_img):
 
   net['pool3']   = pool_layer('pool3', net['relu3_4'])
 
-  if args.verbose: print('LAYER GROUP 4')
+  if args.verbose: logger.info('LAYER GROUP 4')
   net['conv4_1'] = conv_layer('conv4_1', net['pool3'], W=get_weights(vgg_layers, 19))
   net['relu4_1'] = relu_layer('relu4_1', net['conv4_1'], b=get_bias(vgg_layers, 19))
 
@@ -291,7 +294,7 @@ def build_model(input_img):
 
   net['pool4']   = pool_layer('pool4', net['relu4_4'])
 
-  if args.verbose: print('LAYER GROUP 5')
+  if args.verbose: logger.info('LAYER GROUP 5')
   net['conv5_1'] = conv_layer('conv5_1', net['pool4'], W=get_weights(vgg_layers, 28))
   net['relu5_1'] = relu_layer('relu5_1', net['conv5_1'], b=get_bias(vgg_layers, 28))
 
@@ -310,7 +313,7 @@ def build_model(input_img):
 
 def conv_layer(layer_name, layer_input, W):
   conv = tf.nn.conv2d(layer_input, W, strides=[1, 1, 1, 1], padding='SAME')
-  if args.verbose: print('--{} | shape={} | weights_shape={}'.format(layer_name, 
+  if args.verbose: logger.info('--{} | shape={} | weights_shape={}'.format(layer_name, 
     conv.get_shape(), W.get_shape()))
   return conv
 
@@ -601,14 +604,14 @@ def stylize(content_img, style_imgs, init_img, frame=None):
       write_image(os.path.join(args.img_output_dir, args.img_name.replace("#origcolor#","1")), output_img_original_color)
 
 def minimize_with_lbfgs(sess, net, optimizer, init_img):
-  if args.verbose: print('\nMINIMIZING LOSS USING: L-BFGS OPTIMIZER')
+  if args.verbose: logger.info('\nMINIMIZING LOSS USING: L-BFGS OPTIMIZER')
   init_op = tf.global_variables_initializer()
   sess.run(init_op)
   sess.run(net['input'].assign(init_img))
   optimizer.minimize(sess)
 
 def minimize_with_adam(sess, net, optimizer, init_img, loss):
-  if args.verbose: print('\nMINIMIZING LOSS USING: ADAM OPTIMIZER')
+  if args.verbose: logger.info('\nMINIMIZING LOSS USING: ADAM OPTIMIZER')
   train_op = optimizer.minimize(loss)
   init_op = tf.global_variables_initializer()
   sess.run(init_op)
@@ -852,6 +855,7 @@ def render_video():
         print('Frame {} elapsed time: {}'.format(frame, tock - tick))
 
 def main(argv):
+  
   global args
   args = parse_args(argv)
   if args.video: render_video()

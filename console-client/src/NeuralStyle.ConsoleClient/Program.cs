@@ -48,17 +48,17 @@ namespace NeuralStyle.ConsoleClient
             var newPics = new[] { $@"{inPath}\sebastian_jump.jpg" };
 
             //var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg",  $@"{inPath}\Lofoten_Reine.jpg" };
-            var newStyle = new[] {$@"{stylePath}\picasso_la_muse.jpg"};
+            var newStyle = new[] { $@"{stylePath}\picasso_la_muse.jpg" };
 
-            RunIt(blobContainer, queue, allIn, newStyle, 50, 300, 50.0, 1, 1600, 100, false);
+            RunIt(blobContainer, queue, allIn, newStyle, 50, 300, 50.0, 1, false);
         }
 
-        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
+        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double styleWeight, int contentWeight, bool useOriginalColors)
         {
             UploadImages(blobContainer, images);
             UploadImages(blobContainer, styles);
 
-            CreateJobs(queue, images, styles, iterations, size, styleWeight, styleScale, tileSize, tileOverlap, useOriginalColors).Wait();
+            CreateJobs(queue, images, styles, iterations, size, styleWeight, contentWeight, useOriginalColors).Wait();
         }
 
         private static void UploadImages(CloudBlobContainer blobContainer, string[] images)
@@ -70,20 +70,20 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double styleScale, int tileSize, int tileOverlap, bool useOriginalColors)
+        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double styleWeight, double contentWeight, bool useOriginalColors)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
             Console.WriteLine($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                await CreateJob(queue, sourceFile, styleFile, iterations, size, styleWeight, styleScale, useOriginalColors, tileSize, tileOverlap);
+                await CreateJob(queue, sourceFile, styleFile, iterations, size, styleWeight, contentWeight, useOriginalColors);
             }
         }
 
-        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double styleWeight, double styleScale, bool useOriginalColors, int tileSize, int tileOverlap)
+        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double styleWeight, double contentWeight, bool useOriginalColors)
         {
-            var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, StyleScale = styleScale, UseOriginalColors = useOriginalColors, TileSize = tileSize, TileOverlap = tileOverlap };
+            var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight, UseOriginalColors = useOriginalColors };
             job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);
@@ -96,7 +96,7 @@ namespace NeuralStyle.ConsoleClient
 
         private static string CreateTargetName(Job job)
         {
-            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_sw_{job.StyleWeight:F1}_ss_{job.StyleScale:F1}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
+            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_cw_{job.ContentWeight:F1}_sw_{job.StyleWeight:F1}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

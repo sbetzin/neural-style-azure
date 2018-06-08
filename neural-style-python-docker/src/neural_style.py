@@ -8,6 +8,7 @@ import time
 import cv2
 import sys
 import os
+import logging
 
 
 logger = logging.getLogger("neural_style")

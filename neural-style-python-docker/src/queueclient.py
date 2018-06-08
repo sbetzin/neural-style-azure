@@ -59,7 +59,10 @@ def handle_message(message):
         style_file = "/app/images/" + style_name
         out_file = "/app/images/" + target_name
 
+        logger.info("downloading " + source_file )
         blob_service.get_blob_to_path("images", source_name, file_path= source_file)
+
+        logger.info("downloading " + style_file )
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
         logger.info('start job with Source=' + source_name + ', Style='+ style_name + ', Target=' + target_name + ', Size=' + size)

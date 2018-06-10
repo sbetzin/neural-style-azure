@@ -14,9 +14,10 @@ start:
 stop:
 	echo $(IMGNAME)
 
-	ID = $(shell docker ps -q --filter ancestor=$(IMGNAME))
+	ID=$(shell docker ps -q --filter ancestor=$(IMGNAME))
 	echo $(ID)
 	nvidia-docker stop $(ID)
+	docker container prune --force
 
 restart: stop start
 all: build

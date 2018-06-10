@@ -16,7 +16,7 @@ stop:
 
 	TEST=100
 	echo testecho
-	echo $(TEST)
+	echo "$(TEST)"
 	ID=$(shell docker ps -q --filter ancestor=$(IMGNAME))
 	echo $(ID)
 	nvidia-docker stop $(ID)

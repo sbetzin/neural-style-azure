@@ -498,7 +498,8 @@ def write_exif(path):
   style_names =  map(lambda x: filename(x), args.style_imgs)
   styles = ",".join(style_names)
   keywords = "{0},{1}".format(content, styles)
-  comment = ""
+  comment = "max_size={0},max_iterations={1},init_img_type={2},content_weight={3},style_weight={4},color_convert_type={5},pooling_type={6},optimizer={7},learning_rate={8}".format(
+    args.max_size, args.max_iterations, args.init_img_type, args.content_weight, args.style_weight, args.color_convert_type, args.pooling_type, args.optimizer, args.learning_rate)
 
   exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf16"))
   exif["0th"][piexif.ImageIFD.XPKeywords] = bytearray(keywords.encode("utf16"))

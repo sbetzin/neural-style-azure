@@ -14,8 +14,9 @@ start:
 stop:
 	echo $(IMGNAME)
 
-	test=100
-	echo $(test)
+	TEST:=100
+	echo testecho
+	echo $(TEST)
 	ID=$(shell docker ps -q --filter ancestor=$(IMGNAME))
 	echo $(ID)
 	nvidia-docker stop $(ID)

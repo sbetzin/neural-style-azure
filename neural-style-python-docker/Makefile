@@ -16,7 +16,7 @@ stop:
 
 	ID = $(shell docker ps -q --filter ancestor=$(IMGNAME))
 	echo $(ID)
-	nvidia-docker stop $(docker ps -q --filter ancestor=$(ID) )
+	nvidia-docker stop $(ID)
 
 restart: stop start
 all: build

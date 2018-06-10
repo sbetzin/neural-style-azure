@@ -17,7 +17,7 @@ stop:
 	TEST=100
 	echo testecho
 	echo "$(TEST)"
-	ID=$(shell docker ps -q --filter ancestor=$(IMGNAME))
+	@ID=$$(docker ps -q --filter ancestor=$(IMGNAME))
 	echo $(ID)
 	nvidia-docker stop $(ID)
 	docker container prune --force

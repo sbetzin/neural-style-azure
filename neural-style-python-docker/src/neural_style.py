@@ -489,7 +489,7 @@ def write_image(path, img):
 
 def write_exif(path):
   exif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}
-  keywords = "{0},{1}".format(args.content_img, args.tyle_imgs)
+  keywords = "{0},{1}".format(args.content_img, args.style_imgs)
   comment = ""
 
   exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf16"))

@@ -13,13 +13,7 @@ start:
 	
 stop:
 	echo $(IMGNAME)
-
-	TEST=100
-	echo testecho
-	echo "$(TEST)"
-	@ID=$$(docker ps -q --filter ancestor=$(IMGNAME))
-	echo $(ID)
-	nvidia-docker stop $(ID)
+	nvidia-docker stop $(docker ps -q --filter ancestor=$(IMGNAME))
 	docker container prune --force
 
 restart: stop start

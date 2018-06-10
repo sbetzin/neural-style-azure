@@ -1,4 +1,4 @@
-.PHONY: all build clean start stop restart
+.PHONY: all build clean start stop restart logs
 IMGNAME=sbetzin/neural-style-python
 IMGTAG=latest
 
@@ -15,5 +15,8 @@ stop:
 	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-python)
 	docker container prune --force
 
+logs:
+	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-python)
+	
 restart: stop start
 all: build

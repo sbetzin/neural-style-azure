@@ -12,7 +12,6 @@ start:
 	nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-python --restart=unless-stopped $(IMGNAME)
 	
 stop:
-	echo $(IMGNAME)
 	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-python)
 	docker container prune --force
 

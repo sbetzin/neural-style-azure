@@ -14,7 +14,7 @@ start:
 stop:
 	echo $(IMGNAME)
 
-	TEST:=100
+	TEST=100
 	echo testecho
 	echo $(TEST)
 	ID=$(shell docker ps -q --filter ancestor=$(IMGNAME))

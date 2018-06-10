@@ -13,7 +13,7 @@ start:
 	
 stop:
 	echo $(IMGNAME)
-	nvidia-docker stop $(docker ps -q --filter ancestor=$(IMGNAME))
+	nvidia-docker stop $(docker ps -q --filter ancestor=sbetzin/neural-style-python)
 	docker container prune --force
 
 restart: stop start

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixExif", "src\FixExif\FixExif.csproj", "{AC8B36D4-644C-4572-8C45-589E8A132A39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralStyle.ConsoleClient", "src\NeuralStyle.ConsoleClient\NeuralStyle.ConsoleClient.csproj", "{9C75C079-BC9D-4290-9FA4-87E06DA5C386}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC8B36D4-644C-4572-8C45-589E8A132A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC8B36D4-644C-4572-8C45-589E8A132A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC8B36D4-644C-4572-8C45-589E8A132A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC8B36D4-644C-4572-8C45-589E8A132A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C75C079-BC9D-4290-9FA4-87E06DA5C386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C75C079-BC9D-4290-9FA4-87E06DA5C386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C75C079-BC9D-4290-9FA4-87E06DA5C386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C75C079-BC9D-4290-9FA4-87E06DA5C386}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2AB6481-45FA-4176-AC95-4E4AA0109E15}
+	EndGlobalSection
+EndGlobal

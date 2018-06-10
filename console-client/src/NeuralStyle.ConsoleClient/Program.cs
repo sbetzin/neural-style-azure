@@ -20,7 +20,6 @@ namespace NeuralStyle.ConsoleClient
             var storageAccount = CloudStorageAccount.Parse(connectionString);
 
             var queueClient = storageAccount.CreateCloudQueueClient();
-
             var blobClient = storageAccount.CreateCloudBlobClient();
 
             var queue = queueClient.GetQueueReference("jobs");
@@ -28,8 +27,11 @@ namespace NeuralStyle.ConsoleClient
 
             var blobContainer = blobClient.GetContainerReference("images");
 
+            var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
             var inPath = @"C:\Data\images\in";
+
+            EnsureCorrectFilenames(images);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
@@ -41,16 +43,35 @@ namespace NeuralStyle.ConsoleClient
             var corinth = Directory.GetFiles(stylePath, "lovis_corinth_*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
 
+
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var ana = Directory.GetFiles(inPath, "ana*.jpg");
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
+            var berge = Directory.GetFiles(inPath, "berge_einsames_haus.jpg");
 
             var newPics = new[] { $@"{inPath}\sebastian_jump.jpg" };
 
-            //var newPics = new[] { $@"{inPath}\kraemerbruecke.jpg",  $@"{inPath}\Lofoten_Reine.jpg" };
-            var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my.jpg" };
+            var newStyle = new[] { $@"{stylePath}\kandinsky_schwarz_und_violett.jpg" };
 
-            RunIt(blobContainer, queue, allIn, newStyle, 500, 750, 1.0, 50.0, false);
+            RunIt(blobContainer, queue, berge, newStyle, 500, 900, 0.05, 50.0, false);
+            RunIt(blobContainer, queue, berge, newStyle, 500, 900, 0.01, 50.0, false);
+            RunIt(blobContainer, queue, berge, newStyle, 500, 900, 0.01, 50000.0, false);
+            RunIt(blobContainer, queue, berge, newStyle, 500, 900, 0.01, 500.0, false);
+            RunIt(blobContainer, queue, berge, newStyle, 500, 900, 0.01, 5000.0, false);
+        }
+
+        private static void EnsureCorrectFilenames(string path)
+        {
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                var correctName = file.CorrectName();
+                if (correctName != file)
+                {
+                    Console.WriteLine($"renaming {file} to {correctName}");
+                    File.Move(file, correctName);
+                }
+            }
         }
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
@@ -96,7 +117,7 @@ namespace NeuralStyle.ConsoleClient
 
         private static string CreateTargetName(Job job)
         {
-            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_cw_{job.ContentWeight:F1}_sw_{job.StyleWeight:F1}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
+            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

@@ -12,7 +12,9 @@ start:
 	nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-python --restart=unless-stopped $(IMGNAME)
 	
 stop:
-	nvidia-docker stop $(docker ps -q --filter ancestor=$(IMGNAME) )
+	id = docker ps -q --filter ancestor=$(IMGNAME)
+	echo $(id)
+	nvidia-docker stop $(docker ps -q --filter ancestor=$(id) )
 
 restart: stop start
 all: build

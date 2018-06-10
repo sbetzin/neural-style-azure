@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import piexif
 import array
+import utils
 
 exif_dict = piexif.load("C:/Data/Development/Private/neural-style-azure/test.jpg")
 

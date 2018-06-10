@@ -10,6 +10,7 @@ import sys
 import os
 import logging
 import piexif
+from os.path import basename, splitext
 
 logger = logging.getLogger("neural_style")
 
@@ -475,6 +476,10 @@ def sum_shortterm_temporal_losses(sess, net, frame, input_img):
 '''
   utilities and i/o
 '''
+def filename(path):
+    """Given a full path to a file, returns just its name, without path or extension"""
+    return splitext(basename(path))[0]
+
 def read_image(path):
   # bgr image
   img = cv2.imread(path, cv2.IMREAD_COLOR)
@@ -489,13 +494,15 @@ def write_image(path, img):
 
 def write_exif(path):
   exif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}
-  styles = ",".join(args.style_imgs)
-  keywords = "{0},{1}".format(args.content_img, styles)
+  content = filename(args.content_img)
+  style_names =  map(lambda x: filename(x), args.style_imgs)
+  styles = ",".join(style_names)
+  keywords = "{0},{1}".format(content, styles)
   comment = ""
 
   exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf16"))
   exif["0th"][piexif.ImageIFD.XPKeywords] = bytearray(keywords.encode("utf16"))
-  exif["0th"][piexif.ImageIFD.XPTitle] = bytearray(args.content_img.encode("utf16"))
+  exif["0th"][piexif.ImageIFD.XPTitle] = bytearray(content.encode("utf16"))
   exif["0th"][piexif.ImageIFD.XPSubject] = bytearray(styles.encode("utf16"))
   exif["0th"][piexif.ImageIFD.XPComment] = bytearray(comment.encode("utf16"))
 

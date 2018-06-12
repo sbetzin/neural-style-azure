@@ -1,5 +1,5 @@
 .PHONY: all build clean
-IMGNAME=sbetzin/neural-style
+IMGNAME=sbetzin/neural-style-torch
 IMGTAG=latest
 
 build:

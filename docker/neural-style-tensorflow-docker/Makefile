@@ -1,5 +1,5 @@
 .PHONY: all build clean start stop restart logs
-IMGNAME=sbetzin/neural-style-python
+IMGNAME=sbetzin/neural-style-tensorflow
 IMGTAG=latest
 
 build:
@@ -12,11 +12,11 @@ start:
 	nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-python --restart=unless-stopped $(IMGNAME)
 	
 stop:
-	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-python)
+	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
 	docker container prune --force
 
 logs:
-	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-python)
+	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
 	
 restart: stop start
 all: build

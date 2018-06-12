@@ -42,18 +42,18 @@ namespace NeuralStyle.ConsoleClient
             var picassoStyles = Directory.GetFiles(stylePath, "picasso_*.jpg");
             var corinth = Directory.GetFiles(stylePath, "lovis_corinth_*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
-
+            var monet = Directory.GetFiles(stylePath, "*monet_jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var ana = Directory.GetFiles(inPath, "ana*.jpg");
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] { $@"{inPath}\sebastian_jump.jpg" };
+            var newPics = new[] {$@"{inPath}\ana_rosentreppe.jpg", $@"{inPath}\e_r_einschulung.jpg" , $@"{inPath}\e_r_baum_wasser.jpg" , $@"{inPath}\e_r_minibaum.jpg", $@"{inPath}\e_r_papagei.jpg" };
 
             var newStyle = new[] { $@"{stylePath}\elena_prokopenko_tanz7.jpg" };
 
-            RunIt(blobContainer, queue, ana, allStyles, 500, 900, 0.01, 50.0, false);
+            RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
         }
 
         private static void EnsureCorrectFilenames(string path)

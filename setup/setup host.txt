@@ -1,6 +1,5 @@
-sudo -s
-
-# CUDA https://docs.microsoft.com/de-de/azure/virtual-machines/linux/n-series-driver-setup
+# Installation manual is from
+# https://docs.microsoft.com/de-de/azure/virtual-machines/linux/n-series-driver-setup
 CUDA_REPO_PKG=cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
 #check newer one?
 #CUDA_REPO_PKG=cuda-repo-ubuntu1604_9.2.88-1_amd64.deb
@@ -31,7 +30,7 @@ sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
 
 #Setup SSH https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
-ssh-keygen -t rsa -b 4096 -C "sebastian@betzin.com"
+ssh-keygen -t rsa -b 4096 -C "<your email>"
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
 

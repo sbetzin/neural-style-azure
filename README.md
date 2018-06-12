@@ -11,11 +11,14 @@ by Leon A. Gatys, Matthias Bethge, Aaron Hertzmann, Eli Shechtman
 the main goal of project is to create a docker container running on a gpu host that connects itself to an azure storage queue waiting for new jobs. If there is a new job it will download all needed images from an azure storage blob storage and uses the jobs transformation parameter to create the neural style image. It will create two images. the first uses the colors of the style image. the seconds uses the color of the original image. both results are then uploaded to another azure blob storage.
 With this approach you can run several pysical nvidia gpu machines (or azure n-series gpu machines) to create a whole cluster to process batch neural style transformations.
 
-## Requirements for host
+## Requirements 
+### for host computer
 - nvidia drivers
 - nvidia cuda
-- nvidia-docker
+- nvidia docker
 - docker
+### for running the container
+- an [azure storage account](https://azure.microsoft.com/en-us/services/storage/) (the queue und the two blob storages are created automatically)
 
 ## Setup Host
 detailed instructions to setup a host environment

@@ -49,7 +49,7 @@ namespace NeuralStyle.ConsoleClient
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] {$@"{inPath}\ana_rosentreppe.jpg", $@"{inPath}\e_r_einschulung.jpg" , $@"{inPath}\e_r_baum_wasser.jpg" , $@"{inPath}\e_r_minibaum.jpg", $@"{inPath}\e_r_papagei.jpg" };
+            var newPics = new[] {$@"{inPath}\eric_drache.jpg", $@"{inPath}\eric_tauchen.jpg" , $@"{inPath}\familie_dino_ziehen.jpg" };
 
             var newStyle = new[] { $@"{stylePath}\elena_prokopenko_tanz7.jpg" };
 

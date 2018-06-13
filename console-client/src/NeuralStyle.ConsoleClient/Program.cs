@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -30,8 +32,11 @@ namespace NeuralStyle.ConsoleClient
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
             var inPath = @"C:\Data\images\in";
+            var outPath = @"C:\Data\images\out";
 
-            EnsureCorrectFilenames(images);
+            ImageAdapter.Ensure_Correct_Filenames(images);
+            //Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
@@ -56,19 +61,9 @@ namespace NeuralStyle.ConsoleClient
             RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
         }
 
-        private static void EnsureCorrectFilenames(string path)
-        {
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                var correctName = file.CorrectName();
-                if (correctName != file)
-                {
-                    Console.WriteLine($"renaming {file} to {correctName}");
-                    File.Move(file, correctName);
-                }
-            }
-        }
+       
+
+   
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
         {

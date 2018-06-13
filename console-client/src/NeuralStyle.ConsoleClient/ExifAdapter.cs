@@ -30,7 +30,7 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        public static (string inImage, string styleImage) GetTags2(this string file)
+        public static (string In, string Style) GetTags(this string file)
         {
             try
             {

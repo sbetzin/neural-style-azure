@@ -11,21 +11,27 @@ namespace NeuralStyle.ConsoleClient
 {
     public static class Features
     {
-        public static void Find_Missing_Combinations(string inPath, string stylePath, string outPath)
+        public static List<(string In, string Style)> Find_Missing_Combinations(string inPath, string stylePath, string outPath)
         {
+            var allIn = inPath.Get_All_Images();
+            var allStyle = stylePath.Get_All_Images();
             var allOut = outPath.Get_All_Images();
-            var allStyles = stylePath.Get_Images_Without_Extensions();
-            var allIn = inPath.Get_Images_Without_Extensions();
 
-            var allCombination = GetCombinations(allIn, allStyles).ToDictionary(combi => combi.prefix, combi => (combi.inImage, combi.styleImage));
-            var allOutImages = allOut.Select(outFile => outFile.GetTags2()).Where(result => result.inImage != null && result.styleImage != null);
-            var allOutImagesPrefixes = allOutImages.Select(result => $"{result.inImage}_{result.styleImage}_").Distinct().ToList();
+            var inWithoutExtensions = allIn.Select(image => (FullPath: image, Name: Path.GetFileNameWithoutExtension(image))).ToList();
+            var stylesWithoutExtensions = allStyle.Select(style => (FullPath: style, Name: Path.GetFileNameWithoutExtension(style))).ToList();
 
-            foreach (var prefix in allOutImagesPrefixes)
+            var allCombination = GetCombinations(inWithoutExtensions, stylesWithoutExtensions).ToList();
+            var allWithPrefixes = allCombination.Select(combination => (In: combination.In, Style: combination.Style, Prefix: BuildPrefix(combination.In.Name, combination.Style.Name))).ToList();
+            var combinationLookup = allWithPrefixes.ToDictionary(combination => combination.Prefix, combination => combination);
+
+            var allPrefixes = allOut.Select(outFile => outFile.GetTags()).Where(result => result.In != null && result.Style != null).Select(result => BuildPrefix(result.In, result.Style)).Distinct().ToList();
+
+            foreach (var prefix in allPrefixes)
             {
-                allCombination.Remove(prefix);
+                combinationLookup.Remove(prefix);
             }
 
+            return combinationLookup.Values.Select(combination => (combination.In.FullPath, combination.Style.FullPath)).ToList();
         }
 
         public static void Update_Tags_in_Existing_Images(string inPath, string stylePath, string outPath)
@@ -47,13 +53,15 @@ namespace NeuralStyle.ConsoleClient
 
         private static IEnumerable<(string, string, string)> GetImagesWithoutTags(List<string> allStyles, List<string> allIn, List<string> allOut)
         {
-            var cominations = GetCombinations(allIn, allStyles);
+            var combinations = GetCombinations(allIn, allStyles);
 
             foreach (var file in allOut)
             {
-                foreach (var (style, image, comination) in cominations)
+                foreach (var (image, style) in combinations)
                 {
-                    if (Path.GetFileNameWithoutExtension(file).StartsWith(comination))
+                    var prefix = BuildPrefix(image, style);
+
+                    if (Path.GetFileNameWithoutExtension(file).StartsWith(prefix))
                     {
                         yield return (file, image, style);
                     }
@@ -61,9 +69,15 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        private static List<(string inImage, string styleImage, string prefix)> GetCombinations(List<string> allIn, List<string> allStyles)
+        private static string BuildPrefix(string image, string style)
         {
-            return allStyles.SelectMany(styleImage => allIn, (styleImage, inImage) => (styleImage, inImage, $"{inImage}_{styleImage}_")).ToList();
+            var prefix = $"{image}_{style}_";
+            return prefix;
+        }
+
+        private static List<(T In, TR Style)> GetCombinations<T, TR>(List<T> allIn, List<TR> allStyles)
+        {
+            return allStyles.SelectMany(styleImage => allIn, (styleImage, inImage) => (In: inImage, Style: styleImage)).ToList();
 
         }
 

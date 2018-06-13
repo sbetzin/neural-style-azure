@@ -35,9 +35,11 @@ namespace NeuralStyle.ConsoleClient
             var outPath = @"C:\Data\images\out";
 
             ImageAdapter.Ensure_Correct_Filenames(images);
-            //Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            Console.WriteLine($"Found {missing.Count} missing combinations");
+
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
-            Features.FixExifTags(images);
+            //Features.FixExifTags(images);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
@@ -59,13 +61,10 @@ namespace NeuralStyle.ConsoleClient
 
             var newStyle = new[] { $@"{stylePath}\elena_prokopenko_tanz7.jpg" };
 
-            RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
+            //RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
         }
 
        
-
-   
-
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
         {
             UploadImages(blobContainer, images);

@@ -501,11 +501,11 @@ def write_exif(path):
   comment = "max_size={0},max_iterations={1},init_img_type={2},content_weight={3},style_weight={4},color_convert_type={5},pooling_type={6},optimizer={7},learning_rate={8}".format(
     args.max_size, args.max_iterations, args.init_img_type, args.content_weight, args.style_weight, args.color_convert_type, args.pooling_type, args.optimizer, args.learning_rate)
 
-  exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf16"))
-  exif["0th"][piexif.ImageIFD.XPKeywords] = bytearray(keywords.encode("utf16"))
-  exif["0th"][piexif.ImageIFD.XPTitle] = bytearray(content.encode("utf16"))
-  exif["0th"][piexif.ImageIFD.XPSubject] = bytearray(styles.encode("utf16"))
-  exif["0th"][piexif.ImageIFD.XPComment] = bytearray(comment.encode("utf16"))
+  exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPKeywords] = bytearray(keywords.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPTitle] = bytearray(content.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPSubject] = bytearray(styles.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPComment] = bytearray(comment.encode("utf-16-le"))
 
   exif_bytes = piexif.dump(exif)
   piexif.insert(exif_bytes, path)

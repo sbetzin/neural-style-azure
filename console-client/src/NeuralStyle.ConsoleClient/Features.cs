@@ -66,5 +66,15 @@ namespace NeuralStyle.ConsoleClient
             return allStyles.SelectMany(styleImage => allIn, (styleImage, inImage) => (styleImage, inImage, $"{inImage}_{styleImage}_")).ToList();
 
         }
+
+        public static void FixExifTags(string images)
+        {
+            var allImages = images.Get_All_Images();
+
+            foreach (var image in allImages)
+            {
+                image.FixTags();
+            }
+        }
     }
 }

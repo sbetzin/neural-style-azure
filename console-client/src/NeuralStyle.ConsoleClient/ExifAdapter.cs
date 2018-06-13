@@ -11,25 +11,22 @@ namespace NeuralStyle.ConsoleClient
 {
     public static class ExifAdapter
     {
-        public static (string inImage, string styleImage) GetTags(this string file)
+        public static void FixTags(this string file)
         {
             var bytes = File.ReadAllBytes(file);
             var stream = new MemoryStream(bytes);
+
             using (var bitmap = Image.FromStream(stream))
             {
-                string inImage = null;
-                string styleImage = null;
-                if (bitmap.PropertyItems.Any(item => item.Id == 40091))
+                var tags = bitmap.PropertyItems;
+                foreach (var tag in tags)
                 {
-                    inImage = Encoding.Unicode.GetString(bitmap.GetPropertyItem(40091).Value);
+                    tag.Value = tag.Value.FixUnicodeBug();
+
+                    bitmap.SetPropertyItem(tag);
                 }
 
-                if (bitmap.PropertyItems.Any(item => item.Id == 40095))
-                {
-                    styleImage = Encoding.Unicode.GetString(bitmap.GetPropertyItem(40095).Value);
-                }
-
-                return (inImage, styleImage);
+                bitmap.Save(file);
             }
         }
 
@@ -54,7 +51,7 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        public static string FixUnicodeBug(this string value)
+        private static string FixUnicodeBug(this string value)
         {
             var bytes = Encoding.Unicode.GetBytes(value);
             if (bytes[0] != 255 || bytes[1] != 254)
@@ -65,7 +62,16 @@ namespace NeuralStyle.ConsoleClient
             var correctedBytes = bytes.Skip(2).ToArray();
 
             return Encoding.Unicode.GetString(correctedBytes);
+        }
 
+        private static byte[] FixUnicodeBug(this byte[] value)
+        {
+            if (value[0] != 255 || value[1] != 254)
+            {
+                return value;
+            }
+
+            return value.Skip(2).ToArray();
         }
 
         public static void UpdateTags(this string file, string image, string style)

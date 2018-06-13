@@ -37,6 +37,7 @@ namespace NeuralStyle.ConsoleClient
             ImageAdapter.Ensure_Correct_Filenames(images);
             //Features.Find_Missing_Combinations(inPath, stylePath, outPath);
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
+            Features.FixExifTags(images);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");

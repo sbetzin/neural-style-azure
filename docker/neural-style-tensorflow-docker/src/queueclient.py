@@ -14,22 +14,13 @@ from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
 from neural_style import main as neural_style_calc
 
-env_connection = os.environ['AzureStorageConnectionString']
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
 
 azure_logger = logging.getLogger('azure.storage')
 azure_logger.setLevel(logging.ERROR)
 
-try:
-    queue_service = QueueService(connection_string=env_connection)
-    blob_service = BlockBlobService(connection_string=env_connection)
-except Exception as e:
-    logger.error(e)
-        
-
-def prepare_queue(queue_name):
+def prepare_queue(queue_service, queue_name):
     try:
         if not queue_service.exists(queue_name):
             logger.info("creating queue: %s", queue_name)
@@ -37,9 +28,16 @@ def prepare_queue(queue_name):
     except Exception as e:
         logger.error(e)
 
-def handle_message(message):
+def prepare_blob(blob_service, container_name):
     try:
-        logger.info("handling new message " + message.id )
+        if not blob_service.exists(container_name = container_name):
+            blob_service.create_container(container_name = container_name)
+    except Exception as e:
+        logger.error(e)
+
+def handle_message(blob_service, message):
+    try:
+        logger.info("handling new message %s", message.id )
         job = json.loads(message.content)
         source_name = job["SourceName"]
         style_name = job["StyleName"]
@@ -79,12 +77,12 @@ def handle_message(message):
 
         neural_style_calc(args)
 
-        upload_file(target_name_origcolor_0, out_file_origcolor_0)
-        upload_file(target_name_origcolor_1, out_file_origcolor_1)
+        upload_file(blob_service, target_name_origcolor_0, out_file_origcolor_0)
+        upload_file(blob_service, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.error(e)
 
-def upload_file(target_name, file_name):
+def upload_file(blob_service, target_name, file_name):
     try:
         if os.path.exists(file_name):
             logger.info ("uploading file %s", file_name)
@@ -94,7 +92,7 @@ def upload_file(target_name, file_name):
     except Exception as e:
         logger.error(e)
 
-def poll_queue(queue_name):
+def poll_queue(queue_service, blob_service, queue_name):
     try:
         logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
@@ -102,13 +100,22 @@ def poll_queue(queue_name):
 
             if len(messages) > 0:
                 message = messages[0]
-                handle_message(message)
+                handle_message(blob_service, message)
                 queue_service.delete_message(queue_name, message.id, message.pop_receipt)
             
             time.sleep(5)
     except Exception as e:
         logger.error(e)
 
+def setup_azure(azure_connection_string):
+    try:
+        queue_service = QueueService(connection_string=azure_connection_string)
+        blob_service = BlockBlobService(connection_string=azure_connection_string)
+    except Exception as e:
+        logger.error(e)
+
+    return (queue_service, blob_service)
+        
 def parse_args(argv):
 
     desc = "QueueClient for tensorflow implementation of Neural-Style"  
@@ -123,9 +130,22 @@ def main(argv):
     logger.info("parsing arguments")
     args = parse_args(argv)
 
+    azure_connection_string = os.getenv("AzureStorageConnectionString")
+    if azure_connection_string == None:
+        raise NameError("environment variable AzureStorageConnectionString is not set")
+
+    if not os.getenv("AzureStorageQueueName") == None:
+        args.queue_name = os.getenv("AzureStorageQueueName")
+
+    queue_service, blob_service = setup_azure(azure_connection_string)
+
+    logger.info ("preparing azure resources")
+    prepare_queue(queue_service, args.queue_name)
+    prepare_blob(blob_service, "images")
+    prepare_blob(blob_service, "results")
+
     logger.info ("starting queue client")
-    prepare_queue(args.queue_name)
-    poll_queue(args.queue_name)
+    poll_queue(queue_service, blob_service, args.queue_name)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

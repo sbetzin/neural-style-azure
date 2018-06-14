@@ -48,7 +48,7 @@ namespace NeuralStyle.ConsoleClient
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] { $@"{inPath}\ana_burg.jpg" };
+            var newPics = new[] { $@"{inPath}\eric_pool.jpg" };
 
             var newStyle = new[] { $@"{stylePath}\kandinsky_schwarz_und_violett.jpg" };
 

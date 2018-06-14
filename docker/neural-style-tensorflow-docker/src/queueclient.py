@@ -4,9 +4,11 @@ import time
 import json
 import base64
 import os
+import sys
 import os.path
 import logging
 import numpy
+import argparse 
 
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
@@ -27,11 +29,11 @@ except Exception as e:
     logger.error(e)
         
 
-def prepare_queue():
+def prepare_queue(queue_name):
     try:
-        if not queue_service.exists('jobs'):
-            logger.info('creating queue: jobs')
-            queue_service.create_queue('jobs')
+        if not queue_service.exists(queue_name):
+            logger.info("creating queue: %s", queue_name)
+            queue_service.create_queue(queue_name)
     except Exception as e:
         logger.error(e)
 
@@ -93,12 +95,12 @@ def upload_file(target_name, file_name):
             logger.info("file %s does not exit", file_name)
     except Exception as e:
         logger.error(e)
-        
-def poll_queue():
+
+def poll_queue(queue_name):
     try:
-        logger.info ("starting to poll jobs queue")
+        logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
-            messages = queue_service.get_messages('jobs', num_messages=1, visibility_timeout=10*60)
+            messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=10*60)
 
             if len(messages) > 0:
                 handle_message(messages[0])
@@ -107,8 +109,23 @@ def poll_queue():
     except Exception as e:
         logger.error(e)
 
+def parse_args(argv):
 
-logger.info ("starting queue client")
-prepare_queue()
-poll_queue()
+    desc = "QueueClient for tensorflow implementation of Neural-Style"  
+    parser = argparse.ArgumentParser(description=desc)
 
+    parser.add_argument('--queue_name', type=str, default='jobs', help='name of the queue to poll')
+    args = parser.parse_args(argv)
+
+    return args
+
+def main(argv):
+    logger.info("parsing arguments")
+    args = parse_args(argv)
+
+    logger.info ("starting queue client")
+    prepare_queue(args.queue_name)
+    poll_queue(args.queue_name)
+
+if __name__ == '__main__':
+  main(sys.argv[1:])

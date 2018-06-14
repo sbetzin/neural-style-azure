@@ -16,8 +16,9 @@ from neural_style import main as neural_style_calc
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
+logger.setLevel(logging.INFO)
 
-azure_logger = logging.getLogger('azure.storage')
+azure_logger = logging.getLogger("azure.storage")
 azure_logger.setLevel(logging.ERROR)
 
 def prepare_queue(queue_service, queue_name):

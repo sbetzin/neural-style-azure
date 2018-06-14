@@ -1,12 +1,33 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace NeuralStyle.ConsoleClient
 {
     public static class BlobAdapter
     {
+        public static CloudBlobContainer GetBlobContainer(string connectionString, string containerName)
+        {
+            var storageAccount = CloudStorageAccount.Parse(connectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+
+            var blobContainer = blobClient.GetContainerReference(containerName).EnsureThatExists();
+
+            return blobContainer;
+        }
+
+        private static CloudBlobContainer EnsureThatExists(this CloudBlobContainer blobContainer)
+        {
+            if (!blobContainer.ExistsAsync().Result)
+            {
+                blobContainer.CreateAsync().Wait();
+            }
+
+            return blobContainer;
+        }
+
         public static async Task UploadToBlob(this string file, CloudBlobContainer container)
         {
             var name = Path.GetFileName(file);

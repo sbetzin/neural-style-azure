@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
-using NeuralStyle.ConsoleClient.Model;
-using Newtonsoft.Json;
 
 namespace NeuralStyle.ConsoleClient
 {
@@ -19,16 +13,11 @@ namespace NeuralStyle.ConsoleClient
         private static void Main(string[] args)
         {
             var queueName = "jobs-large";
+            var containerName = "images";
+
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
-            var storageAccount = CloudStorageAccount.Parse(connectionString);
-
-            var queueClient = storageAccount.CreateCloudQueueClient();
-            var blobClient = storageAccount.CreateCloudBlobClient();
-
-            var queue = queueClient.GetQueueReference(queueName);
-            queue.EncodeMessage = false;
-
-            var blobContainer = blobClient.GetContainerReference("images");
+            var queue = QueueAdapter.GetAzureQueue(connectionString, queueName);
+            var container = BlobAdapter.GetBlobContainer(connectionString, containerName);
 
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
@@ -59,11 +48,11 @@ namespace NeuralStyle.ConsoleClient
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] {$@"{inPath}\ana_burg.jpg" };
+            var newPics = new[] { $@"{inPath}\ana_burg.jpg" };
 
             var newStyle = new[] { $@"{stylePath}\kandinsky_schwarz_und_violett.jpg" };
 
-            RunIt(blobContainer, queue, newPics, newStyle, 750, 2500, 0.01, 50.0);
+            RunIt(container, queue, newPics, newStyle, 750, 3000, 0.01, 50.0);
         }
 
 
@@ -71,10 +60,9 @@ namespace NeuralStyle.ConsoleClient
         {
             foreach (var (inImage, styleImage) in missingImagePairs)
             {
-                CreateJob(queue, inImage, styleImage, iterations, size, contentWeight, styleWeight).Wait();
+                queue.CreateJob(inImage, styleImage, iterations, size, contentWeight, styleWeight).Wait();
             }
         }
-
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
         {
@@ -100,28 +88,8 @@ namespace NeuralStyle.ConsoleClient
             Console.WriteLine($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                await CreateJob(queue, sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
+                await queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
             }
-        }
-
-        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
-        {
-            var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight };
-            job.TargetName = CreateTargetName(job);
-
-            var json = JsonConvert.SerializeObject(job);
-            var message = new CloudQueueMessage(json);
-
-            await queue.AddMessageAsync(message);
-
-            Console.WriteLine($"   added job for image {sourceFile} with style {styleFile}");
-        }
-
-        private static string CreateTargetName(Job job)
-        {
-            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
-
-            return name.ToString(new CultureInfo("en-US"));
         }
     }
 }

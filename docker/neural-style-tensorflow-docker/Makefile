@@ -9,7 +9,7 @@ clean:
 	docker rmi $(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-tensorflow --restart=unless-stopped $(IMGNAME)
+	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow --restart=unless-stopped $(IMGNAME)
 	
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
@@ -22,7 +22,7 @@ logs:
 	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
 	
 console:
-	nvidia-docker run --rm -it -e AzureStorageConnectionString --name neural-style-tensorflow-console --entrypoint /bin/bash $(IMGNAME)
+	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-console --entrypoint /bin/bash $(IMGNAME)
 	
 restart: stop start
 all: build

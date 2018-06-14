@@ -18,13 +18,14 @@ namespace NeuralStyle.ConsoleClient
     {
         private static void Main(string[] args)
         {
+            var queueName = "jobs-large";
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
             var storageAccount = CloudStorageAccount.Parse(connectionString);
 
             var queueClient = storageAccount.CreateCloudQueueClient();
             var blobClient = storageAccount.CreateCloudBlobClient();
 
-            var queue = queueClient.GetQueueReference("jobs");
+            var queue = queueClient.GetQueueReference(queueName);
             queue.EncodeMessage = false;
 
             var blobContainer = blobClient.GetContainerReference("images");
@@ -40,7 +41,7 @@ namespace NeuralStyle.ConsoleClient
 
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
             //Features.FixExifTags(images);
-            CreateMissingJobs(queue, missing, 500, 900, 0.1, 50.0);
+            //CreateMissingJobs(queue, missing, 500, 900, 0.1, 50.0);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
@@ -58,11 +59,11 @@ namespace NeuralStyle.ConsoleClient
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] {$@"{inPath}\eric_drache.jpg", $@"{inPath}\eric_tauchen.jpg" , $@"{inPath}\familie_dino_ziehen.jpg" };
+            var newPics = new[] {$@"{inPath}\ana_burg.jpg" };
 
-            var newStyle = new[] { $@"{stylePath}\elena_prokopenko_tanz7.jpg" };
+            var newStyle = new[] { $@"{stylePath}\kandinsky_schwarz_und_violett.jpg" };
 
-            //RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
+            RunIt(blobContainer, queue, newPics, newStyle, 750, 2500, 0.01, 50.0);
         }
 
 

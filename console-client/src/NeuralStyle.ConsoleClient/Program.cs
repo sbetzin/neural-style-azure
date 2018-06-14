@@ -40,6 +40,7 @@ namespace NeuralStyle.ConsoleClient
 
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
             //Features.FixExifTags(images);
+            CreateMissingJobs(queue, missing, 500, 900, 0.1, 50.0);
 
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
@@ -64,13 +65,22 @@ namespace NeuralStyle.ConsoleClient
             //RunIt(blobContainer, queue, newPics, allStyles, 500, 900, 0.1, 50.0, false);
         }
 
-       
-        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
+
+        private static void CreateMissingJobs(CloudQueue queue, List<(string In, string Style)> missingImagePairs, int iterations, int size, double contentWeight, double styleWeight)
+        {
+            foreach (var (inImage, styleImage) in missingImagePairs)
+            {
+                CreateJob(queue, inImage, styleImage, iterations, size, contentWeight, styleWeight).Wait();
+            }
+        }
+
+
+        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
         {
             UploadImages(blobContainer, images);
             UploadImages(blobContainer, styles);
 
-            CreateJobs(queue, images, styles, iterations, size, styleWeight, contentWeight, useOriginalColors).Wait();
+            CreateJobs(queue, images, styles, iterations, size, styleWeight, contentWeight).Wait();
         }
 
         private static void UploadImages(CloudBlobContainer blobContainer, string[] images)
@@ -82,20 +92,20 @@ namespace NeuralStyle.ConsoleClient
             }
         }
 
-        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
+        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
             Console.WriteLine($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                await CreateJob(queue, sourceFile, styleFile, iterations, size, styleWeight, contentWeight, useOriginalColors);
+                await CreateJob(queue, sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
             }
         }
 
-        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight, bool useOriginalColors)
+        private static async Task CreateJob(CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
         {
-            var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight, UseOriginalColors = useOriginalColors };
+            var job = new Job { SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight };
             job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);

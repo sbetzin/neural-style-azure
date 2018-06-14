@@ -19,7 +19,7 @@ pull:
 	docker pull $(IMGNAME):$(IMGTAG)
 	
 logs:
-	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
+	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-tensorflow*")
 	
 console:
 	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-console --entrypoint /bin/bash $(IMGNAME)

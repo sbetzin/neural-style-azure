@@ -84,8 +84,6 @@ def handle_message(message):
     except Exception as e:
         logger.error(e)
 
-    queue_service.delete_message('jobs', message.id, message.pop_receipt)
-
 def upload_file(target_name, file_name):
     try:
         if os.path.exists(file_name):
@@ -103,7 +101,9 @@ def poll_queue(queue_name):
             messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=10*60)
 
             if len(messages) > 0:
-                handle_message(messages[0])
+                message = messages[0]
+                handle_message(message)
+                queue_service.delete_message(queue_name, message.id, message.pop_receipt)
             
             time.sleep(5)
     except Exception as e:

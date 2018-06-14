@@ -50,6 +50,9 @@ sudo -H nano /etc/environment
 append the lines
 **AzureStorageConnectionString="<yourstorageconnection>"**
 
+and optional (if you want to change the default name "jobs")
+**AzureStorageQueueName="jobs"**
+
 if you dont have nano installed you can easily get it
 ```bash
 sudo apt-get install nano
@@ -61,6 +64,7 @@ sudo reboot
 ### 7. Check environment variable is working correctly
 ```bash
 echo $AzureStorageConnectionString
+echo $AzureStorageQueueName
 ```
 ### 8. setup ssh to commit back to githup (optional)
 https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/

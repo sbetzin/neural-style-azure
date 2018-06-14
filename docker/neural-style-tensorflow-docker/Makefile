@@ -22,7 +22,7 @@ logs:
 	nvidia-docker logs $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)
 	
 console:
-	nvidia-docker run --rm -it AzureStorageConnectionString --name neural-style-python-console --entrypoint /bin/bash sbetzin/neural-style $(IMGNAME)
+	nvidia-docker run --rm -it AzureStorageConnectionString --name neural-style-python-console --entrypoint /bin/bash $(IMGNAME)
 	
 restart: stop start
 all: build

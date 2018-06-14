@@ -9,7 +9,7 @@ clean:
 	docker rmi $(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-python --restart=unless-stopped $(IMGNAME)
+	nvidia-docker run --rm -d -e AzureStorageConnectionString --name neural-style-python --restart=unless-stopped $(IMGNAME)
 	
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter ancestor=sbetzin/neural-style-tensorflow)

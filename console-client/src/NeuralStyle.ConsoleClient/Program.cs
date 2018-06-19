@@ -12,7 +12,7 @@ namespace NeuralStyle.ConsoleClient
     {
         private static void Main(string[] args)
         {
-            var queueName = "jobs-large";
+            var queueName = "jobs";
             var containerName = "images";
 
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
@@ -25,8 +25,8 @@ namespace NeuralStyle.ConsoleClient
             var outPath = @"C:\Data\images\out";
 
             ImageAdapter.Ensure_Correct_Filenames(images);
-            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
-            Console.WriteLine($"Found {missing.Count} missing combinations");
+            //var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            //Console.WriteLine($"Found {missing.Count} missing combinations");
 
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
             //Features.FixExifTags(images);
@@ -48,11 +48,27 @@ namespace NeuralStyle.ConsoleClient
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
 
-            var newPics = new[] { $@"{inPath}\eric_pool.jpg" };
+            var bestStyles = kandinskyStyles.Union(modernArtStyle).Union(picassoStyles).Union(new List<string>
+            {
+                $@"{stylePath}\abstract.jpg", 
+                $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg", 
+                $@"{stylePath}\albert_weisgerber_englischer_garten.jpg", 
+                $@"{stylePath}\candy.jpg", 
+                $@"{stylePath}\dieu_deep_in_my.jpg", 
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg", 
+                $@"{stylePath}\expressionismus.jpg", 
+                $@"{stylePath}\lovis_corinth_walchensee.jpg", 
+                $@"{stylePath}\matisse_woman_with_hat.jpg", 
+                $@"{stylePath}\uta_welcker_annies_verwandtschaft.jpg", 
+                $@"{stylePath}\yosi_losaij_you_and_me.jpg", 
+            }).ToList();
 
-            var newStyle = new[] { $@"{stylePath}\kandinsky_schwarz_und_violett.jpg" };
 
-            RunIt(container, queue, newPics, newStyle, 750, 3000, 0.01, 50.0);
+            var newPics = new[] { $@"{inPath}\as_karrikatur.jpg"};
+
+            var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my_large.jpg" };
+
+            RunIt(container, queue, newPics, allStyles, 500, 1000, 0.01, 50.0);
         }
 
 

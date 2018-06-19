@@ -13,9 +13,9 @@ namespace NeuralStyle.ConsoleClient
     {
         public static List<(string In, string Style)> Find_Missing_Combinations(string inPath, string stylePath, string outPath)
         {
-            var allIn = inPath.Get_All_Images();
-            var allStyle = stylePath.Get_All_Images();
-            var allOut = outPath.Get_All_Images();
+            var allIn = inPath.Get_All_Images(SearchOption.TopDirectoryOnly);
+            var allStyle = stylePath.Get_All_Images(SearchOption.TopDirectoryOnly);
+            var allOut = outPath.Get_All_Images(SearchOption.AllDirectories);
 
             var inWithoutExtensions = allIn.Select(image => (FullPath: image, Name: Path.GetFileNameWithoutExtension(image))).ToList();
             var stylesWithoutExtensions = allStyle.Select(style => (FullPath: style, Name: Path.GetFileNameWithoutExtension(style))).ToList();
@@ -36,9 +36,9 @@ namespace NeuralStyle.ConsoleClient
 
         public static void Update_Tags_in_Existing_Images(string inPath, string stylePath, string outPath)
         {
-            var allStyles = stylePath.Get_Images_Without_Extensions();
-            var allIn = inPath.Get_Images_Without_Extensions();
-            var allOut = outPath.Get_All_Images_Without_Extensions();
+            var allStyles = stylePath.Get_Images_Without_Extensions(SearchOption.AllDirectories);
+            var allIn = inPath.Get_Images_Without_Extensions(SearchOption.AllDirectories);
+            var allOut = outPath.Get_All_Images_Without_Extensions(SearchOption.AllDirectories);
 
             var images = GetImagesWithoutTags(allStyles, allIn, allOut);
 
@@ -83,7 +83,7 @@ namespace NeuralStyle.ConsoleClient
 
         public static void FixExifTags(string images)
         {
-            var allImages = images.Get_All_Images();
+            var allImages = images.Get_All_Images(SearchOption.AllDirectories);
 
             foreach (var image in allImages)
             {

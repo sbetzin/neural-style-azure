@@ -12,7 +12,7 @@ namespace NeuralStyle.ConsoleClient
     {
         private static void Main(string[] args)
         {
-            var queueName = "jobs";
+            var queueName = "jobs-large";
             var containerName = "images";
 
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
@@ -42,29 +42,25 @@ namespace NeuralStyle.ConsoleClient
 
             var bestStyles = kandinskyStyles.Union(modernArtStyle).Union(picassoStyles).Union(new List<string>
             {
-                $@"{stylePath}\abstract.jpg", 
-                $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg", 
-                $@"{stylePath}\albert_weisgerber_englischer_garten.jpg", 
-                $@"{stylePath}\candy.jpg", 
-                $@"{stylePath}\dieu_deep_in_my.jpg", 
-                $@"{stylePath}\elena_prokopenko_tanz7.jpg", 
-                $@"{stylePath}\expressionismus.jpg", 
-                $@"{stylePath}\lovis_corinth_walchensee.jpg", 
-                $@"{stylePath}\matisse_woman_with_hat.jpg", 
-                $@"{stylePath}\uta_welcker_annies_verwandtschaft.jpg", 
-                $@"{stylePath}\yosi_losaij_you_and_me.jpg", 
+                $@"{stylePath}\abstract.jpg",
+                $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg",
+                $@"{stylePath}\albert_weisgerber_englischer_garten.jpg",
+                $@"{stylePath}\candy.jpg",
+                $@"{stylePath}\dieu_deep_in_my.jpg",
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg",
+                $@"{stylePath}\expressionismus.jpg",
+                $@"{stylePath}\lovis_corinth_walchensee.jpg",
+                $@"{stylePath}\matisse_woman_with_hat.jpg",
+                $@"{stylePath}\uta_welcker_annies_verwandtschaft.jpg",
+                $@"{stylePath}\yosi_losaij_you_and_me.jpg",
             }).ToList();
 
-            var newPics = new[] { $@"{inPath}\as_karrikatur.jpg"};
+            var newPics = new[] { $@"{inPath}\as_karrikatur.jpg" };
             var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my_large.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
-            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
-            Console.WriteLine($"Found {missing.Count} missing combinations");
 
-            UploadImages(container, allIn);
-            UploadImages(container, allStyles);
-            CreateMissingJobs(queue, missing, 500, 1000, 0.01, 50.0);
+            Create_Missing_Jobs(container, queue, inPath, stylePath, outPath, 500, 1000, 0.01, 50.0);
 
             //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
             //Features.FixExifTags(images);
@@ -72,13 +68,17 @@ namespace NeuralStyle.ConsoleClient
             //RunIt(container, queue, newPics, allStyles, 500, 1000, 0.01, 50.0);
         }
 
-
-        private static void CreateMissingJobs(CloudQueue queue, List<(string In, string Style)> missingImagePairs, int iterations, int size, double contentWeight, double styleWeight)
+        private static void Create_Missing_Jobs(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, int iterations, int size, double contentWeight, double styleWeight)
         {
-            foreach (var (inImage, styleImage) in missingImagePairs)
-            {
-                queue.CreateJob(inImage, styleImage, iterations, size, contentWeight, styleWeight).Wait();
-            }
+            var allIn = Directory.GetFiles(inPath, "*.jpg");
+            var allStyles = Directory.GetFiles(stylePath, "*.jpg");
+            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            Console.WriteLine($"Found {missing.Count} missing combinations");
+
+            UploadImages(container, allIn);
+            UploadImages(container, allStyles);
+
+            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight).Wait());
         }
 
         private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)

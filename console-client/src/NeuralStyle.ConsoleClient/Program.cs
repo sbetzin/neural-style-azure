@@ -24,14 +24,6 @@ namespace NeuralStyle.ConsoleClient
             var inPath = @"C:\Data\images\in";
             var outPath = @"C:\Data\images\out";
 
-            ImageAdapter.Ensure_Correct_Filenames(images);
-            //var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
-            //Console.WriteLine($"Found {missing.Count} missing combinations");
-
-            //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
-            //Features.FixExifTags(images);
-            //CreateMissingJobs(queue, missing, 500, 900, 0.1, 50.0);
-
             var kandinskyStyles = Directory.GetFiles(stylePath, "kandinsky_*.jpg");
             var modernArtStyle = Directory.GetFiles(stylePath, "modern_art_*.jpg");
             var danceStyles = Directory.GetFiles(stylePath, "elena_prokopenko_*.jpg");
@@ -63,12 +55,21 @@ namespace NeuralStyle.ConsoleClient
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg", 
             }).ToList();
 
-
             var newPics = new[] { $@"{inPath}\as_karrikatur.jpg"};
-
             var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my_large.jpg" };
 
-            RunIt(container, queue, newPics, allStyles, 500, 1000, 0.01, 50.0);
+            ImageAdapter.Ensure_Correct_Filenames(images);
+            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
+            Console.WriteLine($"Found {missing.Count} missing combinations");
+
+            UploadImages(container, allIn);
+            UploadImages(container, allStyles);
+            CreateMissingJobs(queue, missing, 500, 1000, 0.01, 50.0);
+
+            //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
+            //Features.FixExifTags(images);
+
+            //RunIt(container, queue, newPics, allStyles, 500, 1000, 0.01, 50.0);
         }
 
 

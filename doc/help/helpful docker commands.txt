@@ -23,7 +23,9 @@ sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/b
 
 
 # Run the fast neural style on all in images
-sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/models/style/expressionismus_vgg16_cw_0.1_sw_1_size_512.t7 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
+sudo nvidia-docker run --rm -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style -c 'cd /app/fast-neural-style/ && th fast_neural_style.lua -model /training/models/style/expressionismus_vgg16_cw_0.1_sw_10_size_512 -input_dir /training/in/ -output_dir /training/out/ -image_size 0 -gpu 0'
+
+
 
 
 
@@ -45,4 +47,6 @@ sudo nvidia-docker run --rm -it -v ~/images:/training sbetzin/neural-style-pytho
 
 sudo nohup bash batch.sh &
 
+# Online help for bash syntax check
+https://www.shellcheck.net/
 

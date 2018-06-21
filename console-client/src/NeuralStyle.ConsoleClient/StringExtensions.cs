@@ -13,5 +13,11 @@ namespace NeuralStyle.ConsoleClient
 
             return Path.Combine(path, name);
         }
+
+        public static string BuildPrefix(this string image, string style)
+        {
+            var prefix = $"{image}_{style}_";
+            return prefix;
+        }
     }
 }

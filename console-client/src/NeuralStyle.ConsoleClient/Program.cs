@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage.Queue;
+using NeuralStyle.ConsoleClient.Features;
 
 namespace NeuralStyle.ConsoleClient
 {
@@ -12,7 +10,7 @@ namespace NeuralStyle.ConsoleClient
     {
         private static void Main(string[] args)
         {
-            var queueName = "jobs-large";
+            var queueName = "jobs";
             var containerName = "images";
 
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
@@ -34,6 +32,7 @@ namespace NeuralStyle.ConsoleClient
             var corinth = Directory.GetFiles(stylePath, "lovis_corinth_*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
+            var ivanov = Directory.GetFiles(stylePath, "eugene_ivanov_*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var ana = Directory.GetFiles(inPath, "ana*.jpg");
@@ -55,58 +54,17 @@ namespace NeuralStyle.ConsoleClient
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg",
             }).ToList();
 
-            var newPics = new[] { $@"{inPath}\as_karrikatur.jpg" };
-            var newStyle = new[] { $@"{stylePath}\dieu_deep_in_my_large.jpg" };
+            var newPics = new[] { $@"{inPath}\kraemerbruecke_2.jpg" };
+            var newStyle = new[] { $@"{stylePath}\abstract_5.jpg", $@"{stylePath}\abstract_6.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            Create_Missing_Jobs(container, queue, inPath, stylePath, outPath, 500, 1000, 0.01, 50.0);
+            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.001, 50.0);
 
-            //Features.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
-            //Features.FixExifTags(images);
+            //UpdateTags.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
+            //UpdateTags.FixExifTags(images);
 
-            //RunIt(container, queue, newPics, allStyles, 500, 1000, 0.01, 50.0);
-        }
-
-        private static void Create_Missing_Jobs(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, int iterations, int size, double contentWeight, double styleWeight)
-        {
-            var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var allStyles = Directory.GetFiles(stylePath, "*.jpg");
-            var missing = Features.Find_Missing_Combinations(inPath, stylePath, outPath);
-            Console.WriteLine($"Found {missing.Count} missing combinations");
-
-            UploadImages(container, allIn);
-            UploadImages(container, allStyles);
-
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight).Wait());
-        }
-
-        private static void RunIt(CloudBlobContainer blobContainer, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
-        {
-            UploadImages(blobContainer, images);
-            UploadImages(blobContainer, styles);
-
-            CreateJobs(queue, images, styles, iterations, size, styleWeight, contentWeight).Wait();
-        }
-
-        private static void UploadImages(CloudBlobContainer blobContainer, string[] images)
-        {
-            Console.WriteLine($"checking {images.Length} images for upload");
-            foreach (var image in images)
-            {
-                image.UploadToBlob(blobContainer).Wait();
-            }
-        }
-
-        private static async Task CreateJobs(CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
-        {
-            var jobs = sourceFiles.Product(styleFiles).ToList();
-
-            Console.WriteLine($"Creating {jobs.Count} jobs");
-            foreach (var (sourceFile, styleFile) in jobs)
-            {
-                await queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
-            }
+            CreateJobs.CreateNew(container, queue, allIn, ivanov, 500, 950, 0.001, 50.0);
         }
     }
 }

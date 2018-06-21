@@ -28,6 +28,15 @@ namespace NeuralStyle.ConsoleClient
             return blobContainer;
         }
 
+        public static void UploadImages(this CloudBlobContainer blobContainer, string[] images)
+        {
+            Console.WriteLine($"checking {images.Length} images for upload");
+            foreach (var image in images)
+            {
+                image.UploadToBlob(blobContainer).Wait();
+            }
+        }
+
         public static async Task UploadToBlob(this string file, CloudBlobContainer container)
         {
             var name = Path.GetFileName(file);

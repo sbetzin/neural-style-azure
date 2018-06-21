@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -11,6 +13,17 @@ namespace NeuralStyle.ConsoleClient
 {
     public static class QueueAdapter
     {
+        public  static async Task CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
+        {
+            var jobs = sourceFiles.Product(styleFiles).ToList();
+
+            Console.WriteLine($"Creating {jobs.Count} jobs");
+            foreach (var (sourceFile, styleFile) in jobs)
+            {
+                await queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
+            }
+        }
+
         public static CloudQueue GetAzureQueue(string connectionString, string queueName)
         {
             var storageAccount = CloudStorageAccount.Parse(connectionString);

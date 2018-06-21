@@ -7,8 +7,13 @@ RUN pip install --upgrade pip && pip install opencv-python-headless wheel azure-
 WORKDIR /app
 RUN git clone https://github.com/brade31919/SRGAN-tensorflow.git
 
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
+WORKDIR /app/SRGAN-tensorflow
 
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/srgan-pretrained/SRGAN_pre-trained.tar && tar xvf SRGAN_pre-trained.tar && rm SRGAN_pre-trained.tar
+
+WORKDIR /app/SRGAN-tensorflow/data/test_LR
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/ana.jpg
 
 
 #RUN mkdir /app/images

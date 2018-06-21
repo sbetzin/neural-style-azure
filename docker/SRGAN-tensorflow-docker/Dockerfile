@@ -9,8 +9,9 @@ RUN git clone https://github.com/brade31919/SRGAN-tensorflow.git
 WORKDIR /app
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
 
-RUN mkdir /app/images
+#RUN mkdir /app/images
 
-COPY ["/src/*.py" ,"/app/"]
+#COPY ["/src/*.py" ,"/app/"]
 
-ENTRYPOINT ["python", "/app/queueclient.py"]
+ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["python", "/app/queueclient.py"]

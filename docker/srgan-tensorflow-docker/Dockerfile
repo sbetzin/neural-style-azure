@@ -15,6 +15,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 WORKDIR /app/SRGAN-tensorflow/data/test_LR
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/ana.png
 
+WORKDIR /app/SRGAN-tensorflow
 
 #RUN mkdir /app/images
 

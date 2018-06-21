@@ -11,3 +11,8 @@ blobxfer upload --storage-account neuralstylefiles --sas "<key>" --remote-path m
 
 
 blobxfer download --storage-account neuralstylefiles --sas "<key>" --remote-path models/style --local-path /datadrive/training/models --no-overwrite
+
+
+
+
+blobxfer upload --storage-account neuralstylefiles --sas "" --remote-path results/srgan --local-path ana.png

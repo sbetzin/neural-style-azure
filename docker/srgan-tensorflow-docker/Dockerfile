@@ -13,7 +13,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/srgan-pretrained/SRGAN_pre-trained.tar && tar xvf SRGAN_pre-trained.tar && rm SRGAN_pre-trained.tar
 
 WORKDIR /app/SRGAN-tensorflow/data/test_LR
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/ana.png
+RUN rm *.png  && wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/ana.png
 
 WORKDIR /app/SRGAN-tensorflow
 

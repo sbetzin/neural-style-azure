@@ -59,12 +59,13 @@ namespace NeuralStyle.ConsoleClient
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.001, 50.0);
+            SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             //UpdateTags.Update_Tags_in_Existing_Images(inPath, stylePath, outPath);
             //UpdateTags.FixExifTags(images);
 
-            CreateJobs.CreateNew(container, queue, allIn, ivanov, 500, 950, 0.001, 50.0);
+            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.001, 50.0);
+            //CreateJobs.CreateNew(container, queue, allIn, ivanov, 500, 950, 0.001, 50.0);
         }
     }
 }

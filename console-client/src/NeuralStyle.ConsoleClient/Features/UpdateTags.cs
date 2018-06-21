@@ -20,16 +20,17 @@ namespace NeuralStyle.ConsoleClient.Features
         {
             var allStyles = stylePath.Get_Images_Without_Extensions(SearchOption.AllDirectories);
             var allIn = inPath.Get_Images_Without_Extensions(SearchOption.AllDirectories);
-            var allOut = outPath.Get_All_Images_Without_Extensions(SearchOption.AllDirectories);
+            var allOut = outPath.Get_All_Images(SearchOption.AllDirectories);
 
             var images = GetImagesWithoutTags(allStyles, allIn, allOut);
 
-            foreach (var (file, image, style) in images)
+            foreach (var (file, inImage, styleImage) in images)
             {
-                file.UpdateTags(image, style);
+                Console.WriteLine($"Updating tag for {file} with in={inImage}, style={styleImage}");
+                file.UpdateTags(inImage, styleImage);
             }
 
-            Console.WriteLine("Done");
+            Console.WriteLine("Done updating not existing tags");
             Console.ReadLine();
         }
 
@@ -39,13 +40,19 @@ namespace NeuralStyle.ConsoleClient.Features
 
             foreach (var file in allOut)
             {
-                foreach (var (image, style) in combinations)
+                var tags = file.GetTags();
+                if (tags.Style != null && tags.In!= null)
                 {
-                    var prefix = image.BuildPrefix(style);
+                    continue;
+                }
+
+                foreach (var (inImage, styleImage) in combinations)
+                {
+                    var prefix = inImage.BuildPrefix(styleImage);
 
                     if (Path.GetFileNameWithoutExtension(file).StartsWith(prefix))
                     {
-                        yield return (file, image, style);
+                        yield return (file, inImage, styleImage);
                     }
                 }
             }

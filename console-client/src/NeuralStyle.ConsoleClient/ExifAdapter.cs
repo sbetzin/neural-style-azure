@@ -11,25 +11,6 @@ namespace NeuralStyle.ConsoleClient
 {
     public static class ExifAdapter
     {
-        public static void FixTags(this string file)
-        {
-            var bytes = File.ReadAllBytes(file);
-            var stream = new MemoryStream(bytes);
-
-            using (var bitmap = Image.FromStream(stream))
-            {
-                var tags = bitmap.PropertyItems;
-                foreach (var tag in tags)
-                {
-                    tag.Value = tag.Value.FixUnicodeBug();
-
-                    bitmap.SetPropertyItem(tag);
-                }
-
-                bitmap.Save(file);
-            }
-        }
-
         public static (string In, string Style) GetTags(this string file)
         {
             try
@@ -45,7 +26,7 @@ namespace NeuralStyle.ConsoleClient
                     return (inImage, styleImage);
                 }
             }
-            catch (ExifLibException e)
+            catch (ExifLibException)
             {
                 return (null, null);
             }
@@ -80,14 +61,17 @@ namespace NeuralStyle.ConsoleClient
             var stream = new MemoryStream(bytes);
             using (var bitmap = Image.FromStream(stream))
             {
-                var title = CreatePropertyItem(40091, image);
-                var subject = CreatePropertyItem(40095, style);
-
-                bitmap.SetPropertyItem(title);
-                bitmap.SetPropertyItem(subject);
+                bitmap.UpdateTag(40091, image);
+                bitmap.UpdateTag(40095, style);
 
                 bitmap.Save(file);
             }
+        }
+
+        public static void UpdateTag(this Image image, int tagId, string value)
+        {
+            var property = CreatePropertyItem(tagId, value);
+            image.SetPropertyItem(property);
         }
 
         private static PropertyItem CreatePropertyItem(int id, string value)
@@ -99,6 +83,25 @@ namespace NeuralStyle.ConsoleClient
             newItem.Type = 1;
 
             return newItem;
+        }
+
+        public static void FixTags(this string file)
+        {
+            var bytes = File.ReadAllBytes(file);
+            var stream = new MemoryStream(bytes);
+
+            using (var bitmap = Image.FromStream(stream))
+            {
+                var tags = bitmap.PropertyItems;
+                foreach (var tag in tags)
+                {
+                    tag.Value = tag.Value.FixUnicodeBug();
+
+                    bitmap.SetPropertyItem(tag);
+                }
+
+                bitmap.Save(file);
+            }
         }
     }
 }

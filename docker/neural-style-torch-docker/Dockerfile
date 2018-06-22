@@ -58,9 +58,6 @@ WORKDIR /app/fast-neural-style
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg16.t7
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
 
-# Update Torch
-WORKDIR /root/torch
-RUN TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" ./update.sh
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

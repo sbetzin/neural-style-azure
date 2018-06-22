@@ -18,6 +18,9 @@ RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd 
 RUN cd /root/torch && ./clean.sh && export TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" && ./install.sh
 RUN ln -s /root/torch/install/bin/* /usr/local/bin
 
+# Install additional necessary torch dependencies
+RUN luarocks install loadcaffe && luarocks install autograd
+
 #  Fix torch error "Then make sure files named as libcudnn.so.5 or libcudnn.5.dylib are placed in ..." https://github.com/soumith/cudnn.torch/issues/383
 RUN git clone https://github.com/soumith/cudnn.torch.git -b R7 && cd cudnn.torch && luarocks make cudnn-scm-1.rockspec
 

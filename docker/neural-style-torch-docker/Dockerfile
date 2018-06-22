@@ -71,6 +71,8 @@ RUN pip install wheel azure-storage-queue azure-storage-blob blobxfer
 
 RUN mkdir /app/images && mkdir /app/convert-models
 
+WORKDIR /app/
+
 # Copy wrapper scripts
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/lua/correct_colors.lua", "/app/"]

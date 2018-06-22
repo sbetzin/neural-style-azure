@@ -12,9 +12,6 @@ WORKDIR /app/SRGAN-tensorflow
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/srgan-pretrained/SRGAN_pre-trained.tar && tar xvf SRGAN_pre-trained.tar && rm SRGAN_pre-trained.tar
 
-WORKDIR /app/SRGAN-tensorflow/data/test_LR
-RUN rm *.png  && wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/ana.png
-
 WORKDIR /app/SRGAN-tensorflow
 
 #RUN mkdir /app/images

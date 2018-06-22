@@ -18,9 +18,6 @@ RUN git clone https://github.com/torch/distro.git /root/torch --recursive && cd 
 RUN cd /root/torch && ./clean.sh && export TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" && ./install.sh
 RUN ln -s /root/torch/install/bin/* /usr/local/bin
 
-# Install additional necessary torch dependencies
-RUN luarocks install loadcaffe && luarocks install autograd
-
 #  Fix torch error "Then make sure files named as libcudnn.so.5 or libcudnn.5.dylib are placed in ..." https://github.com/soumith/cudnn.torch/issues/383
 RUN git clone https://github.com/soumith/cudnn.torch.git -b R7 && cd cudnn.torch && luarocks make cudnn-scm-1.rockspec
 
@@ -39,7 +36,6 @@ RUN pip install gputil
 RUN set -ex && \
 	apt-get install -y \
 	libhdf5-dev && apt-get update && apt-get upgrade -y
-	
 # install hdf5 for fast neural style training
 RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec
 
@@ -68,7 +64,8 @@ RUN pip install wheel azure-storage-queue azure-storage-blob blobxfer
 
 RUN mkdir /app/images && mkdir /app/convert-models
 
-WORKDIR /app/
+# LEAVE THIS otherwise the TH command will not work
+WORKDIR /app/fast-neural-style
 
 # Copy wrapper scripts
 COPY ["/src/*.py" ,"/app/"]

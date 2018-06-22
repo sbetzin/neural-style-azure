@@ -3,7 +3,7 @@ MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 
 # Install system dependencies
 RUN set -ex && \
-	apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
+	apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends --no-install-suggests -y \
 	ca-certificates \
 	sudo \
 	libprotobuf-dev \
@@ -37,8 +37,8 @@ RUN pip install gputil
 
 # Install fast-neural-style train dependencies
 RUN set -ex && \
-	apt-get install --no-install-recommends --no-install-suggests -y \
-	libhdf5-dev
+	apt-get install -y \
+	libhdf5-dev && apt-get update && apt-get upgrade -y
 	
 # install hdf5 for fast neural style training
 RUN luarocks install https://raw.githubusercontent.com/deepmind/torch-hdf5/master/hdf5-0-0.rockspec

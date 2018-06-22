@@ -60,7 +60,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 # Update Torch
 WORKDIR /root/torch
-RUN sudo TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" ./update.sh bash update.sh
+RUN TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__" ./update.sh bash update.sh
 
 # Add neural-style to path
 ENV PATH /app/neural-style:$PATH

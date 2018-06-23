@@ -26,7 +26,7 @@ RUN git clone https://github.com/lengstrom/fast-style-transfer.git
 
 # This seems to be a different model than we are using above
 WORKDIR /app/fast-style-transfer
-RUN mkdir data && wget --progress=bar:force http://www.vlfeat.org/matconvnet/models/beta16/imagenet-vgg-verydeep-19.mat
+RUN mkdir data && cd data && wget --progress=bar:force http://www.vlfeat.org/matconvnet/models/beta16/imagenet-vgg-verydeep-19.mat
 
 # adding ffmpeg for fast style video transfer
 RUN imageio_download_bin ffmpeg

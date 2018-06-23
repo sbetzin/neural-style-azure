@@ -31,6 +31,7 @@ RUN mkdir data && wget --progress=bar:force http://www.vlfeat.org/matconvnet/mod
 # adding ffmpeg for fast style video transfer
 RUN imageio_download_bin ffmpeg
 
+WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 

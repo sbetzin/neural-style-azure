@@ -14,9 +14,4 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 WORKDIR /app/SRGAN-tensorflow
 
-#RUN mkdir /app/images
-
-#COPY ["/src/*.py" ,"/app/"]
-
 ENTRYPOINT ["/bin/bash"]
-#ENTRYPOINT ["python", "/app/queueclient.py"]

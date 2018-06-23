@@ -2,7 +2,7 @@ https://pypi.org/project/blobxfer/
 pip install blobxfer --user
 
 # Documentation
-http://blobxfer.readthedocs.io/en/latest/
+http://blobxfer.readthedocs.io/en/latest/10-cli-usage/
 
 blobxfer upload --storage-account neuralstylefiles --sas "<key>" --remote-path models --local-path vgg16.t7
 

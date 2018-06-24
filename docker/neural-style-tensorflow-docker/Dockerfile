@@ -22,7 +22,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 # adding the fast neural style tensorflow implementation
 WORKDIR /app
-RUN git clone https://github.com/lengstrom/fast-style-transfer.git
+RUN git clone https://github.com/sbetzin/fast-style-transfer.git
 
 # This seems to be a different model than we are using above
 WORKDIR /app/fast-style-transfer

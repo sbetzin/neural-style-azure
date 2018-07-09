@@ -629,6 +629,7 @@ def stylize(content_img, style_imgs, init_img, frame=None):
       write_exif(image_in_style_color)
 
       output_img = convert_to_original_colors(np.copy(content_img), output_img) 
+
       write_image(image_in_orig_color, output_img)
       write_exif(image_in_orig_color)
 
@@ -825,9 +826,10 @@ def warp_image(src, flow):
     interpolation=cv2.INTER_CUBIC, borderMode=cv2.BORDER_TRANSPARENT)
   return dst
 
-def convert_to_original_colors(content_img, stylized_img):
-  content_img  = postprocess(content_img)
-  stylized_img = postprocess(stylized_img)
+def convert_to_original_colors(content_image, output_image):
+  content_image  = postprocess(content_image)
+  output_image = postprocess(output_image)
+
   if args.color_convert_type == 'yuv':
     cvt_type = cv2.COLOR_BGR2YUV
     inv_cvt_type = cv2.COLOR_YUV2BGR
@@ -840,8 +842,9 @@ def convert_to_original_colors(content_img, stylized_img):
   elif args.color_convert_type == 'lab':
     cvt_type = cv2.COLOR_BGR2LAB
     inv_cvt_type = cv2.COLOR_LAB2BGR
-  content_cvt = cv2.cvtColor(content_img, cvt_type)
-  stylized_cvt = cv2.cvtColor(stylized_img, cvt_type)
+    
+  content_cvt = cv2.cvtColor(content_image, cvt_type)
+  stylized_cvt = cv2.cvtColor(output_image, cvt_type)
   c1, _, _ = cv2.split(stylized_cvt)
   _, c2, c3 = cv2.split(content_cvt)
   merged = cv2.merge((c1, c2, c3))

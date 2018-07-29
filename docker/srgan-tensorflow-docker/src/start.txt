@@ -1,6 +1,6 @@
 python main.py \
     --output_dir /images/result/ \
-    --summary_dir ./result/log/ \
+    --summary_dir /images/result/log/ \
     --mode inference \
     --is_training False \
     --task SRGAN \

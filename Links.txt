@@ -1,0 +1,16 @@
+Docker Hub
+https://hub.docker.com/
+
+
+Tensorflow NeuralStyle Docker
+Wird aus Github automatisch gebaut
+/docker/neural-style-tensorflow-docker
+
+
+Tipps für SRGAN
+Start.txt im Moment verwenden um den Befehl kopieren
+
+
+ACHTUNG
+es werden nur PNG verarbeitet
+max bisher vergrössert 1080x760

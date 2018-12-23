@@ -64,8 +64,8 @@ namespace NeuralStyle.ConsoleClient
 
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
-            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            CreateJobs.CreateNew(container, queue, vdma, allStyles, 500, 750, 0.01, 50.0);
+            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
+            //CreateJobs.CreateNew(container, queue, vdma, allStyles, 500, 750, 0.01, 50.0);
         }
     }
 }

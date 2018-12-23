@@ -62,4 +62,7 @@ sudo docker logs 66b6383bfa41 -f
 
 
 um alle möglichen Caches zu löschen
-docker system prune
+sudo docker system prune
+
+Teste das Nvidia-smi in einem Docker Container
+sudo nvidia-docker run --rm nvidia/cuda:latest nvidia-smi

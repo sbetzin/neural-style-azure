@@ -60,3 +60,6 @@ um die Logs einens Containers fortlaufend anzuzeigen
 https://docs.docker.com/engine/reference/commandline/logs/#extended-description
 sudo docker logs 66b6383bfa41 -f
 
+
+um alle möglichen Caches zu löschen
+docker system prune

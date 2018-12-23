@@ -22,7 +22,7 @@ With this approach you can run several pysical nvidia gpu machines (or azure n-s
 
 ## Setup Host
 detailed instructions to setup a host environment
-[How to setup the host](https://github.com/sbetzin/neural-style-azure/blob/master/doc/setup/setup%20host.md)
+[How to setup the host](https://github.com/sbetzin/neural-style-azure/tree/master/doc/setup/setup%20host.md)
 ## Run the conainer
 **Important!!!**
 Make sure the environment variable _"AzureStorageConnectionString"_ contains the connection string for the required azure storage account
@@ -38,7 +38,7 @@ sudo nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-te
 this command downloads the image from the public repository and starts it as deamon (-d --restart=unless-stopped)
 
 ### 2. clone repository and use make 
-if you downloaded this repository [as described in the setup host instructions ](https://github.com/sbetzin/neural-style-azure/blob/master/doc/setup/setup%20host.md) then you can just change to the docer repository
+if you downloaded this repository [as described in the setup host instructions ](https://github.com/sbetzin/neural-style-azure/tree/master/doc/setup/setup%20host.md) then you can just change to the docer repository
 ```bash
 cd neural-style-azure/docker/neural-style-tensorflow-docker
 ```
@@ -46,4 +46,4 @@ and then just start it with
 ```bash
 sudo make start
 ```
-please note that the [make file](https://github.com/sbetzin/neural-style-azure/blob/master/docker/neural-style-tensorflow-docker/Makefile) has other commands as well.
+please note that the [make file](https://github.com/sbetzin/neural-style-azure/tree/master/docker/neural-style-tensorflow-docker/Makefile) has other commands as well.

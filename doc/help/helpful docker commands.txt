@@ -50,3 +50,13 @@ sudo nohup bash batch.sh &
 # Online help for bash syntax check
 https://www.shellcheck.net/
 
+
+
+
+um alle laufenden Docker anzuzeigen
+sudo docker ps
+
+um die Logs einens Containers fortlaufend anzuzeigen
+https://docs.docker.com/engine/reference/commandline/logs/#extended-description
+sudo docker logs 66b6383bfa41 -f
+

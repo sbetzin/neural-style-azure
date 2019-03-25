@@ -12,8 +12,7 @@ namespace NeuralStyle.ConsoleClient
 
         public static List<(T In, TR Style)> GetCombinations<T, TR>(this List<T> allIn, List<TR> allStyles)
         {
-            return allStyles.SelectMany(styleImage => allIn, (styleImage, inImage) => (In: inImage, Style: styleImage)).ToList();
-
+            return allIn.SelectMany(inImage => allStyles, (inImage, styleImage) => (In: inImage, Style: styleImage)).ToList();
         }
     }
 }

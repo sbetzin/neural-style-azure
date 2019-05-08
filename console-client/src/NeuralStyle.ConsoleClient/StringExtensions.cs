@@ -9,14 +9,14 @@ namespace NeuralStyle.ConsoleClient
             var path = Path.GetDirectoryName(file);
             var name = Path.GetFileName(file);
 
-            name = name.ToLower().Replace("-", "_").Replace(" ", "_");
+            name = name.ToLower().Replace(" ", "_");
 
             return Path.Combine(path, name);
         }
 
         public static string BuildPrefix(this string image, string style)
         {
-            var prefix = $"{image}_{style}_";
+            var prefix = $"{image}-{style}-";
             return prefix;
         }
     }

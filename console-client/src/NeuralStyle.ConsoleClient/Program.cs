@@ -67,8 +67,6 @@ namespace NeuralStyle.ConsoleClient
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, vdma, allStyles, 500, 750, 0.01, 50.0);
 
-            UpdateNames.FixNames(inPath, stylePath, outPath);
-
 
             Console.WriteLine("");
             Console.WriteLine("Done");

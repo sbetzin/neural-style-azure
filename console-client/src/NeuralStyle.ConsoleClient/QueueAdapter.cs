@@ -60,7 +60,9 @@ namespace NeuralStyle.ConsoleClient
 
         private static string CreateTargetName(Job job)
         {
-            FormattableString name = $"{Path.GetFileNameWithoutExtension(job.SourceName)}_{Path.GetFileNameWithoutExtension(job.StyleName)}_{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
+            var prefix = Path.GetFileNameWithoutExtension(job.SourceName).BuildPrefix(Path.GetFileNameWithoutExtension(job.StyleName));
+
+            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

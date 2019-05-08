@@ -16,14 +16,12 @@ namespace NeuralStyle.ConsoleClient
 
         public static string BuildOldPrefix(this string image, string style)
         {
-            var prefix = $"{image}_{style}_";
-            return prefix;
+            return $"{image}_{style}_";
         }
 
         public static string BuildPrefix(this string image, string style)
         {
-            var prefix = $"{image}-{style}-";
-            return prefix;
+            return $"{image}-{style}-";
         }
     }
 }

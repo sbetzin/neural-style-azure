@@ -35,8 +35,6 @@ namespace NeuralStyle.ConsoleClient
             var ivanov = Directory.GetFiles(stylePath, "eugene_ivanov_*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var ana = Directory.GetFiles(inPath, "ana*.jpg");
-            var ana_maske = Directory.GetFiles(inPath, "ana_maske.jpg");
             var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
             var berge = Directory.GetFiles(inPath, "berge*.jpg");
             var vdma = Directory.GetFiles(inPath, "vdma_gruppe.jpg");
@@ -46,7 +44,6 @@ namespace NeuralStyle.ConsoleClient
             {
                 $@"{stylePath}\abstract.jpg",
                 $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg",
-                $@"{stylePath}\albert_weisgerber_englischer_garten.jpg",
                 $@"{stylePath}\candy.jpg",
                 $@"{stylePath}\dieu_deep_in_my.jpg",
                 $@"{stylePath}\elena_prokopenko_tanz7.jpg",
@@ -55,17 +52,16 @@ namespace NeuralStyle.ConsoleClient
                 $@"{stylePath}\matisse_woman_with_hat.jpg",
                 $@"{stylePath}\uta_welcker_annies_verwandtschaft.jpg",
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg",
-            }).ToList();
+            }).ToArray();
 
             var newPics = new[] { $@"{inPath}\hund_gross.jpg" };
-            var newStyle = new[] { $@"{stylePath}\abstract_7.jpg",$@"{stylePath}\abstract_8.jpg",$@"{stylePath}\abstract_9.jpg",$@"{stylePath}\abstract_10.jpg",$@"{stylePath}\abstract_11.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            //CreateJobs.CreateNew(container, queue, vdma, allStyles, 500, 750, 0.01, 50.0);
+            //CreateJobs.CreateNew(container, queue, sebastian, bestStyles, 500, 1250, 0.01, 50.0);
             //UpdateNames.FixNames(inPath, stylePath, outPath);
             //UpdateNames.FixNamesByTag(outPath);
 

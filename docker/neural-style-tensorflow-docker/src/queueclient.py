@@ -103,7 +103,7 @@ def poll_queue(queue_service, blob_service, queue_name):
     try:
         logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
-            messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=10*60)
+            messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=30*60)
 
             if len(messages) > 0:
                 message = messages[0]

@@ -23,7 +23,10 @@ für mehr Hilfe der Make Befehle -> direkt im Make File bauen
 ```bash
 sudo make build
 ```
-
+### Stope, Baue und Starte den container
+```bash
+sudo make stop ; sudo make ; sudo make start
+```
 
 ### Run docker console with mapped folder
 ```bash
@@ -57,8 +60,17 @@ sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-
 https://www.shellcheck.net/
 
 # Linux
-
+### Fix broken installs
 apt --fix-broken install
+
+### Command chaining
+- Logical AND (&&) : This command that follows this operator will execute only if the preceding command executes successfully.
+- Logical OR (||) : The command that follows will execute only if the preceding command fails.
+- Semi-Colon (;) : The succeeding commands will execute regardless of the exit status of the command that precedes it.
+- Pipe (|) : The output of the previous command acts as the input to the next command in the chain.
+- Ampersand (&) : This sends the current command to the background.
+- Redirection (>, <, >>) : The operator can be used to redirect the output of a command or a group of commands to a stream or file.
+
 
 
 # Lua Training

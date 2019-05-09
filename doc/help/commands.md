@@ -56,6 +56,10 @@ sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-
 ### Online help for bash syntax check
 https://www.shellcheck.net/
 
+# Linux
+
+apt --fix-broken install
+
 
 # Lua Training
 ### train a new style

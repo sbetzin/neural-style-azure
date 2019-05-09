@@ -54,14 +54,15 @@ namespace NeuralStyle.ConsoleClient
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg",
             }).ToArray();
 
-            var newPics = new[] { $@"{inPath}\hund_gross.jpg" };
+            var singlePic = new[] { $@"{inPath}\sebastian_jump.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            CreateJobs.CreateNew(container, queue, sebastian, kandinskyStyles, 500, 1250, 0.01, 50.0);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 900, 0.01, 50.0);
             //UpdateNames.FixNames(inPath, stylePath, outPath);
             //UpdateNames.FixNamesByTag(outPath);
 

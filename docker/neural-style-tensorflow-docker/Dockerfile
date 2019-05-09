@@ -6,7 +6,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sud
 RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel azure-storage-queue azure-storage-blob blobxfer piexif moviepy
 
 # download loss network
-WORKDIR /app
+WORKDIR /app/
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/imagenet-vgg-verydeep-19.mat
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files

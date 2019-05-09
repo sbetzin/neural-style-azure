@@ -1,7 +1,6 @@
 FROM tensorflow/tensorflow:latest-gpu
 MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 
-# Basic OS
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
 RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel azure-storage-queue azure-storage-blob blobxfer piexif moviepy
@@ -10,30 +9,6 @@ RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel 
 WORKDIR /app
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/imagenet-vgg-verydeep-19.mat
 
-# SRGAN
-#RUN mkdir /app/images && mkdir /app/images/enlarge
-
-# adding the SRGAN Tensorflow implementation to updsclate images
-#RUN git clone https://github.com/brade31919/SRGAN-tensorflow.git
-
-WORKDIR /app/SRGAN-tensorflow
-
-# we need pretrained models here
-#RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/vgg19.t7
-#RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/srgan-pretrained/SRGAN_pre-trained.tar && tar xvf SRGAN_pre-trained.tar && rm SRGAN_pre-trained.tar
-
-# Fast neural style
-#WORKDIR /app
-#RUN git clone https://github.com/sbetzin/fast-style-transfer.git
-
-# This seems to be a different model than we are using above for fast neural style
-#WORKDIR /app/fast-style-transfer
-#RUN mkdir data && cd data && wget --progress=bar:force http://www.vlfeat.org/matconvnet/models/beta16/imagenet-vgg-verydeep-19.mat
-
-# adding ffmpeg for fast style video transfer
-#RUN imageio_download_bin ffmpeg
-
-WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 

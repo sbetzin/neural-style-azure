@@ -21,6 +21,11 @@ logger.setLevel(logging.INFO)
 azure_logger = logging.getLogger("azure.storage")
 azure_logger.setLevel(logging.ERROR)
 
+def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
 def prepare_queue(queue_service, queue_name):
     try:
         if not queue_service.exists(queue_name):
@@ -144,6 +149,9 @@ def main(argv):
     prepare_queue(queue_service, args.queue_name)
     prepare_blob(blob_service, "images")
     prepare_blob(blob_service, "results")
+
+    logger.info ("ensuring directory exists")
+    ensure_dir("/app/images/")
 
     logger.info ("starting queue client")
     poll_queue(queue_service, blob_service, args.queue_name)

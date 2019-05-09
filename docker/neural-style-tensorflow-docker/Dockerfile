@@ -9,9 +9,6 @@ RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel 
 WORKDIR /app/
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/imagenet-vgg-verydeep-19.mat
 
-# Create Image path
-RUN mkdir /app/images
-
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 

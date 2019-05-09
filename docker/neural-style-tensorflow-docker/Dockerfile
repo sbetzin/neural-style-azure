@@ -3,7 +3,7 @@ MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
 
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
-RUN pip install --upgrade pip && pip install opencv-python-headless wheel azure-storage-queue azure-storage-blob blobxfer piexif moviepy
+RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel azure-storage-queue azure-storage-blob blobxfer piexif moviepy
 
 # download loss network
 WORKDIR /app

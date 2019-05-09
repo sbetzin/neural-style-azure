@@ -43,6 +43,7 @@ def prepare_blob(blob_service, container_name):
 
 def handle_message(blob_service, message):
     try:
+        logger.info("--------------------------------------------------------------------------------------------------")
         logger.info("handling new message %s", message.id )
         job = json.loads(message.content)
         source_name = job["SourceName"]

@@ -6,10 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using NeuralStyle.ConsoleClient.Model;
+using NeuralStyle.Core.Model;
 using Newtonsoft.Json;
 
-namespace NeuralStyle.ConsoleClient
+namespace NeuralStyle.Core
 {
     public static class QueueAdapter
     {

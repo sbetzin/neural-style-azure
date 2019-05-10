@@ -52,9 +52,14 @@ sudo nvidia-docker run --rm  -it  sbetzin/neural-style
 ### run docker with environment vars
 ```bash
 sudo nvidia-docker run -it -e AzureStorageConnectionString -e TileSize --name neural-style sbetzin/neural-style
-
 sudo nvidia-docker run --rm -it -v /datadrive/training:/training sbetzin/neural-style-python --content_img /training/in/eric_pool.JPG --style_imgs /training/style/kandinsky_schwarz-und-violett.jpg --max_size 1200 --max_iterations 500 --content_weight 1 --style_weight 10000 --original_colors --verbose --pooling_type max --img_output_dir /training/out --img_name /training/out/eric_pool_kandinsky_schwarz-und-violett_cw_1_sw_10000_iter_500_size_1200_pooling_max
 ```
+### docker infos (esp. path to docker images)
+```bash
+sudo docker info
+```
+### move docker image directory to other directory
+https://docs.docker.com/config/daemon/#docker-daemon-directory
 
 ### Online help for bash syntax check
 https://www.shellcheck.net/
@@ -71,8 +76,22 @@ apt --fix-broken install
 - Ampersand (&) : This sends the current command to the background.
 - Redirection (>, <, >>) : The operator can be used to redirect the output of a command or a group of commands to a stream or file.
 
+### Uninstall packages with dpkg
+- First of all you should check if this package is correctly installed in your system and being listed by dpkg tool:
+dpkg -l | grep urserver
+- It should have an option ii in the first column of the output - that means 'installed ok installed'.
+- If you'd like to remove the package itself (without the configuration files), you'll have to run:
+dpkg -r urserver
+- If you'd like to delete (purge) the package completely (with configuration files), you'll have to run:
+dpkg -P urserver
+- You may check if the package has been removed successfully - simply run again:
+dpkg -l | grep urserver
+- If the package has been removed without configuration files, you'll see the rc status near the package name, otherwise, if you have purged the package completely, the output will be empty.
 
-
+### Show disk infos
+```bash
+df
+```
 # Lua Training
 ### train a new style
 ```bash

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using NeuralStyle.ConsoleClient.Links;
+using NeuralStyle.Core.Links;
 
-namespace NeuralStyle.ConsoleClient.Features
+namespace NeuralStyle.Core.Features
 {
     public static class SortImages
     {

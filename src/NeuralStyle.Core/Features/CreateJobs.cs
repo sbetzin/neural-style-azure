@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 
-namespace NeuralStyle.ConsoleClient.Features
+namespace NeuralStyle.Core.Features
 {
     public static class CreateJobs
     {

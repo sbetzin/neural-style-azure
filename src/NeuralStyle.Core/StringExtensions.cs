@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NeuralStyle.ConsoleClient
+namespace NeuralStyle.Core
 {
     public static class StringExtensions
     {

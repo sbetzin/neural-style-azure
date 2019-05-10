@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace NeuralStyle.ConsoleClient.Links
+namespace NeuralStyle.Core.Links
 {
     public static class HardLink
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace NeuralStyle.ConsoleClient
+namespace NeuralStyle.Core
 {
     public static class BlobAdapter
     {

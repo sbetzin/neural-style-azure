@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NeuralStyle.ConsoleClient.Model
+﻿namespace NeuralStyle.Core.Model
 {
     public class Job
     {

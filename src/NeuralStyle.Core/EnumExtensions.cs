@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralStyle.ConsoleClient
+namespace NeuralStyle.Core
 {
     public static class EnumExtensions
     {

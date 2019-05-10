@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace NeuralStyle.ConsoleClient.Features
+namespace NeuralStyle.Core.Features
 {
     public static class UpdateNames
     {

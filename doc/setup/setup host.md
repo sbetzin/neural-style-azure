@@ -4,7 +4,7 @@ you can eighter use a physical host or one of [azure n-series with gpu support](
 the installation instructions are optimized for an ubuntu 16-04 azure virtual machine (n-series) server and based on 
 https://docs.microsoft.com/de-de/azure/virtual-machines/linux/n-series-driver-setup
 
-### 1. First install the Cuda drivers and Cuda from official nvidia repos
+### 1. First install the Cuda drivers and Cuda from official nvidia repos (Ubuntu 16)
 ```bash
 CUDA_REPO_PKG=cuda-repo-ubuntu1604_10.1.105-1_amd64.deb
 wget -O /tmp/${CUDA_REPO_PKG} http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/${CUDA_REPO_PKG} 
@@ -16,6 +16,21 @@ sudo apt-get upgrade
 sudo apt-get -y install cuda-drivers
 sudo apt-get -y install cuda
 ```
+
+
+### 1. First install the Cuda drivers and Cuda from official nvidia repos (Ubuntu 18)
+```bash
+CUDA_REPO_PKG=cuda-repo-ubuntu1804_10.1.105-1_amd64.deb
+wget -O /tmp/${CUDA_REPO_PKG} http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/${CUDA_REPO_PKG} 
+sudo dpkg -i /tmp/${CUDA_REPO_PKG}
+sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+rm -f /tmp/${CUDA_REPO_PKG}
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get -y install cuda-drivers
+sudo apt-get -y install cuda
+```
+
 ### 2. install docker 
 this is based on the installation instructions
 https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce
@@ -48,9 +63,11 @@ nvidia-smi
 sudo -H nano /etc/environment
 ```
 append the lines
+
 **AzureStorageConnectionString="<yourstorageconnection>"**
 
 and optional (if you want to change the default name "jobs")
+
 **AzureStorageQueueName="jobs"**
 
 if you dont have nano installed you can easily get it

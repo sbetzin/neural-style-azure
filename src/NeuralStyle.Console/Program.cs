@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NeuralStyle.ConsoleClient.Features;
+using NeuralStyle.Core;
+using NeuralStyle.Core.Features;
 
-namespace NeuralStyle.ConsoleClient
+namespace NeuralStyle.Console
 {
     internal class Program
     {
@@ -54,20 +55,28 @@ namespace NeuralStyle.ConsoleClient
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg",
             }).ToArray();
 
-            var singlePic = new[] { $@"{inPath}\orte_eifel_5.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg" };
+            var singlePic = new[] { $@"{inPath}\eric_jump.jpg" };
+            var singleStyle = new[]
+            {
+                $@"{stylePath}\abstract_woman.jpg" ,
+                $@"{stylePath}\andrew_atroshenko_fantastic.jpg" ,
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg" ,
+                $@"{stylePath}\moderne_violist_girl.jpg" ,
+                $@"{stylePath}\picasso_self_portrait_with_palette.jpg" ,
+
+            };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 3000, 0.01, 50.0);
             //UpdateNames.FixNames(inPath, stylePath, outPath);
             //UpdateNames.FixNamesByTag(outPath);
 
-            Console.WriteLine("");
-            Console.WriteLine("Done");
+            System.Console.WriteLine("");
+            System.Console.WriteLine("Done");
             //Console.ReadLine();
         }
     }

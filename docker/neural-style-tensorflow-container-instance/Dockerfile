@@ -4,7 +4,7 @@ LABEL version="1.0"
 
 # prepare basic os and python libs
 # RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
-RUN apt-get install -y nano wget git sudo
+RUN apt-get update && apt-get install -y nano wget git sudo
 RUN pip install --upgrade pip && pip install opencv-python-headless scipy azure-storage-queue azure-storage-blob piexif
 
 # download loss network

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace NeuralStyle.Core
+namespace NeuralStyle.Core.Imaging
 {
     public static class ImageAdapter
     {

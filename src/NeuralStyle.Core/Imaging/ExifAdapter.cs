@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using ExifLib;
 
-namespace NeuralStyle.Core
+namespace NeuralStyle.Core.Imaging
 {
     public static class ExifAdapter
     {
@@ -27,7 +27,7 @@ namespace NeuralStyle.Core
             }
             catch (ExifLibException)
             {
-                return (null, null);
+                return (string.Empty, string.Empty);
             }
         }
 

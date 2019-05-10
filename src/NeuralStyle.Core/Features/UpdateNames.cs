@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using NeuralStyle.Core.Imaging;
 
 namespace NeuralStyle.Core.Features
 {

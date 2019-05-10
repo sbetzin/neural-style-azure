@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace NeuralStyle.Core
+namespace NeuralStyle.Core.Imaging
 {
     public static class ImageComposer
     {

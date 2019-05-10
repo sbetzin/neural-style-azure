@@ -37,7 +37,7 @@ namespace NeuralStyle.ExplorerExtension
         {
             foreach (var path in SelectedItemPaths)
             {
-                MessageBox.Show(path);
+                CreateJobFeature.CreateLargeImageJob(path);
             }
         }
     }

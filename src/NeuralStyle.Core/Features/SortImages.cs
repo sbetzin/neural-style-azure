@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Links;
 
 namespace NeuralStyle.Core.Features

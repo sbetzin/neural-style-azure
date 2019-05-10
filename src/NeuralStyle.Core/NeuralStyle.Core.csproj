@@ -53,20 +53,21 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlobAdapter.cs" />
+    <Compile Include="Cloud\BlobAdapter.cs" />
+    <Compile Include="Cloud\Factory.cs" />
     <Compile Include="EnumExtensions.cs" />
-    <Compile Include="ExifAdapter.cs" />
+    <Compile Include="Imaging\ExifAdapter.cs" />
     <Compile Include="Features\CreateJobs.cs" />
     <Compile Include="Features\FindMissingCombinations.cs" />
     <Compile Include="Features\SortImages.cs" />
     <Compile Include="Features\UpdateNames.cs" />
     <Compile Include="Features\UpdateTags.cs" />
-    <Compile Include="ImageAdapter.cs" />
-    <Compile Include="ImageComposer.cs" />
+    <Compile Include="Imaging\ImageAdapter.cs" />
+    <Compile Include="Imaging\ImageComposer.cs" />
     <Compile Include="Links\HardLink.cs" />
     <Compile Include="Model\Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueAdapter.cs" />
+    <Compile Include="Cloud\QueueAdapter.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

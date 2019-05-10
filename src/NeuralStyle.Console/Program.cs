@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NeuralStyle.Core;
+using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
+using NeuralStyle.Core.Imaging;
 
 namespace NeuralStyle.Console
 {
@@ -11,12 +13,7 @@ namespace NeuralStyle.Console
     {
         private static void Main(string[] args)
         {
-            var queueName = "jobs";
-            var containerName = "images";
-
-            var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
-            var queue = QueueAdapter.GetAzureQueue(connectionString, queueName);
-            var container = BlobAdapter.GetBlobContainer(connectionString, containerName);
+            var (queue, container) = Factory.Construct();
 
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";

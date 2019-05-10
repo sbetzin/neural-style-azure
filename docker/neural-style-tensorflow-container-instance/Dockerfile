@@ -1,9 +1,10 @@
 FROM tensorflow/tensorflow:1.12.0-gpu-py3
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
+LABEL version="1.0"
 
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
-RUN pip install --upgrade pip && pip install opencv-python-headless scipy wheel azure-storage-queue azure-storage-blob blobxfer piexif moviepy
+RUN pip install --upgrade pip && pip install scipy azure-storage-queue azure-storage-blob piexif
 
 # download loss network
 WORKDIR /app/

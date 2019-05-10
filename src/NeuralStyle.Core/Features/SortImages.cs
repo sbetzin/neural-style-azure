@@ -19,7 +19,7 @@ namespace NeuralStyle.Core.Features
 
         private static void SortImage(string image, string outPath)
         {
-            Console.WriteLine($"Sorting {image}");
+            Logger.Log($"Sorting {image}");
             var tags = image.GetTags();
             var fileName = Path.GetFileName(image);
 

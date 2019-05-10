@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Linq;
+using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
@@ -17,20 +17,28 @@ namespace NeuralStyle.ExplorerExtension.Features
 
             if (inName == string.Empty || styleName == string.Empty)
             {
+                Logger.Log($"target image {targetImage} has no valid tags");
                 return;
             }
 
-            var inImages = new[] { $@"{inPath}\{inName}.jpg" };
-            var styleImages = new[] { $@"{stylePath}\{styleName}.jpg" };
+            var inImage = $@"{inPath}\{inName}.jpg";
+            var styleImage = $@"{stylePath}\{styleName}.jpg";
 
-            if (!inImages.All(File.Exists) || !styleImages.All(File.Exists))
+            if (!File.Exists(inImage))
             {
+                Logger.Log($"{inImage} not found");
+                return;
+            }
+
+            if (!File.Exists(styleImage))
+            {
+                Logger.Log($"{styleImage} not found");
                 return;
             }
 
             var (queue, container) = Factory.Construct();
-            
-            CreateJobs.CreateNew(container, queue, inImages, styleImages, 500, 2500, 0.01, 50.0);
+
+            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 3500, 0.01, 50.0);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace NeuralStyle.Core.Features
                     if (File.Exists(outFile))
                     {
                         var newOutFile = outFile.Replace(oldName, newName);
-                        Console.WriteLine($"rename {outFile} to {newOutFile}");
+                        Logger.Log($"rename {outFile} to {newOutFile}");
                         File.Move(outFile, newOutFile);
                     }
                 }
@@ -59,7 +59,7 @@ namespace NeuralStyle.Core.Features
                 }
 
                 var newOutFile = outFile.Replace(oldName, newName);
-                Console.WriteLine($"rename {outFile} to {newOutFile}");
+                Logger.Log($"rename {outFile} to {newOutFile}");
                 File.Move(outFile, newOutFile);
             }
         }

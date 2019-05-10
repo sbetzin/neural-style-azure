@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
-using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
 
 namespace NeuralStyle.Console
@@ -13,6 +11,8 @@ namespace NeuralStyle.Console
     {
         private static void Main(string[] args)
         {
+            Logger.NewLog += System.Console.WriteLine;
+
             var (queue, container) = Factory.Construct();
 
             var images = @"C:\Data\images";
@@ -49,18 +49,17 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\lovis_corinth_walchensee.jpg",
                 $@"{stylePath}\matisse_woman_with_hat.jpg",
                 $@"{stylePath}\uta_welcker_annies_verwandtschaft.jpg",
-                $@"{stylePath}\yosi_losaij_you_and_me.jpg",
+                $@"{stylePath}\yosi_losaij_you_and_me.jpg"
             }).ToArray();
 
-            var singlePic = new[] { $@"{inPath}\eric_jump.jpg" };
+            var singlePic = new[] {$@"{inPath}\eric_jump.jpg"};
             var singleStyle = new[]
             {
-                $@"{stylePath}\abstract_woman.jpg" ,
-                $@"{stylePath}\andrew_atroshenko_fantastic.jpg" ,
-                $@"{stylePath}\elena_prokopenko_tanz7.jpg" ,
-                $@"{stylePath}\moderne_violist_girl.jpg" ,
-                $@"{stylePath}\picasso_self_portrait_with_palette.jpg" ,
-
+                $@"{stylePath}\abstract_woman.jpg",
+                $@"{stylePath}\andrew_atroshenko_fantastic.jpg",
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg",
+                $@"{stylePath}\moderne_violist_girl.jpg",
+                $@"{stylePath}\picasso_self_portrait_with_palette.jpg"
             };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
@@ -68,12 +67,14 @@ namespace NeuralStyle.Console
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 3000, 0.01, 50.0);
+            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 3000, 0.01, 50.0);
             //UpdateNames.FixNames(inPath, stylePath, outPath);
             //UpdateNames.FixNamesByTag(outPath);
 
-            System.Console.WriteLine("");
-            System.Console.WriteLine("Done");
+            Logger.Log("");
+            Logger.Log("Done");
+
+
             //Console.ReadLine();
         }
     }

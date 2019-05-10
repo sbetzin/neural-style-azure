@@ -30,7 +30,7 @@ namespace NeuralStyle.Core.Imaging
                 var correctName = file.CorrectName();
                 if (correctName != file)
                 {
-                    Console.WriteLine($"renaming {file} to {correctName}");
+                    Logger.Log($"renaming {file} to {correctName}");
                     File.Move(file, correctName);
                 }
             }

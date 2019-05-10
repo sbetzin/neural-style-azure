@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace NeuralStyle.Core
+namespace NeuralStyle.Core.Cloud
 {
     public static class BlobAdapter
     {
@@ -30,7 +29,7 @@ namespace NeuralStyle.Core
 
         public static void UploadImages(this CloudBlobContainer blobContainer, string[] images)
         {
-            Console.WriteLine($"checking {images.Length} images for upload");
+            Logger.Log($"checking {images.Length} images for upload");
             foreach (var image in images)
             {
                 image.UploadToBlob(blobContainer).Wait();
@@ -49,7 +48,7 @@ namespace NeuralStyle.Core
                 if (info.Length == blob.Properties.Length) return;
             }
 
-            Console.WriteLine($"   Uploading {file}");
+            Logger.Log($"   Uploading {file}");
 
             await blob.UploadFromFileAsync(file);
         }

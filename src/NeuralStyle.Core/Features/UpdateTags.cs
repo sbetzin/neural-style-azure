@@ -27,12 +27,11 @@ namespace NeuralStyle.Core.Features
 
             foreach (var (file, inImage, styleImage) in images)
             {
-                Console.WriteLine($"Updating tag for {file} with in={inImage}, style={styleImage}");
+                Logger.Log($"Updating tag for {file} with in={inImage}, style={styleImage}");
                 file.UpdateTags(inImage, styleImage);
             }
 
-            Console.WriteLine("Done updating not existing tags");
-            Console.ReadLine();
+            Logger.Log("Done updating not existing tags");
         }
 
         private static IEnumerable<(string, string, string)> GetImagesWithoutTags(List<string> allStyles, List<string> allIn, List<string> allOut)

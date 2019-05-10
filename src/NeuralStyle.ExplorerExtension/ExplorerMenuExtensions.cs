@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using NeuralStyle.Core;
 using NeuralStyle.ExplorerExtension.Features;
 using SharpShell.Attributes;
+using SharpShell.Diagnostics;
 using SharpShell.SharpContextMenu;
 
 namespace NeuralStyle.ExplorerExtension
@@ -36,6 +39,9 @@ namespace NeuralStyle.ExplorerExtension
 
         private void OnEnlargeImage(object sender, EventArgs args)
         {
+            Logger.NewLog += Logging.Log;
+
+            Logger.Log($"Found {SelectedItemPaths.Count()} images to enlarge");
             foreach (var path in SelectedItemPaths)
             {
                 CreateEnlargeJob.CreateLargeImageJob(path);

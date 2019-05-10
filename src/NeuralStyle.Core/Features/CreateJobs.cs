@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
+using NeuralStyle.Core.Cloud;
 
 namespace NeuralStyle.Core.Features
 {
@@ -12,12 +13,12 @@ namespace NeuralStyle.Core.Features
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var missing = FindMissingCombinations.Run(inPath, stylePath, outPath);
-            Console.WriteLine($"Found {missing.Count} missing combinations");
+            Logger.Log($"Found {missing.Count} missing combinations");
 
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
 
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight).Wait());
+            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight));
         }
 
         public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
@@ -25,7 +26,7 @@ namespace NeuralStyle.Core.Features
             container.UploadImages(images);
             container.UploadImages(styles);
 
-            queue.CreateJobs(images, styles, iterations, size, styleWeight, contentWeight).Wait();
+            queue.CreateJobs(images, styles, iterations, size, styleWeight, contentWeight);
         }
     }
 }

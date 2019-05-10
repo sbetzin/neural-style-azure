@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NeuralStyle.Core.Model;
 using Newtonsoft.Json;
 
-namespace NeuralStyle.Core
+namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public  static async Task CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
+        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
-            Console.WriteLine($"Creating {jobs.Count} jobs");
+            Logger.Log($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                await queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
+                queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
             }
         }
 
@@ -35,7 +34,7 @@ namespace NeuralStyle.Core
             return queue;
         }
 
-        public static async Task CreateJob(this CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
         {
             var job = new Job {SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight};
             job.TargetName = CreateTargetName(job);
@@ -43,9 +42,9 @@ namespace NeuralStyle.Core
             var json = JsonConvert.SerializeObject(job);
             var message = new CloudQueueMessage(json);
 
-            await queue.AddMessageAsync(message);
+            queue.AddMessage(message);
 
-            Console.WriteLine($"   added job for image {sourceFile} with style {styleFile}");
+            Logger.Log($"   added job for image {sourceFile} with style {styleFile}");
         }
 
         private static CloudQueue EnsureThatExists(this CloudQueue queue)

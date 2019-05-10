@@ -1,5 +1,5 @@
 FROM tensorflow/tensorflow:latest-gpu
-MAINTAINER "Sebastian Betzin, https://github.com/sbetzin"
+LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo

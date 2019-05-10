@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using NeuralStyle.ExplorerExtension.Features;
 using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
 
@@ -37,7 +38,7 @@ namespace NeuralStyle.ExplorerExtension
         {
             foreach (var path in SelectedItemPaths)
             {
-                CreateJobFeature.CreateLargeImageJob(path);
+                CreateEnlargeJob.CreateLargeImageJob(path);
             }
         }
     }

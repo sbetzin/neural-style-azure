@@ -1,8 +1,0 @@
-#https://github.com/jcjohnson/cnn-benchmarks/blob/master/convert_model.lua
-th convert_model.lua -input_prototxt /app/neural-style/models/VGG_ILSVRC_19_layers_deploy.prototxt -input_caffemodel /app/neural-style/models/VGG_ILSVRC_19_layers.caffemodel -output_t7 /training/vgg19.t7
-
-
-
-
-# help
-https://github.com/jcjohnson/fast-neural-style/issues/89

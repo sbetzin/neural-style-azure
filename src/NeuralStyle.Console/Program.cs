@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
+using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
 
 namespace NeuralStyle.Console
@@ -56,10 +57,6 @@ namespace NeuralStyle.Console
             var singleStyle = new[]
             {
                 $@"{stylePath}\abstract_woman.jpg",
-                $@"{stylePath}\andrew_atroshenko_fantastic.jpg",
-                $@"{stylePath}\elena_prokopenko_tanz7.jpg",
-                $@"{stylePath}\moderne_violist_girl.jpg",
-                $@"{stylePath}\picasso_self_portrait_with_palette.jpg"
             };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
@@ -67,7 +64,7 @@ namespace NeuralStyle.Console
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 3000, 0.01, 50.0);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 2500, 0.01, 50.0);
             //UpdateNames.FixNames(inPath, stylePath, outPath);
             //UpdateNames.FixNamesByTag(outPath);
 

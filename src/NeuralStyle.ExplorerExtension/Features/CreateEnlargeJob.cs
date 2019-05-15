@@ -38,7 +38,7 @@ namespace NeuralStyle.ExplorerExtension.Features
 
             var (queue, container) = Factory.Construct();
 
-            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 3500, 0.01, 50.0);
+            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 2500, 0.01, 50.0);
         }
     }
 }

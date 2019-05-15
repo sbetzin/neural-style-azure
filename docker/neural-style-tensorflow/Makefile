@@ -1,9 +1,12 @@
-.PHONY: all build clean start stop restart logs pull console-start console-stop console-logs
+.PHONY: all build build-1.12.0 clean start stop restart logs pull console-start console-stop console-logs
 IMGNAME=sbetzin/neural-style-tensorflow
 IMGTAG=latest
 
 build:
 	nvidia-docker build -t $(IMGNAME):$(IMGTAG) .
+	
+build-1.12.0:
+	nvidia-docker build -f Dockerfile-1.12.0-gpu-py3 -t $(IMGNAME):1.12.0-gpu-py3 .
 
 clean:
 	docker rmi $(IMGNAME):$(IMGTAG)

@@ -60,7 +60,14 @@ sudo docker info
 https://docs.docker.com/config/daemon/#docker-daemon-directory
 
 ### push image to docker hub
+```bash
+sudo docker login -u uuu -p ppp
+sudo docker push sbetzin/neural-style-tensorflow:1.12.0-gpu-py3
+```
 https://docs.docker.com/v17.12/docker-cloud/builds/push-images/
+
+
+
 
 
 

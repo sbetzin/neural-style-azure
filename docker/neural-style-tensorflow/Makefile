@@ -7,6 +7,7 @@ build:
 	
 build-1.12.0:
 	nvidia-docker build -f Dockerfile-1.12.0-gpu-py3 -t $(IMGNAME):1.12.0-gpu-py3 .
+	nvidia-docker push sbetzin/neural-style-tensorflow:1.12.0-gpu-py3
 
 clean:
 	docker rmi $(IMGNAME):$(IMGTAG)

@@ -8,7 +8,7 @@ import sys
 import os.path
 import logging
 import numpy
-import argparse 
+import argparse
 
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
@@ -106,10 +106,14 @@ def poll_queue(queue_service, blob_service, queue_name):
             messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=30*60)
 
             if len(messages) > 0:
+                start_time = time.time()
                 message = messages[0]
+
                 handle_message(blob_service, message)
+                measure_time(start_time)
+
                 queue_service.delete_message(queue_name, message.id, message.pop_receipt)
-            
+                
             time.sleep(5)
     except Exception as e:
         logger.error(e)
@@ -122,7 +126,10 @@ def setup_azure(azure_connection_string):
         logger.error(e)
 
     return (queue_service, blob_service)
-        
+
+def measure_time(start_time):
+    print("took %s seconds" % (time.time() - start_time))
+
 def parse_args(argv):
 
     desc = "QueueClient for tensorflow implementation of Neural-Style"  

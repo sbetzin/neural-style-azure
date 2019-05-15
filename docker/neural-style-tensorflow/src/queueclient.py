@@ -128,7 +128,7 @@ def setup_azure(azure_connection_string):
     return (queue_service, blob_service)
 
 def measure_time(start_time):
-    print("took %s seconds" % (time.time() - start_time))
+    logger.info("took %s seconds" % (time.time() - start_time))
 
 def parse_args(argv):
 

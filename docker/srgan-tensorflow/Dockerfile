@@ -6,7 +6,8 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sud
 RUN apt-get -y install python3-pip
 RUN pip3 install tensorflow==2.0.0-alpha0 tensorflow-gpu==2.0.0-alpha0 tensorlayer
 RUN pip3 install --upgrade tensorlayer[all]
-RUN pip3 install easydict azure-storage-queue azure-storage-blob piexif
+RUN pip3 install easydict 
+RUN pip3 azure-storage-queue azure-storage-blob
 
 
 # clone srgan 

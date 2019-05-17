@@ -10,7 +10,7 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 RUN sh ~/miniconda.sh -b -p ~/miniconda 
 RUN rm ~/miniconda.sh
 RUN echo $PATH
-ENV PATH ~/miniconda :$PATH
+ENV PATH ~/miniconda/bin:$PATH
 RUN echo $PATH
 
 # Install dependecies

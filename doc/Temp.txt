@@ -23,11 +23,11 @@ wget http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_LR_bicubic_X4.zip
 
 
 ### Install miniconda
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda.sh
 
-bash ~/miniconda.sh -b -p ~/miniconda 
+./miniconda.sh -b -p ./miniconda 
 export PATH=~/miniconda/bin:$PATH
-rm ~/miniconda.sh
+rm ./miniconda.sh
 
 ### Conda Environments
 https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307

@@ -22,7 +22,7 @@ logs:
 	nvidia-docker logs $(shell docker ps -q --filter "name=srgan-tensorflow")
 	
 console-start:
-	nvidia-docker run --rm -it --name srgan-tensorflow-console -v /datadrive/training/enlarge:/images --entrypoint /bin/bash $(IMGNAME)
+	nvidia-docker run --rm -it --name srgan-tensorflow-console -v /datadrive/training:/training --entrypoint /bin/bash $(IMGNAME)
 
 console-stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=srgan-tensorflow-console")

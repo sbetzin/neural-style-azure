@@ -30,7 +30,7 @@ sudo make stop ; sudo make ; sudo make start
 
 ### Run docker console with mapped folder
 ```bash
-sudo nvidia-docker run --rm -it -e AzureStorageConnectionString -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/neural-style-tensorflow
+sudo nvidia-docker run --rm -it -v /:/images --entrypoint /bin/bash sbetzin/neural-style-tensorflow
 ```
 ### Append Command Line Args to the entrypoint
 ```bash

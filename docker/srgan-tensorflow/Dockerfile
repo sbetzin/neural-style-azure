@@ -7,7 +7,7 @@ RUN apt-get -y install python3-pip
 RUN pip3 install tensorflow==2.0.0-alpha0 tensorflow-gpu==2.0.0-alpha0 tensorlayer
 RUN pip3 install --upgrade tensorlayer[all]
 RUN pip3 install easydict 
-#RUN pip3 azure-storage-queue azure-storage-blob
+RUN pip3 install azure-storage-queue azure-storage-blob
 
 
 # clone srgan 

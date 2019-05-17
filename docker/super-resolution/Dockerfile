@@ -14,7 +14,7 @@ ENV PATH /opt/conda/bin:$PATH
 RUN echo $PATH
 
 # Install dependecies
-RUN conda install -y pytest keras tqdm Pillow
+RUN /opt/conda/bin/conda install -y pytest keras tqdm Pillow
 RUN pip3 install tensorflow-gpu
 
 # clone super-resolution 

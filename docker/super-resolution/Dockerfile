@@ -10,11 +10,11 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 RUN sh ~/miniconda.sh -b -p ~/miniconda 
 RUN rm ~/miniconda.sh
 RUN echo $PATH
-ENV PATH /opt/conda/bin:$PATH
+ENV PATH ~/miniconda :$PATH
 RUN echo $PATH
 
 # Install dependecies
-RUN /opt/conda/bin/conda install -y pytest keras tqdm Pillow
+RUN conda install -y pytest keras tqdm Pillow
 RUN pip3 install tensorflow-gpu
 
 # clone super-resolution 

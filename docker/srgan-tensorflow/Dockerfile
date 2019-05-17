@@ -3,7 +3,7 @@ LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo zip 
-RUN apt-get install python3-pip
+RUN apt-get -y install python3-pip
 RUN pip3 install tensorflow==2.0.0-alpha0 tensorflow-gpu==2.0.0-alpha0 tensorlayer
 RUN pip3 install --upgrade tensorlayer[all]
 RUN pip3 install easydict azure-storage-queue azure-storage-blob piexif

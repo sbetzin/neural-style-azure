@@ -1,16 +1,3 @@
-sudo apt-get update
-sudo apt install python3-pip
-sudo apt-get install zip unzip
-
-pip3 install tensorflow==2.0.0-alpha0
-pip3 install tensorflow-gpu==2.0.0-alpha0
-pip3 install tensorlayer
-pip3 install --upgrade tensorlayer[all]
-pip3 install easydict
-
-git clone https://github.com/tensorlayer/srgan
-
-
 ### Testbild
 wget http://www.zooroyal.de/magazin/wp-content/uploads/2017/06/hund-im-sommer-760x560.jpg
 
@@ -22,20 +9,6 @@ wget http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_LR_bicubic_X4.zip
 
 
 
-### Install miniconda
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda.sh
-
-./miniconda.sh -b -p ./miniconda 
-export PATH=~/miniconda/bin:$PATH
-rm ./miniconda.sh
-
-### Conda Environments
-https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307
-
-### Conda in Docker
-https://medium.com/@chadlagore/conda-environments-with-docker-82cdc9d25754
-
-
 
 ### bugfix für die Debug Meldungen in der Console
 sudo service systemd-networkd restart
@@ -44,33 +17,16 @@ sudo service systemd-networkd restart
 
 
 sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /bin/bash tensorflow/tensorflow:latest-gpu
+sudo nvidia-docker run --rm -it -v /datadrive/training:/training --entrypoint /bin/bash sbetzin/super-resolution
 
 
 
-### super resolution
-
-wget https://neuralstylefiles.blob.core.windows.net/models/super-resolution/edsr-16-x4-gen-epoch-088.h5
-wget https://neuralstylefiles.blob.core.windows.net/models/super-resolution/wdsr-a-32-x4-psnr-29.1736.h5
-
-git clone https://github.com/krasserm/super-resolution
-
-conda install -y python=3.6 pytest keras tqdm Pillow
-pip3 install tensorflow-gpu
-
-
-
-conda env create -f environment-gpu.yml
-source activate sisr
-
-
-
-
-
-
+### EDSR + SRGAN
 python3 demo.py -i /training/enlarge/in -o /training/enlarge --model edsr-16-x4-gen-epoch-088.h5
 
 
-python3 demo.py -i /training/enlarge/in -o /training/enlarge --model wdsr-a-32-x4-psnr-29.1736.h5
+### WDSR
+python3 demo.py -i /training/enlarge/in -o /training/enlarge --model wdsr-a-32-x4-psnr-29.1736.h5 --gpu-memory-fraction 1.0
 
 
 

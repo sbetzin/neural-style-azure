@@ -38,7 +38,7 @@ namespace NeuralStyle.ExplorerExtension.Features
 
             var (queue, container) = Factory.Construct();
 
-            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 2500, 0.01, 50.0, "imagenet-vgg-verydeep-19.mat");
+            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 2500, 0.01, 50.0);
         }
     }
 }

@@ -12,14 +12,14 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
+        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight, string model)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
             Logger.Log($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
+                queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight, model);
             }
         }
 
@@ -34,9 +34,9 @@ namespace NeuralStyle.Core.Cloud
             return queue;
         }
 
-        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight, string model)
         {
-            var job = new Job {SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight};
+            var job = new Job {SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight, Model = model};
             job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);

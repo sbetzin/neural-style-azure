@@ -26,11 +26,3 @@ def to_original_colors(content_image, output_image):
     # dst = preprocess(dst)
 
     return dst
-
-
-name ="ana_prag"
-content_image = read_image("C:/Data/images/in/" + name + ".jpg")
-out_image = read_image("C:/Data/images/out/" + name + ".jpg")
-
-result = to_original_colors(content_image, out_image)
-save_image("C:/Data/images/out/" + name + "_orig.jpg", result)

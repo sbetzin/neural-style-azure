@@ -53,6 +53,7 @@ def handle_message(blob_service, message):
         content_weight = job["ContentWeight"]
         size = job["Size"]
         iterations = job["Iterations"]
+        model = job["Model"]
 
         image_dir = "/app/images/"
         source_file = os.path.join(image_dir, source_name)
@@ -66,6 +67,7 @@ def handle_message(blob_service, message):
         args.extend(["--max_size", str(size)])
         args.extend(["--max_iterations", str(iterations)])
         args.extend(["--img_output_dir", image_dir])
+        args.extend(["--model_weights", model])
         args.extend(["--verbose"])
 
         logger.info("downloading %s", source_file )
@@ -74,7 +76,7 @@ def handle_message(blob_service, message):
         logger.info("downloading %s", style_file )
         blob_service.get_blob_to_path("images", style_name, file_path= style_file)
 
-        logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s", source_name, style_name, target_name, size)
+        logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s, Model=%s", source_name, style_name, target_name, size, model)
 
         target_name_origcolor_0 = target_name.replace("#origcolor#", "0")
         target_name_origcolor_1 = target_name.replace("#origcolor#", "1")

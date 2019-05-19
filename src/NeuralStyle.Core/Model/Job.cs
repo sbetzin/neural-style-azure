@@ -9,5 +9,6 @@
         public double ContentWeight { get; set; } = 1.0;
         public int Size { get; set; } = 700;
         public int Iterations { get; set; } = 500;
+        public string Model { get; set; } = "imagenet-vgg-verydeep-19.mat";
     }
 }

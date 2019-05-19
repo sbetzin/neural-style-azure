@@ -8,7 +8,7 @@ namespace NeuralStyle.Core.Features
 {
     public static class CreateJobs
     {
-        public static void CreateMissing(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateMissing(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, int iterations, int size, double contentWeight, double styleWeight, string model)
         {
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
@@ -18,15 +18,15 @@ namespace NeuralStyle.Core.Features
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
 
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight));
+            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight, model));
         }
 
-        public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight, string model)
         {
             container.UploadImages(images);
             container.UploadImages(styles);
 
-            queue.CreateJobs(images, styles, iterations, size, styleWeight, contentWeight);
+            queue.CreateJobs(images, styles, iterations, size, styleWeight, contentWeight, model);
         }
     }
 }

@@ -14,6 +14,15 @@ https://medium.com/@chadlagore/conda-environments-with-docker-82cdc9d25754
 ### Conda Environments
 https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
+### Create Environment
+conda create --name neural-style
+
+### Create environment from file
+conda env create --file environment.yaml
+
+### activate environment
+conda activate neural-style-tensorflow
+
 ### Environments zeigen
 conda info --envs
 
@@ -24,4 +33,4 @@ conda list
 conda deactivate
 
 ### Conda remove environment
-conda remove --name myenv --all
+conda remove --name neural-style-tensorflow --all -y

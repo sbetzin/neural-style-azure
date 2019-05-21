@@ -2,5 +2,5 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": false,
-    "python.pythonPath": "C:\\Python37\\python.exe"
+    "python.pythonPath": "C:\\Users\\gensb\\AppData\\Local\\Continuum\\miniconda3\\envs\\neural-style-tensorflow\\python.exe"
 }

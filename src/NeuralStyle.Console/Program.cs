@@ -63,16 +63,15 @@ namespace NeuralStyle.Console
 
             //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
-            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 1200, 0.01, 50.0);
+            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 1250, 0.01, 50.0);
+            
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
-            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
+            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 1000.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 10000.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 100000.0);
-            //UpdateNames.FixNames(inPath, stylePath, outPath);
-            //UpdateNames.FixNamesByTag(outPath);
-
+            
             Logger.Log("");
             Logger.Log("Done");
 

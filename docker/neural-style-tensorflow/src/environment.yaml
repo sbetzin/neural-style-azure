@@ -1,0 +1,14 @@
+name: neural-style-tensorflow
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - scipy
+  - pip
+  - pip:
+    - opencv-python-headless
+    - tensorflow
+    - piexif
+    - azure-storage-queue
+    - azure-storage-blob
+    - applicationinsights

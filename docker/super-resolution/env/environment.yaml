@@ -1,0 +1,13 @@
+name: base
+dependencies:
+  - python=3.7
+  - pytest
+  - keras
+  - tqdm
+  - Pillow
+  - pip
+  - pip:
+    - tensorflow-gpu
+    - azure-storage-queue
+    - azure-storage-blob
+    - applicationinsights

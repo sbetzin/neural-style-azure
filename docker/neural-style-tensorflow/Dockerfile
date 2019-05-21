@@ -18,7 +18,6 @@ ENV PATH ~/miniconda/bin:$PATH
 #install python libs
 WORKDIR /env/
 COPY ["/env/environment.yaml" ,"/env/"]
-#RUN pip install tensorflow-gpu opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
 RUN conda env update --file environment.yaml
 
 # download loss network

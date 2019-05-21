@@ -16,8 +16,9 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 ENV PATH ~/miniconda/bin:$PATH
 
 #install python libs
-RUN conda install -y pytest keras tqdm Pillow
-RUN pip install tensorflow-gpu
+WORKDIR /env/
+COPY ["/env/environment.yaml" ,"/env/"]
+RUN conda env update --file environment.yaml
 
 # clone super-resolution 
 WORKDIR /app/

@@ -37,7 +37,7 @@ namespace NeuralStyle.Core.Features
 
             File.Move(image, inFile);
 
-            HardLink.Create(inFile, styleFile, true);
+            //HardLink.Create(inFile, styleFile, true);
         }
     }
 }

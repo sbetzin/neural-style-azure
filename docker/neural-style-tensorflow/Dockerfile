@@ -11,7 +11,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sud
 RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
 
 #install python libs
-RUN pip3 install tensorflow tensorflow-gpu opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
+RUN pip3 install tensorflow-gpu opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
 
 # download loss network
 WORKDIR /app/

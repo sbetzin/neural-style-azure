@@ -10,3 +10,18 @@ https://towardsdatascience.com/getting-started-with-python-environments-using-co
 
 ### Conda in Docker
 https://medium.com/@chadlagore/conda-environments-with-docker-82cdc9d25754
+
+### Conda Environments
+https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
+
+### Environments zeigen
+conda info --envs
+
+### List packages
+conda list
+
+### Deactivate env
+conda deactivate
+
+### Conda remove environment
+conda remove --name myenv --all

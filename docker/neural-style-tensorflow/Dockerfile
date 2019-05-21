@@ -16,7 +16,10 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 ENV PATH ~/miniconda/bin:$PATH
 
 #install python libs
-RUN pip install tensorflow-gpu opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
+WORKDIR /env/
+COPY ["/env/environment.yaml" ,"/env/"]
+#RUN pip install tensorflow-gpu opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
+RUN conda env update --file environment.yaml
 
 # download loss network
 WORKDIR /app/

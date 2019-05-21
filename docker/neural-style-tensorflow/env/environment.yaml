@@ -1,4 +1,4 @@
-name: neural-style-tensorflow
+name: base
 dependencies:
   - python=3.7
   - scipy

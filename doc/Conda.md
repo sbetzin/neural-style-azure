@@ -20,6 +20,9 @@ conda create --name neural-style
 ### Create environment from file
 conda env create --file environment.yaml
 
+### update environment from file
+conda env update --file environment.yaml
+
 ### activate environment
 conda activate neural-style-tensorflow
 

@@ -3,10 +3,9 @@ LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 
 # prepare basic os and python libs
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
-RUN pip install --upgrade pip && pip install opencv-python-headless scipy azure-storage-queue azure-storage-blob piexif
+RUN pip install --upgrade pip && pip install opencv-python-headless scipy azure-storage-queue azure-storage-blob applicationinsights piexif
 
 # download loss network
-# pretrained networks from http://www.vlfeat.org/matconvnet/pretrained/
 WORKDIR /app/
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/pretrained-models/imagenet-vgg-verydeep-19.mat
 

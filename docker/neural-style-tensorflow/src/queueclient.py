@@ -19,11 +19,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
 logger.setLevel(logging.INFO)
 
+# Only show error messages for the azure storage. otherwise the console is spammed with debug messages
+azure_logger = logging.getLogger("azure.storage")
+azure_logger.setLevel(logging.ERROR)
+
 insights.enable_logging()
 telemetrie = insights.create_telemetrie_client()
 
-#azure_logger = logging.getLogger("azure.storage")
-#azure_logger.setLevel(logging.ERROR)
+
 
 def ensure_dir(file_path):
     directory = os.path.dirname(file_path)
@@ -61,7 +64,7 @@ def handle_message(blob_service, message):
         model = job["Model"]
 
         telemetrie.track_event ("new image", job)
-        
+
         image_dir = "/app/images/"
         source_file = os.path.join(image_dir, source_name)
         style_file =  os.path.join(image_dir, style_name)

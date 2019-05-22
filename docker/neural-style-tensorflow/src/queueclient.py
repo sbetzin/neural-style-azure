@@ -49,6 +49,7 @@ def handle_message(blob_service, message):
     try:
         logger.info("--------------------------------------------------------------------------------------------------")
         logger.info("handling new message %s", message.id )
+        
         job = json.loads(message.content)
         source_name = job["SourceName"]
         style_name = job["StyleName"]
@@ -59,6 +60,8 @@ def handle_message(blob_service, message):
         iterations = job["Iterations"]
         model = job["Model"]
 
+        telemetrie.track_event ("new image", job)
+        
         image_dir = "/app/images/"
         source_file = os.path.join(image_dir, source_name)
         style_file =  os.path.join(image_dir, style_name)

@@ -26,8 +26,6 @@ azure_logger.setLevel(logging.ERROR)
 insights.enable_logging()
 telemetrie = insights.create_telemetrie_client()
 
-
-
 def ensure_dir(file_path):
     directory = os.path.dirname(file_path)
     if not os.path.exists(directory):

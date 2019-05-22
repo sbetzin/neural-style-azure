@@ -9,6 +9,7 @@ import os.path
 import logging
 import numpy
 import argparse
+import insights
 
 from azure.storage.queue import QueueService
 from azure.storage.blob import BlockBlobService
@@ -18,8 +19,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
 logger.setLevel(logging.INFO)
 
-azure_logger = logging.getLogger("azure.storage")
-azure_logger.setLevel(logging.ERROR)
+insights.enable_logging()
+telemetrie = insights.create_telemetrie_client()
+
+#azure_logger = logging.getLogger("azure.storage")
+#azure_logger.setLevel(logging.ERROR)
 
 def ensure_dir(file_path):
     directory = os.path.dirname(file_path)
@@ -130,7 +134,10 @@ def setup_azure(azure_connection_string):
     return (queue_service, blob_service)
 
 def measure_time(start_time):
-    logger.info("took %s seconds" % (time.time() - start_time))
+    generation_time = time.time() - start_time
+
+    telemetrie.track_metric('generation time', generation_time)
+    logger.info("took %s seconds" % generation_time)
 
 def parse_args(argv):
 

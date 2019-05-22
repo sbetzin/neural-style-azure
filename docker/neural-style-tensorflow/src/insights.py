@@ -20,9 +20,8 @@ def create_telemetrie_client():
     
     return telemetrie
 
-
-telemetrie = create_telemetrie_client()
-
-telemetrie.track_event('Test event')
-telemetrie.track_metric('Test Metric', 42)
-telemetrie.flush()
+#local test
+#telemetrie = create_telemetrie_client()
+#telemetrie.track_event('Test event')
+#telemetrie.track_metric('Test Metric', 42)
+#telemetrie.flush()

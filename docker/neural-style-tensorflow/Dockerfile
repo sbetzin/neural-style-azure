@@ -13,8 +13,8 @@ RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-d
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
-RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p ~/miniconda && rm ~/miniconda.sh
-ENV PATH ~/miniconda/bin:$PATH
+RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
+ENV PATH /root/miniconda/bin:$PATH
 
 #install python libs
 WORKDIR /env/

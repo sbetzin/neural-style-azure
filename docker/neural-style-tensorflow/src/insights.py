@@ -16,6 +16,8 @@ def create_telemetrie_client():
     key = get_instrumentation_key()
     client = TelemetryClient(key)
 
+    client.context.operation.name='neural-image-tensorflow'
+
     return client
 
 

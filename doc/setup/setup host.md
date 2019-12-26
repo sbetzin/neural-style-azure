@@ -31,6 +31,20 @@ sudo apt-get -y install cuda-drivers
 sudo apt-get -y install cuda
 ```
 
+### (Driver Update)
+```bash
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+sudo apt-get install cuda-drivers
+sudo reboot
+```
+
+## Fix GPG Key Error when apt-get update
+```bash
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
+```
+
 ### 2. install docker 
 this is based on the installation instructions
 https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce

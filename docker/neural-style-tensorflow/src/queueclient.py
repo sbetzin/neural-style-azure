@@ -11,7 +11,7 @@ import numpy
 import argparse
 import insights
 
-from azure.storage.queue import QueueService
+from azure.storage.queue import QueueServiceClient
 from azure.storage.blob import BlockBlobService
 from neural_style import main as neural_style_calc
 

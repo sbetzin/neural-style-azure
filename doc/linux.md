@@ -30,3 +30,25 @@ df
 
 ### bash shell Online help for syntax check
 https://www.shellcheck.net/
+
+### show ubuntu version
+```bash
+lsb_release -a
+```
+
+### Azure ubuntu release upgrade
+```bash
+sudo apt-get update
+sudo apt-get upgrade -f
+sudo do-release-upgrade
+```
+
+### Force uninstall using dpkg
+```bash
+sudo dpkg -P  --force-all  cuda-visual-tools-10-1
+```
+
+### Sources List
+sudo nano /etc/apt/sources.list
+
+or look in the folder /etc/apt/sources.list.d/ for a cuda.list file and edit the file

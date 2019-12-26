@@ -63,11 +63,17 @@ https://docs.docker.com/config/daemon/#docker-daemon-directory
 ```bash
 sudo docker login -u uuu -p ppp
 sudo docker push sbetzin/neural-style-tensorflow:1.12.0-gpu-py3
+sudo docker push sbetzin/neural-style-tensorflow:latest
 ```
 https://docs.docker.com/v17.12/docker-cloud/builds/push-images/
 
 
+# Move Docker Images to another harddrive
 
+sudo service docker stop
+sudo mv /var/lib/docker /datadrive
+sudo ln -s /datadrive/docker /var/lib/docker 
+sudo service docker start
 
 
 

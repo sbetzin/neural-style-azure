@@ -11,9 +11,10 @@ import numpy
 import argparse
 import insights
 
-from azure.storage.queue import QueueServiceClient
-from azure.storage.blob import BlockBlobService
+from azure.storage.queue import QueueClient
+from azure.storage.blob import BlobServiceClient, BlobClient
 from neural_style import main as neural_style_calc
+from azure.core.exceptions import ResourceExistsError
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
@@ -31,22 +32,24 @@ def ensure_dir(file_path):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-def prepare_queue(queue_service, queue_name):
+def prepare_queue(queue_client, queue_name):
     try:
-        if not queue_service.exists(queue_name):
-            logger.info("creating queue: %s", queue_name)
-            queue_service.create_queue(queue_name)
+        queue_client.create_queue()
+        logger.info("creating queue: %s", queue_name)
+    except ResourceExistsError:
+        logger.info("Queue already exists.")
     except Exception as e:
         logger.error(e)
 
-def prepare_blob(blob_service, container_name):
+def prepare_blob(blob_service_client, container_name):
     try:
-        if not blob_service.exists(container_name = container_name):
-            blob_service.create_container(container_name = container_name)
+        blob_service_client.create_container(container_name)
+    except ResourceExistsError:
+        logger.info("Container already exists.")
     except Exception as e:
         logger.error(e)
 
-def handle_message(blob_service, message):
+def handle_message(blob_service_client, message):
     try:
         logger.info("--------------------------------------------------------------------------------------------------")
         logger.info("handling new message %s", message.id )
@@ -79,10 +82,15 @@ def handle_message(blob_service, message):
         args.extend(["--verbose"])
 
         logger.info("downloading %s", source_file )
-        blob_service.get_blob_to_path("images", source_name, file_path= source_file)
+        blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
+        with open(source_file, "wb") as download_file:
+            download_file.write(blob_client.download_blob().readall())
 
         logger.info("downloading %s", style_file )
-        blob_service.get_blob_to_path("images", style_name, file_path= style_file)
+        blob_client = blob_service_client.get_blob_client(container="images", blob=style_name)
+        with open(style_file, "wb") as download_file:
+            download_file.write(blob_client.download_blob().readall())
+
 
         logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s, Model=%s", source_name, style_name, target_name, size, model)
 
@@ -94,48 +102,52 @@ def handle_message(blob_service, message):
 
         neural_style_calc(args)
 
-        upload_file(blob_service, target_name_origcolor_0, out_file_origcolor_0)
-        upload_file(blob_service, target_name_origcolor_1, out_file_origcolor_1)
+        upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
+        upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.error(e)
 
-def upload_file(blob_service, target_name, file_name):
+def upload_file(blob_service_client, target_name, file_name):
     try:
         if os.path.exists(file_name):
             logger.info ("uploading file %s", file_name)
-            blob_service.create_blob_from_path("results", target_name, file_name)
+            
+            blob_client = blob_service_client.get_blob_client(container="results", blob=target_name)
+            with open(file_name, "rb") as data:
+                blob_client.upload_blob(data)
+                
         else:
             logger.info("file %s does not exit", file_name)
     except Exception as e:
         logger.error(e)
 
-def poll_queue(queue_service, blob_service, queue_name):
+def poll_queue(queue_client, blob_service_client, queue_name):
     try:
         logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
-            messages = queue_service.get_messages(queue_name, num_messages=1, visibility_timeout=30*60)
+            messages = queue_client.receive_messages(messages_per_page=1, visibility_timeout=30*60)
 
-            if len(messages) > 0:
-                start_time = time.time()
-                message = messages[0]
+            for message_batch in messages.by_page():
+                for message in message_batch:
+                    start_time = time.time()
 
-                handle_message(blob_service, message)
-                measure_time(start_time)
+                    handle_message(blob_service_client, message)
+                    measure_time(start_time)
 
-                queue_service.delete_message(queue_name, message.id, message.pop_receipt)
+                    queue_client.delete_message(message)
                 
             time.sleep(5)
     except Exception as e:
         logger.error(e)
 
-def setup_azure(azure_connection_string):
+def setup_azure(azure_connection_string, queue_name):
     try:
-        queue_service = QueueService(connection_string=azure_connection_string)
-        blob_service = BlockBlobService(connection_string=azure_connection_string)
+        queue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=queue_name)
+        blob_service_client = BlobServiceClient.from_connection_string(azure_connection_string)
     except Exception as e:
         logger.error(e)
 
-    return (queue_service, blob_service)
+    return (queue_client, blob_service_client)
 
 def measure_time(start_time):
     generation_time = time.time() - start_time
@@ -164,18 +176,18 @@ def main(argv):
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
 
-    queue_service, blob_service = setup_azure(azure_connection_string)
+    queue_client, blob_service_client = setup_azure(azure_connection_string, args.queue_name)
 
     logger.info ("preparing azure resources")
-    prepare_queue(queue_service, args.queue_name)
-    prepare_blob(blob_service, "images")
-    prepare_blob(blob_service, "results")
+    prepare_queue(queue_client, args.queue_name)
+    prepare_blob(blob_service_client, "images")
+    prepare_blob(blob_service_client, "results")
 
     logger.info ("ensuring directory exists")
     ensure_dir("/app/images/")
 
     logger.info ("starting queue client")
-    poll_queue(queue_service, blob_service, args.queue_name)
+    poll_queue(queue_client, blob_service_client, args.queue_name)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

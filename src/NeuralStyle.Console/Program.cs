@@ -56,27 +56,27 @@ namespace NeuralStyle.Console
             var singlePic = new[] {$@"{inPath}\eric_jump.jpg"};
             var singleStyle = new[]
             {
-                $@"{stylePath}\abstract_woman.jpg",
+                $@"{stylePath}\abstract_woman.jpg"
             };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
+            SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
-            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 1500, 0.01, 50.0);
-            
+            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
+
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 1000.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 10000.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 100000.0);
-            
+
             Logger.Log("");
             Logger.Log("Done");
 
 
-            //Console.ReadLine();
+            System.Console.ReadLine();
         }
     }
 }

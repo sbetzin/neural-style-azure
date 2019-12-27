@@ -1,4 +1,4 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np 
 import scipy.io  
 import argparse 
@@ -352,8 +352,8 @@ def get_bias(vgg_layers, i):
 '''
 def content_layer_loss(p, x):
   _, h, w, d = p.get_shape()
-  M = h * w
-  N = d
+  M = h.value * w.value
+  N = d.value
   if args.content_loss_function   == 1:
     K = 1. / (2. * N**0.5 * M**0.5)
   elif args.content_loss_function == 2:
@@ -365,8 +365,8 @@ def content_layer_loss(p, x):
 
 def style_layer_loss(a, x):
   _, h, w, d = a.get_shape()
-  M = h * w
-  N = d
+  M = h.value * w.value
+  N = d.value
   A = gram_matrix(a, M, N)
   G = gram_matrix(x, M, N)
   loss = (1./(4 * N**2 * M**2)) * tf.reduce_sum(tf.pow((G - A), 2))
@@ -379,10 +379,10 @@ def gram_matrix(x, area, depth):
 
 def mask_style_layer(a, x, mask_img):
   _, h, w, d = a.get_shape()
-  mask = get_mask_image(mask_img, w, h)
+  mask = get_mask_image(mask_img, w.value, h.value)
   mask = tf.convert_to_tensor(mask)
   tensors = []
-  for _ in range(d): 
+  for _ in range(d.value): 
     tensors.append(mask)
   mask = tf.stack(tensors, axis=2)
   mask = tf.stack(mask, axis=0)
@@ -573,7 +573,7 @@ def check_image(img, path):
   rendering -- where the magic happens
 '''
 def stylize(content_img, style_imgs, init_img, frame=None):
-  with tf.device(args.device), tf.compat.v1.Session()  as sess:
+  with tf.device(args.device), tf.Session() as sess:
     # setup network
     net = build_model(content_img)
     
@@ -613,10 +613,10 @@ def stylize(content_img, style_imgs, init_img, frame=None):
     elif args.optimizer == 'lbfgs':
       minimize_with_lbfgs(sess, net, optimizer, init_img)
     
-    logger.info('starting...')
-
     output_img = sess.run(net['input'])
-  
+    
+    
+
     if args.video:
       if args.original_colors:
         output_img = convert_to_original_colors(np.copy(content_img), output_img)

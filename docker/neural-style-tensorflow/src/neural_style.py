@@ -353,7 +353,7 @@ def get_bias(vgg_layers, i):
 def content_layer_loss(p, x):
   _, h, w, d = p.get_shape()
   M = h * w
-  N = d.value
+  N = d
   if args.content_loss_function   == 1:
     K = 1. / (2. * N**0.5 * M**0.5)
   elif args.content_loss_function == 2:
@@ -366,7 +366,7 @@ def content_layer_loss(p, x):
 def style_layer_loss(a, x):
   _, h, w, d = a.get_shape()
   M = h * w
-  N = d.value
+  N = d
   A = gram_matrix(a, M, N)
   G = gram_matrix(x, M, N)
   loss = (1./(4 * N**2 * M**2)) * tf.reduce_sum(tf.pow((G - A), 2))
@@ -379,10 +379,10 @@ def gram_matrix(x, area, depth):
 
 def mask_style_layer(a, x, mask_img):
   _, h, w, d = a.get_shape()
-  mask = get_mask_image(mask_img, w.value, h.value)
+  mask = get_mask_image(mask_img, w, h)
   mask = tf.convert_to_tensor(mask)
   tensors = []
-  for _ in range(d.value): 
+  for _ in range(d): 
     tensors.append(mask)
   mask = tf.stack(tensors, axis=2)
   mask = tf.stack(mask, axis=0)

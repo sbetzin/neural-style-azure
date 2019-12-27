@@ -613,10 +613,10 @@ def stylize(content_img, style_imgs, init_img, frame=None):
     elif args.optimizer == 'lbfgs':
       minimize_with_lbfgs(sess, net, optimizer, init_img)
     
-    output_img = sess.run(net['input'])
-    
-    
+    logger.info('starting...')
 
+    output_img = sess.run(net['input'])
+  
     if args.video:
       if args.original_colors:
         output_img = convert_to_original_colors(np.copy(content_img), output_img)

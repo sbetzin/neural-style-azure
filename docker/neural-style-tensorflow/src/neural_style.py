@@ -352,7 +352,7 @@ def get_bias(vgg_layers, i):
 '''
 def content_layer_loss(p, x):
   _, h, w, d = p.get_shape()
-  M = h.value * w.value
+  M = h * w
   N = d.value
   if args.content_loss_function   == 1:
     K = 1. / (2. * N**0.5 * M**0.5)
@@ -365,7 +365,7 @@ def content_layer_loss(p, x):
 
 def style_layer_loss(a, x):
   _, h, w, d = a.get_shape()
-  M = h.value * w.value
+  M = h * w
   N = d.value
   A = gram_matrix(a, M, N)
   G = gram_matrix(x, M, N)

@@ -87,14 +87,10 @@ def handle_message(blob_service_client, message):
         args.extend(["--model_weights", "imagenet-vgg-verydeep-19.mat"])
 
         logger.info("downloading %s", source_file )
-        blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
-        with open(source_file, "wb") as download_file:
-            download_file.write(blob_client.download_blob().readall())
+        download_file(blob_service_client, source_name, source_file)
 
         logger.info("downloading %s", style_file )
-        blob_client = blob_service_client.get_blob_client(container="images", blob=style_name)
-        with open(style_file, "wb") as download_file:
-            download_file.write(blob_client.download_blob().readall())
+        download_file(blob_service_client, style_name, style_file)
 
 
         logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s, Model=%s", source_name, style_name, target_name, size, model)
@@ -111,6 +107,12 @@ def handle_message(blob_service_client, message):
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.exception(e)
+
+def download_file(blob_service_client, source_name, source_file):
+    blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
+    
+    with open(source_file, "wb") as download_file:
+        download_file.write(blob_client.download_blob().readall())
 
 def upload_file(blob_service_client, target_name, file_name):
     try:

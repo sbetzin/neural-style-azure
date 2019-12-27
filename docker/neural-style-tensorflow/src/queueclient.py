@@ -24,6 +24,10 @@ logger.setLevel(logging.INFO)
 azure_logger = logging.getLogger("azure.storage")
 azure_logger.setLevel(logging.ERROR)
 
+# Only show error messages for the azure core. otherwise the console is spammed with debug messages
+azure_logger = logging.getLogger("azure.core")
+azure_logger.setLevel(logging.ERROR)
+
 insights.enable_logging()
 telemetrie = insights.create_telemetrie_client()
 
@@ -115,7 +119,7 @@ def upload_file(blob_service_client, target_name, file_name):
             blob_client = blob_service_client.get_blob_client(container="results", blob=target_name)
             with open(file_name, "rb") as data:
                 blob_client.upload_blob(data)
-                
+
         else:
             logger.info("file %s does not exit", file_name)
     except Exception as e:

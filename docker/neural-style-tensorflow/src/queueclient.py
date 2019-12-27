@@ -84,6 +84,7 @@ def handle_message(blob_service_client, message):
         args.extend(["--img_output_dir", image_dir])
         args.extend(["--model_weights", model])
         args.extend(["--verbose"])
+        args.extend(["--model_weights", "imagenet-vgg-verydeep-19.mat"])
 
         logger.info("downloading %s", source_file )
         blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
@@ -138,7 +139,7 @@ def poll_queue(queue_client, blob_service_client, queue_name):
                     handle_message(blob_service_client, message)
                     measure_time(start_time)
 
-                    #queue_client.delete_message(message)
+                    queue_client.delete_message(message)
                 
             time.sleep(5)
     except Exception as e:

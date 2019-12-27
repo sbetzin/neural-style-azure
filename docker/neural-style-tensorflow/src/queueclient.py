@@ -43,7 +43,7 @@ def prepare_queue(queue_client, queue_name):
     except ResourceExistsError:
         logger.info("Queue already exists.")
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
 def prepare_blob(blob_service_client, container_name):
     try:
@@ -51,7 +51,7 @@ def prepare_blob(blob_service_client, container_name):
     except ResourceExistsError:
         logger.info("Container already exists.")
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
 def handle_message(blob_service_client, message):
     try:
@@ -109,7 +109,7 @@ def handle_message(blob_service_client, message):
         upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
 def upload_file(blob_service_client, target_name, file_name):
     try:
@@ -123,7 +123,7 @@ def upload_file(blob_service_client, target_name, file_name):
         else:
             logger.info("file %s does not exit", file_name)
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
 def poll_queue(queue_client, blob_service_client, queue_name):
     try:
@@ -138,18 +138,18 @@ def poll_queue(queue_client, blob_service_client, queue_name):
                     handle_message(blob_service_client, message)
                     measure_time(start_time)
 
-                    queue_client.delete_message(message)
+                    #queue_client.delete_message(message)
                 
             time.sleep(5)
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
 def setup_azure(azure_connection_string, queue_name):
     try:
         queue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=queue_name)
         blob_service_client = BlobServiceClient.from_connection_string(azure_connection_string)
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
 
     return (queue_client, blob_service_client)
 

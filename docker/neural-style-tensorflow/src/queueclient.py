@@ -82,7 +82,7 @@ def handle_message(blob_service_client, message):
         args.extend(["--img_name", target_name])
         args.extend(["--content_weight", str(content_weight)])
         args.extend(["--style_weight", str(style_weight)])
-        args.extend(["--tv_weight", str(tv_weight))
+        args.extend(["--tv_weight", str(tv_weight)
         args.extend(["--temporal_weight", str(temporal_weight)])
         args.extend(["--max_size", str(size)])
         args.extend(["--max_iterations", str(iterations)])

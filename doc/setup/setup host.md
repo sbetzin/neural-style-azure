@@ -4,6 +4,10 @@ you can eighter use a physical host or one of [azure n-series with gpu support](
 the installation instructions are optimized for an ubuntu 16-04 azure virtual machine (n-series) server and based on 
 https://docs.microsoft.com/de-de/azure/virtual-machines/linux/n-series-driver-setup
 
+### Remove old packages
+sudo dpkg -l | grep 'cuda-repo'
+sudo dpkg --purge xxxx
+
 ### 1. First install the Cuda drivers and Cuda from official nvidia repos (Ubuntu 16)
 ```bash
 CUDA_REPO_PKG=cuda-repo-ubuntu1604_10.1.105-1_amd64.deb
@@ -20,8 +24,6 @@ sudo apt-get -y install cuda
 
 ### 1. First install the Cuda drivers and Cuda from official nvidia repos (Ubuntu 18)
 ```bash
-#sudo dpkg -i cuda-repo-<distro>_<version>_<architecture>.deb
-CUDA_REPO_PKG=cuda-repo-ubuntu1804_10.1.105-1_amd64.deb
 CUDA_REPO_PKG=cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 wget -O /tmp/${CUDA_REPO_PKG} http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/${CUDA_REPO_PKG} 
 sudo dpkg -i /tmp/${CUDA_REPO_PKG}

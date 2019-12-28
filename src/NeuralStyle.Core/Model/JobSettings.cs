@@ -1,10 +1,7 @@
 ﻿namespace NeuralStyle.Core.Model
 {
-    public class Job
+    public class JobSettings
     {
-        public string SourceName { get; set; }
-        public string StyleName { get; set; }
-        public string TargetName { get; set; }
         public double StyleWeight { get; set; } = 50.0;
         public double TvWeight { get; set; } = 0.001;
         public double TemporalWeight { get; set; } = 200;

@@ -12,14 +12,14 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, int iterations, int size, double contentWeight, double styleWeight)
+        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
             Logger.Log($"Creating {jobs.Count} jobs");
             foreach (var (sourceFile, styleFile) in jobs)
             {
-                queue.CreateJob(sourceFile, styleFile, iterations, size, styleWeight, contentWeight);
+                queue.CreateJob(sourceFile, styleFile, settings);
             }
         }
 
@@ -34,9 +34,19 @@ namespace NeuralStyle.Core.Cloud
             return queue;
         }
 
-        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, JobSettings settings)
         {
-            var job = new Job {SourceName = Path.GetFileName(sourceFile), StyleName = Path.GetFileName(styleFile), Iterations = iterations, Size = size, StyleWeight = styleWeight, ContentWeight = contentWeight};
+            var job = new Job {SourceName = Path.GetFileName(sourceFile), 
+                StyleName = Path.GetFileName(styleFile), 
+                Iterations = settings.Iterations, 
+                Size = settings.Size, 
+                StyleWeight = settings.StyleWeight, 
+                ContentWeight = settings.ContentWeight,
+                TvWeight =  settings.TvWeight,
+                TemporalWeight = settings.TemporalWeight,
+                ContentLossFunction = settings.ContentLossFunction
+            };
+                
             job.TargetName = CreateTargetName(job);
 
             var json = JsonConvert.SerializeObject(job);
@@ -61,7 +71,7 @@ namespace NeuralStyle.Core.Cloud
         {
             var prefix = Path.GetFileNameWithoutExtension(job.SourceName).BuildPrefix(Path.GetFileNameWithoutExtension(job.StyleName));
 
-            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
+            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_tvw_{job.TvWeight:G}_tmpw_{job.TemporalWeight:G}_clf_{job.ContentLossFunction:G}_iter_{job.Iterations}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

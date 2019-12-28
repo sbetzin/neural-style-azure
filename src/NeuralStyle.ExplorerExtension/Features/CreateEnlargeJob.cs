@@ -3,6 +3,7 @@ using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
+using NeuralStyle.Core.Model;
 
 namespace NeuralStyle.ExplorerExtension.Features
 {
@@ -38,7 +39,18 @@ namespace NeuralStyle.ExplorerExtension.Features
 
             var (queue, container) = Factory.Construct();
 
-            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, 500, 2500, 0.01, 50.0);
+            var settings = new JobSettings()
+            {
+                Iterations = 500,
+                Size = 2500,
+                StyleWeight = 0.01,
+                ContentWeight = 50.0,
+                TvWeight = 0.001,
+                TemporalWeight = 200,
+                ContentLossFunction = 1
+            };
+
+            CreateJobs.CreateNew(container, queue, new[] {inImage}, new[] {styleImage}, settings);
         }
     }
 }

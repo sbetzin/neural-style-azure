@@ -3,12 +3,13 @@ using System.IO;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NeuralStyle.Core.Cloud;
+using NeuralStyle.Core.Model;
 
 namespace NeuralStyle.Core.Features
 {
     public static class CreateJobs
     {
-        public static void CreateMissing(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateMissing(CloudBlobContainer container, CloudQueue queue, string inPath, string stylePath, string outPath, JobSettings settings)
         {
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
@@ -18,15 +19,15 @@ namespace NeuralStyle.Core.Features
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
 
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, iterations, size, contentWeight, styleWeight));
+            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, settings));
         }
 
-        public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, int iterations, int size, double contentWeight, double styleWeight)
+        public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, JobSettings settings)
         {
             container.UploadImages(images);
             container.UploadImages(styles);
 
-            queue.CreateJobs(images, styles, iterations, size, styleWeight, contentWeight);
+            queue.CreateJobs(images, styles, settings);
         }
     }
 }

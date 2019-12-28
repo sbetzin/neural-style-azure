@@ -5,6 +5,7 @@ using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
+using NeuralStyle.Core.Model;
 
 namespace NeuralStyle.Console
 {
@@ -63,7 +64,18 @@ namespace NeuralStyle.Console
 
             SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
-            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, 500, 900, 0.01, 50.0);
+            var settings = new JobSettings()
+            {
+                Iterations = 500,
+                Size = 900,
+                StyleWeight = 0.01,
+                ContentWeight = 50.0,
+                TvWeight = 0.001,
+                TemporalWeight = 200,
+                ContentLossFunction = 1
+            };
+
+            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
 
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);

@@ -64,6 +64,9 @@ def handle_message(blob_service_client, message):
         target_name = job["TargetName"]
         style_weight = job["StyleWeight"]
         content_weight = job["ContentWeight"]
+        tv_weight = job["TvWeight"]
+        temporal_weight = job["TemporalWeight"]
+        content_loss_function = job["ContentLossFunction"]
         size = job["Size"]
         iterations = job["Iterations"]
         model = job["Model"]
@@ -79,12 +82,16 @@ def handle_message(blob_service_client, message):
         args.extend(["--img_name", target_name])
         args.extend(["--content_weight", str(content_weight)])
         args.extend(["--style_weight", str(style_weight)])
+        args.extend(["--tv_weight", str(tv_weight))
+        args.extend(["--temporal_weight", str(temporal_weight)])
         args.extend(["--max_size", str(size)])
         args.extend(["--max_iterations", str(iterations)])
         args.extend(["--img_output_dir", image_dir])
         args.extend(["--model_weights", model])
         args.extend(["--verbose"])
-        args.extend(["--model_weights", "imagenet-vgg-verydeep-19.mat"])
+        args.extend(["--content_loss_function", str(content_loss_function)])
+        #args.extend(["--device","/cpu:0"])
+        args.extend(["--device","/gpu:0"])
 
         logger.info("downloading %s", source_file )
         download_file(blob_service_client, source_name, source_file)
@@ -141,7 +148,7 @@ def poll_queue(queue_client, blob_service_client, queue_name):
                     handle_message(blob_service_client, message)
                     measure_time(start_time)
 
-                    queue_client.delete_message(message)
+                    #queue_client.delete_message(message)
                 
             time.sleep(5)
     except Exception as e:

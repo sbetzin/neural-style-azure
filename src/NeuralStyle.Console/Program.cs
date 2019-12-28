@@ -62,20 +62,20 @@ namespace NeuralStyle.Console
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
+            //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
 
             var settings = new JobSettings()
             {
                 Iterations = 500,
                 Size = 900,
-                StyleWeight = 0.01,
-                ContentWeight = 50.0,
+                StyleWeight = 5.0,
+                ContentWeight = 0.01,
                 TvWeight = 0.001,
                 TemporalWeight = 200,
                 ContentLossFunction = 1
             };
 
-            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
+            CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
 
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);

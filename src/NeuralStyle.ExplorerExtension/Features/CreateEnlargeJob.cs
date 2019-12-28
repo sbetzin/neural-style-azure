@@ -43,8 +43,8 @@ namespace NeuralStyle.ExplorerExtension.Features
             {
                 Iterations = 500,
                 Size = 2500,
-                StyleWeight = 0.01,
-                ContentWeight = 50.0,
+                StyleWeight = 50.0,
+                ContentWeight = 0.01,
                 TvWeight = 0.001,
                 TemporalWeight = 200,
                 ContentLossFunction = 1

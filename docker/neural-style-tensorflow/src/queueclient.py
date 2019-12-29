@@ -148,7 +148,7 @@ def poll_queue(queue_client, blob_service_client, queue_name):
                     handle_message(blob_service_client, message)
                     measure_time(start_time)
 
-                    #queue_client.delete_message(message)
+                    queue_client.delete_message(message)
                 
             time.sleep(5)
     except Exception as e:

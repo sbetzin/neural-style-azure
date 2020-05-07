@@ -35,5 +35,16 @@ namespace NeuralStyle.Core.Imaging
                 }
             }
         }
+
+        public static void EnsureDirectoryExists(this string inFile)
+        {
+            var path = Path.GetDirectoryName(inFile);
+            if (path == null)
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(path);
+        }
     }
 }

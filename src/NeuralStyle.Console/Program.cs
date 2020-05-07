@@ -35,10 +35,6 @@ namespace NeuralStyle.Console
             var ivanov = Directory.GetFiles(stylePath, "eugene_ivanov_*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var sebastian = Directory.GetFiles(inPath, "sebastian_*.jpg");
-            var berge = Directory.GetFiles(inPath, "berge*.jpg");
-            var vdma = Directory.GetFiles(inPath, "vdma_gruppe.jpg");
-
 
             var bestStyles = kandinskyStyles.Union(modernArtStyle).Union(picassoStyles).Union(new List<string>
             {
@@ -54,20 +50,18 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg"
             }).ToArray();
 
-            var singlePic = new[] {$@"{inPath}\eric_jump.jpg"};
-            var singleStyle = new[]
-            {
-                $@"{stylePath}\abstract_woman.jpg"
-            };
+            var singlePic = new[] {$@"{inPath}\eltern_norwegen_2.jpg"};
+            var singleStyle = new[]{$@"{stylePath}\eltern_norwegen_2.jpg"};
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            //SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
+            SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
+            
 
             var settings = new JobSettings()
             {
                 Iterations = 500,
-                Size = 900,
+                Size = 1200,
                 StyleWeight = 5.0,
                 ContentWeight = 0.01,
                 TvWeight = 0.001,
@@ -76,6 +70,9 @@ namespace NeuralStyle.Console
             };
 
             CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
+            //SortImages.CreateMissingHardlinkgs(outPath);
+
+            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
@@ -88,7 +85,7 @@ namespace NeuralStyle.Console
             Logger.Log("Done");
 
 
-            System.Console.ReadLine();
+            //System.Console.ReadKey();
         }
     }
 }

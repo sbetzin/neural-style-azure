@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Drawing2D;
 using System.IO;
 using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Links;
@@ -32,12 +33,40 @@ namespace NeuralStyle.Core.Features
             var inFile = Path.Combine(outPath,"name", tags.In, fileName);
             var styleFile = Path.Combine(outPath,"style", tags.Style, fileName);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(inFile));
-            Directory.CreateDirectory(Path.GetDirectoryName(styleFile));
+            inFile.EnsureDirectoryExists();
+            styleFile.EnsureDirectoryExists();
 
             File.Move(image, inFile);
 
-            //HardLink.Create(inFile, styleFile, true);
+            HardLink.Create(inFile, styleFile, true);
+        }
+
+
+        public static void CreateMissingHardlinkgs(string outPath)
+        {
+            var namePath = Path.Combine(outPath, "name");
+
+            var images = namePath.Get_All_Images(SearchOption.AllDirectories);
+
+            foreach (var image in images)
+            {
+                CreateMissingHardlink(outPath, image);
+            }
+        }
+
+        private static void CreateMissingHardlink(string outPath, string image)
+        {
+            var fileName = Path.GetFileName(image);
+            var tags = image.GetTags();
+            if (tags.Style == null)
+            {
+                return;
+            }
+
+            var styleFile = Path.Combine(outPath, "style", tags.Style, fileName);
+            styleFile.EnsureDirectoryExists();
+
+            HardLink.Create(image, styleFile, true);
         }
     }
 }

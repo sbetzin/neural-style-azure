@@ -6,7 +6,7 @@ LABEL version="1.0"
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
 
 # dependecies for python libs (ssl)
-#RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
+RUN apt-get install -y libsm6 libxext6 libxrender-dev
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"

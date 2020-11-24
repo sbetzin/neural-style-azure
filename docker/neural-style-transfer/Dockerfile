@@ -18,11 +18,8 @@ WORKDIR /env/
 COPY ["/env/environment.yml" ,"/env/"]
 RUN conda env update --file environment.yml
 
-# download loss network
-WORKDIR /app/
-#RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/pretrained-models/imagenet-vgg-verydeep-19.mat
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
-COPY ["/src/*.py" ,"/app/"]
+COPY ["/src/" ,"/app/"]
 
 ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]

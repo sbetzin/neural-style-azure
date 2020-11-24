@@ -15,7 +15,7 @@ ENV PATH /root/miniconda/bin:$PATH
 
 #install python libs
 WORKDIR /env/
-COPY ["/env/environment.yaml" ,"/env/"]
+COPY ["/env/environment.yml" ,"/env/"]
 RUN conda env update --file environment.yml
 
 # download loss network

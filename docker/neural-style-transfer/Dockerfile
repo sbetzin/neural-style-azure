@@ -19,6 +19,7 @@ COPY ["/env/environment.yml" ,"/env/"]
 RUN conda env update --file environment.yml
 
 
+WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/" ,"/app/"]
 

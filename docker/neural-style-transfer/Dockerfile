@@ -16,11 +16,12 @@ ENV PATH /root/miniconda/bin:$PATH
 WORKDIR /env/
 COPY ["/env/environment.yml" ,"/env/"]
 RUN conda env update --file environment.yml
-RUN conda init
-RUN conda activate styletransfer
 
 WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/" ,"/app/"]
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "styletransfer", "/bin/bash", "-c"]
 
 ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]

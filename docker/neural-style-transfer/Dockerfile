@@ -13,10 +13,8 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 ENV PATH /root/miniconda/bin:$PATH
 
 #install python libs
-RUN conda install pytorch==1.4.0
-RUN conda install torchvision=0.5.0 --channel pytorch
-RUN conda install matplotlib
-RUN pip numpy install opencv-python
+RUN conda install -y pytorch==1.4.0 torchvision=0.5.0 matplotlib --channel pytorch
+RUN pip install -y numpy opencv-python
 
 WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files

@@ -17,7 +17,7 @@ ENV PATH /root/miniconda/bin:$PATH
 WORKDIR /env/
 COPY ["/env/environment.yml" ,"/env/"]
 RUN conda env update --file environment.yml
-
+RUN conda init
 
 WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files

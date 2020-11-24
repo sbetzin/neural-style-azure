@@ -55,7 +55,7 @@ namespace NeuralStyle.Console
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            SortImages.SortNewImages(@"C:\Data\OneDrive\neuralimages", outPath);
+            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
             
 
             var settings = new JobSettings()

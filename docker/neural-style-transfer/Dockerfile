@@ -1,15 +1,12 @@
-FROM tensorflow/tensorflow:1.15.0-gpu-py3
+FROM 11.1-runtime-ubuntu18.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
-LABEL version="1.1.1"
-
-# remove python 2.7 and 3.5 from native installations
-RUN apt-get update && apt purge python2.7-minimal -y && apt purge python3-minimal -y && apt autoremove -y
+LABEL version="1.0"
 
 # update basic os
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
 
 # dependecies for python libs (ssl)
-RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
+#RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
@@ -19,11 +16,11 @@ ENV PATH /root/miniconda/bin:$PATH
 #install python libs
 WORKDIR /env/
 COPY ["/env/environment.yaml" ,"/env/"]
-RUN conda env update --file environment.yaml
+RUN conda env update --file environment.yml
 
 # download loss network
 WORKDIR /app/
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/pretrained-models/imagenet-vgg-verydeep-19.mat
+#RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/pretrained-models/imagenet-vgg-verydeep-19.mat
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]

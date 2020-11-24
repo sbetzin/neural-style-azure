@@ -24,4 +24,4 @@ COPY ["/src/" ,"/app/"]
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "styletransfer", "/bin/bash", "-c"]
 
-ENTRYPOINT ["conda", "run", "-n", "styletransfer", "/bin/bash", "-c"]
+ENTRYPOINT ["conda", "run", "-n", "styletransfer", "/bin/bash"]

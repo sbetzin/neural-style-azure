@@ -50,19 +50,19 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\yosi_losaij_you_and_me.jpg"
             }).ToArray();
 
-            var singlePic = new[] {$@"{inPath}\eltern_norwegen_2.jpg"};
-            var singleStyle = new[]{$@"{stylePath}\eltern_norwegen_2.jpg"};
+            var singlePic = new[] {$@"{inPath}\family_jump_01.jpg"};
+            var singleStyle = new[]{$@"{stylePath}\picasso_tete_dune_femme_lisant.jpg"};
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
             
 
             var settings = new JobSettings()
             {
                 Iterations = 500,
                 Size = 1200,
-                StyleWeight = 5.0,
+                StyleWeight = 500,
                 ContentWeight = 0.01,
                 TvWeight = 0.001,
                 TemporalWeight = 200,
@@ -74,7 +74,7 @@ namespace NeuralStyle.Console
 
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
+            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 50.0);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, 500, 1500, 0.01, 1000.0);

@@ -108,7 +108,14 @@ ssh-keygen -t rsa -b 4096 -C "<your email>"
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
 ```
-### 9. Clone Repository (optional)
+
+### 9. Add ssh to Gituhub
+https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
+```bash
+cat /home/(user)/.ssh/id_rsa.pub
+```
+
+### 10. Clone Repository (optional)
 ```bash
 git clone git@github.com:sbetzin/neural-style-azure.git
 ```

@@ -15,7 +15,7 @@ sudo docker system prune -a
 ```
 ### Teste das Nvidia-smi in einem Docker Container
 ```bash
-sudo nvidia-docker run --rm nvidia/cuda:latest nvidia-smi
+sudo nvidia-docker run --rm nvidia/cuda:11.3.0-runtime-ubuntu20.04 nvidia-smi
 ```
 
 ### Baue den Docker container

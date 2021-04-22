@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.1-runtime-ubuntu18.04
+FROM nvidia/cuda:11.3.0-runtime-ubuntu18.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 

@@ -144,7 +144,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--content_img_name", type=str, help="content image name", default='family_jump_08.jpg')
     parser.add_argument("--style_img_name", type=str, help="style image name", default='vg_la_cafe.jpg')
-    parser.add_argument("--height", type=int, help="height of content and style images", default=1200)
+    parser.add_argument("--height", type=int, help="height of content and style images", default=800)
 
     parser.add_argument("--content_weight", type=float, help="weight factor for content loss", default=1e5)
     parser.add_argument("--style_weight", type=float, help="weight factor for style loss", default=3e4)

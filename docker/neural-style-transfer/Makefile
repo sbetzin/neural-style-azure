@@ -9,7 +9,7 @@ clean:
 	docker rmi $(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME)
+	nvidia-docker run -d -e --rm AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME)
 	
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=neural-style-transfer")

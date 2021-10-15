@@ -11,14 +11,14 @@ clean:
 
 start:
 	# nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow --restart=unless-stopped $(IMGNAME):$(IMGTAG)
-	nvidia-docker run --rm -it -d --gpus '"device=0"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-0 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
-	nvidia-docker run --rm -it -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
-	nvidia-docker run --rm -it -d --gpus '"device=2"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
-	nvidia-docker run --rm -it -d --gpus '"device=3"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-3 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
-	nvidia-docker run --rm -it -d --gpus '"device=4"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-4 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
-	nvidia-docker run --rm -it -d --gpus '"device=5"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-5 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
-	nvidia-docker run --rm -it -d --gpus '"device=6"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-6 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
-	nvidia-docker run --rm -it -d --gpus '"device=7"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-7 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=0"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-0 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=3"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-3 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=4"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-4 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=5"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-5 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=6"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-6 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
+	nvidia-docker run -d --gpus '"device=7"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-7 --restart=unless-stopped $(IMGNAME):$(IMGTAG) 
 
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=neural-style-tensorflow")

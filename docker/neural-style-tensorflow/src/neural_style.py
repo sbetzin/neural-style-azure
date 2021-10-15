@@ -574,8 +574,7 @@ def check_image(img, path):
   rendering -- where the magic happens
 '''
 def stylize(content_img, style_imgs, init_img, frame=None):
-  #with tf.device(args.device), tf.compat.v1.Session() as sess:
-  with tf.compat.v1.Session() as sess:
+  with tf.device(args.device), tf.compat.v1.Session() as sess:
     # setup network
     net = build_model(content_img)
     

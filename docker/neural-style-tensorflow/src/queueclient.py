@@ -202,7 +202,7 @@ def main(argv):
     ensure_dir("/app/images/")
 
     logger.info ("starting queue client")
-    poll_queue(queue_client, blob_service_client, args.queue_name)
+    # poll_queue(queue_client, blob_service_client, args.queue_name)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

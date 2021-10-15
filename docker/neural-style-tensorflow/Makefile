@@ -1,10 +1,13 @@
-.PHONY: all build clean start stop restart logs pull console-start console-stop console-logs
+.PHONY: all build rebuild clean start stop restart logs pull console-start console-stop console-logs
 IMGNAME=sbetzin/neural-style-tensorflow
 IMGTAG=1.15.0-gpu-py3
 	
 build:
 	nvidia-docker build -f Dockerfile-1.15.0-gpu-py3 -t $(IMGNAME):$(IMGTAG) .
 	#nvidia-docker push sbetzin/neural-style-tensorflow:1.15.0-gpu-py3
+
+rebuild:
+	stop build start
 
 clean:
 	docker rmi $(IMGNAME):$(IMGTAG)

@@ -90,7 +90,6 @@ def handle_message(blob_service_client, message):
         args.extend(["--model_weights", model])
         args.extend(["--verbose"])
         args.extend(["--content_loss_function", str(content_loss_function)])
-        #args.extend(["--device","/cpu:0"])
         args.extend(["--device","/gpu:0"])
 
         logger.info("downloading %s", source_file )
@@ -182,6 +181,8 @@ def parse_args(argv):
 def main(argv):
     logger.info("parsing arguments")
     args = parse_args(argv)
+
+    logger.info(argv)
 
     azure_connection_string = os.getenv("AzureStorageConnectionString")
     if azure_connection_string == None:

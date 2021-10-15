@@ -182,8 +182,6 @@ def main(argv):
     logger.info("parsing arguments")
     args = parse_args(argv)
 
-    logger.info(argv)
-
     azure_connection_string = os.getenv("AzureStorageConnectionString")
     if azure_connection_string == None:
         raise NameError("environment variable AzureStorageConnectionString is not set")
@@ -202,7 +200,7 @@ def main(argv):
     ensure_dir("/app/images/")
 
     logger.info ("starting queue client")
-    # poll_queue(queue_client, blob_service_client, args.queue_name)
+    poll_queue(queue_client, blob_service_client, args.queue_name)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

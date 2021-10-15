@@ -6,9 +6,6 @@ build:
 	nvidia-docker build -f Dockerfile-1.15.0-gpu-py3 -t $(IMGNAME):$(IMGTAG) .
 	#nvidia-docker push sbetzin/neural-style-tensorflow:1.15.0-gpu-py3
 
-rebuild:
-	stop build start
-
 clean:
 	docker rmi $(IMGNAME):$(IMGTAG)
 
@@ -37,5 +34,6 @@ console-logs:
 
 console-restart: console-stop console-start
 
+rebuild: stop build start
 restart: stop start
 all: build

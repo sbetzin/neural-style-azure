@@ -8,6 +8,9 @@ https://docs.microsoft.com/de-de/azure/virtual-machines/linux/n-series-driver-se
 sudo dpkg -l | grep 'cuda-repo'
 sudo dpkg --purge xxxx
 
+### Check Ubuntu version
+lsb_release -a
+
 ### 1. First install the Cuda drivers and Cuda from official nvidia repos (Ubuntu 16)
 ```bash
 CUDA_REPO_PKG=cuda-repo-ubuntu1604_10.1.105-1_amd64.deb

@@ -91,7 +91,7 @@ def handle_message(blob_service_client, message):
         args.extend(["--verbose"])
         args.extend(["--content_loss_function", str(content_loss_function)])
         #args.extend(["--device","/cpu:0"])
-        args.extend(["--device","/gpu:0"])
+        args.extend(["--device","/XLA_GPU:0"])
 
         logger.info("downloading %s", source_file )
         download_file(blob_service_client, source_name, source_file)

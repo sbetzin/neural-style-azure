@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NeuralStyle.Core.Cloud;
@@ -18,8 +20,8 @@ namespace NeuralStyle.Core.Features
 
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
-
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, settings));
+            
+            missing.AsParallel().WithDegreeOfParallelism(20).ForAll(pair => queue.CreateJob(pair.In, pair.Style, settings));
         }
 
         public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, JobSettings settings)

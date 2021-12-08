@@ -37,7 +37,7 @@ namespace NeuralStyle.ExplorerExtension.Features
                 return;
             }
 
-            var (queue, container) = Factory.Construct();
+            var (queue, container) = Factory.Construct("enlarge");
 
             var settings = new JobSettings()
             {

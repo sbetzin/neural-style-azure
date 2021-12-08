@@ -6,9 +6,8 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class Factory
     {
-        public static (CloudQueue queue, CloudBlobContainer container) Construct()
+        public static (CloudQueue queue, CloudBlobContainer container) Construct(string queueName)
         {
-            var queueName = "jobs";
             var containerName = "images";
 
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");

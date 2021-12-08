@@ -36,6 +36,10 @@ namespace NeuralStyle.Core.Features
             inFile.EnsureDirectoryExists();
             styleFile.EnsureDirectoryExists();
 
+            if (File.Exists(inFile))
+            {
+                File.Delete(inFile);
+            }
             File.Move(image, inFile);
 
             HardLink.Create(inFile, styleFile, true);

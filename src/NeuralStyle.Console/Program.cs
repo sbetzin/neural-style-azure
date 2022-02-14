@@ -27,8 +27,8 @@ namespace NeuralStyle.Console
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\Test\test.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\acryl_1.jpg" };
+            var singlePic = new[] { $@"{inPath}\patricia-01.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\lovis_corinth_morgensonne.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
 
@@ -38,7 +38,7 @@ namespace NeuralStyle.Console
             var settings = new JobSettings()
             {
                 Iterations = 500,
-                Size = 1200,
+                Size = 1100,
                 StyleWeight = 500,
                 ContentWeight = 0.01,
                 TvWeight = 0.001,
@@ -49,7 +49,7 @@ namespace NeuralStyle.Console
             var settingsHighCw = new JobSettings()
             {
                 Iterations = 500,
-                Size = 1200,
+                Size = 1100,
                 StyleWeight = 500,
                 ContentWeight = 1,
                 TvWeight = 0.001,
@@ -61,9 +61,9 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+           // CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.01, Size =1200, TemporalWeight = 200, TvWeight =0.001});
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.001, Size =1200, TemporalWeight = 200, TvWeight =0.001});

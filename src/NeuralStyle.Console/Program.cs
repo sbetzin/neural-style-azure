@@ -15,19 +15,21 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            var (queue, container) = Factory.Construct("jobs");
+            var (queue, container) = Factory.Construct("jobs2");
 
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
             var inPath = @"C:\Data\images\in";
+            var inDonePath = @"C:\Data\images\in\done";
             var outPath = @"C:\Data\images\out";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
+            var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\patricia-01.jpg" };
+            var singlePic = new[] { $@"{inPath}\blumen-01.jpg" };
             var singleStyle = new[] { $@"{stylePath}\lovis_corinth_morgensonne.jpg" };
 
             ImageAdapter.Ensure_Correct_Filenames(images);
@@ -38,7 +40,7 @@ namespace NeuralStyle.Console
             var settings = new JobSettings()
             {
                 Iterations = 500,
-                Size = 1100,
+                Size = 1200,
                 StyleWeight = 500,
                 ContentWeight = 0.01,
                 TvWeight = 0.001,
@@ -46,24 +48,13 @@ namespace NeuralStyle.Console
                 ContentLossFunction = 1
             };
 
-            var settingsHighCw = new JobSettings()
-            {
-                Iterations = 500,
-                Size = 1100,
-                StyleWeight = 500,
-                ContentWeight = 1,
-                TvWeight = 0.001,
-                TemporalWeight = 200,
-                ContentLossFunction = 1
-            };
 
-
-            //CreateJobs.CreateMissing(container, queue, inPath, stylePath, outPath, settings);
+            CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-           // CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
-
-            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
+           //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+           
+            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.01, Size =1200, TemporalWeight = 200, TvWeight =0.001});
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.001, Size =1200, TemporalWeight = 200, TvWeight =0.001});

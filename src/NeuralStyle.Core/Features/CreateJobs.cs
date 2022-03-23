@@ -21,7 +21,7 @@ namespace NeuralStyle.Core.Features
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
             
-            missing.AsParallel().WithDegreeOfParallelism(20).ForAll(pair => queue.CreateJob(pair.In, pair.Style, settings));
+            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, settings));
         }
 
         public static void CreateNew(CloudBlobContainer container, CloudQueue queue, string[] images, string[] styles, JobSettings settings)

@@ -15,13 +15,14 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            var (queue, container) = Factory.Construct("jobs2");
+            var (queue, container) = Factory.Construct("jobs");
 
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
             var inPath = @"C:\Data\images\in";
             var inDonePath = @"C:\Data\images\in\done";
             var outPath = @"C:\Data\images\out";
+            var outScaledPath = @"C:\Data\images\out_scaled";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
@@ -32,9 +33,9 @@ namespace NeuralStyle.Console
             var singlePic = new[] { $@"{inPath}\blumen-01.jpg" };
             var singleStyle = new[] { $@"{stylePath}\lovis_corinth_morgensonne.jpg" };
 
-            ImageAdapter.Ensure_Correct_Filenames(images);
+            UpdateNames.Ensure_Correct_Filenames(images);
 
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
 
 
             var settings = new JobSettings()
@@ -49,10 +50,10 @@ namespace NeuralStyle.Console
             };
 
 
-            CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
+            //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-           //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+           CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
            
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);

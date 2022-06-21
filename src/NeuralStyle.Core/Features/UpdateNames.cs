@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using NeuralStyle.Core.Imaging;
@@ -7,6 +8,22 @@ namespace NeuralStyle.Core.Features
 {
     public static class UpdateNames
     {
+        public static void Ensure_Correct_Filenames(string path)
+        {
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                var correctName = file.CorrectName();
+                if (file == correctName)
+                {
+                    continue;
+                }
+
+                Logger.Log($"renaming {file} to {correctName}");
+                File.Move(file, correctName);
+            }
+        }
+
         public static void FixNames(string inPath, string stylePath, string outPath)
         {
             var allIn = inPath.Get_All_Images(SearchOption.TopDirectoryOnly);
@@ -31,12 +48,14 @@ namespace NeuralStyle.Core.Features
 
                 foreach (var outFile in outFiles)
                 {
-                    if (File.Exists(outFile))
+                    if (!File.Exists(outFile))
                     {
-                        var newOutFile = outFile.Replace(oldName, newName);
-                        Logger.Log($"rename {outFile} to {newOutFile}");
-                        File.Move(outFile, newOutFile);
+                        continue;
                     }
+
+                    var newOutFile = outFile.Replace(oldName, newName);
+                    Logger.Log($"rename {outFile} to {newOutFile}");
+                    File.Move(outFile, newOutFile);
                 }
             }
         }

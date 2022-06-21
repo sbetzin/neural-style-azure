@@ -22,20 +22,6 @@ namespace NeuralStyle.Core.Imaging
             return Directory.GetFiles(path, "*.jpg", searchOption).ToList();
         }
 
-        public static void Ensure_Correct_Filenames(string path)
-        {
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                var correctName = file.CorrectName();
-                if (correctName != file)
-                {
-                    Logger.Log($"renaming {file} to {correctName}");
-                    File.Move(file, correctName);
-                }
-            }
-        }
-
         public static void EnsureDirectoryExists(this string inFile)
         {
             var path = Path.GetDirectoryName(inFile);

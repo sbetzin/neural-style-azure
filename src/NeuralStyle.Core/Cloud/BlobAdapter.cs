@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using AngleSharp.Io.Dom;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
@@ -51,6 +53,18 @@ namespace NeuralStyle.Core.Cloud
             Logger.Log($"   Uploading {file}");
 
             await blob.UploadFromFileAsync(file);
+        }
+
+        public static async Task UploadTextToBlob(this string file, CloudBlobContainer container)
+        {
+            var name = Path.GetFileName(file);
+            var blob = container.GetBlockBlobReference(name);
+            blob.Properties.ContentType = "text/html";
+
+            var content = File.ReadAllText(file);
+
+            Logger.Log($"   Uploading {file}");
+            await blob.UploadTextAsync(content);
         }
     }
 }

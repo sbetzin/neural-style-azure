@@ -15,7 +15,9 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            var (queue, container) = Factory.Construct("jobs");
+            var queue = Factory.ConstructQueue("jobs");
+            var container = Factory.ConstructContainer("images");
+            var webContainer = Factory.ConstructContainer("$web");
 
             var images = @"C:\Data\images";
             var stylePath = @"C:\Data\images\style";
@@ -23,6 +25,9 @@ namespace NeuralStyle.Console
             var inDonePath = @"C:\Data\images\in\done";
             var outPath = @"C:\Data\images\out";
             var outScaledPath = @"C:\Data\images\out_scaled";
+            var webPath = @"C:\Data\images\web\pages";
+            var sharePath = @"C:\Data\images\share";
+            var templateFile = @"C:\Data\images\web\template.html";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
@@ -34,6 +39,8 @@ namespace NeuralStyle.Console
             var singleStyle = new[] { $@"{stylePath}\lovis_corinth_morgensonne.jpg" };
 
             UpdateNames.Ensure_Correct_Filenames(images);
+
+            CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
             //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
 
@@ -53,8 +60,8 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-           CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
-           
+            //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.01, Size =1200, TemporalWeight = 200, TvWeight =0.001});

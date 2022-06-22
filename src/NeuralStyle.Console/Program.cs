@@ -28,6 +28,7 @@ namespace NeuralStyle.Console
             var webPath = @"C:\Data\images\web\pages";
             var sharePath = @"C:\Data\images\share";
             var templateFile = @"C:\Data\images\web\template.html";
+            var mintPath = @"C:\Data\images\mint\girl-playing-chess";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
@@ -40,9 +41,11 @@ namespace NeuralStyle.Console
 
             UpdateNames.Ensure_Correct_Filenames(images);
 
+            //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
+
             CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
+            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
 
 
             var settings = new JobSettings()

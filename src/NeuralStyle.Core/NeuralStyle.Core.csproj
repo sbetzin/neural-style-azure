@@ -126,6 +126,7 @@
     <Compile Include="Cloud\BlobAdapter.cs" />
     <Compile Include="Cloud\Factory.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="Features\CreateMiningMetaData.cs" />
     <Compile Include="Features\Templating.cs" />
     <Compile Include="Imaging\ExifAdapter.cs" />
     <Compile Include="Features\CreateJobs.cs" />

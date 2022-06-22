@@ -3,7 +3,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NeuralStyle.Core;
-using NeuralStyle.ExplorerExtension.Features;
 using SharpShell.Attributes;
 using SharpShell.Diagnostics;
 using SharpShell.SharpContextMenu;
@@ -25,7 +24,7 @@ namespace NeuralStyle.ExplorerExtension
 
             var itemCountLines = new ToolStripMenuItem
             {
-                Text = "Vergrössere Neurales Image"
+                Text = "Erstelle Webpage"
             };
 
             itemCountLines.Click += OnEnlargeImage;
@@ -44,7 +43,7 @@ namespace NeuralStyle.ExplorerExtension
             Logger.Log($"Found {SelectedItemPaths.Count()} images to enlarge");
             foreach (var path in SelectedItemPaths)
             {
-                CreateEnlargeJob.CreateLargeImageJob(path);
+                //CreateEnlargeJob.CreateLargeImageJob(path);
             }
         }
     }

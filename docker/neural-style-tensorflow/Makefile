@@ -1,4 +1,4 @@
-.PHONY: all build rebuild clean start stop restart logs pull console-start console-stop console-logs
+.PHONY: all build rebuild clean start stop restart logs pull console-start console-stop console-logs prune
 IMGNAME=sbetzin/neural-style-tensorflow
 IMGTAG=1.15.0-gpu-py3
 	
@@ -23,6 +23,9 @@ pull:
 	
 logs:
 	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-tensorflow")
+
+prune:
+	docker container prune --force
 	
 console-start:
 	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-tensorflow-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)

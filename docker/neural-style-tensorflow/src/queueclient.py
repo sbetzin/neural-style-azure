@@ -134,33 +134,45 @@ def upload_file(blob_service_client, target_name, file_name):
     except Exception as e:
         logger.exception(e)
 
-def poll_queue(queue_client, blob_service_client, queue_name):
+def poll_queue(queue_client, priorityQueue_client, blob_service_client, queue_name):
     try:
         logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
-            messages = queue_client.receive_messages(messages_per_page=1, visibility_timeout=30*60)
-
-            for message_batch in messages.by_page():
-                for message in message_batch:
-                    start_time = time.time()
-
-                    handle_message(blob_service_client, message)
-                    measure_time(start_time)
-
-                    queue_client.delete_message(message)
+           
+            hadPriorityMessages = CheckQueue(priorityQueue_client, blob_service_client)
+            if not hadPriorityMessages:
+                CheckQueue(queue_client, blob_service_client)
                 
             time.sleep(5)
     except Exception as e:
         logger.exception(e)
 
-def setup_azure(azure_connection_string, queue_name):
+def CheckQueue(queue_client, blob_service_client):
+    messages = queue_client.receive_messages(messages_per_page=1, visibility_timeout=30*60)
+
+    for message_batch in messages.by_page():
+        for message in message_batch:
+            start_time = time.time()
+
+            handle_message(blob_service_client, message)
+            measure_time(start_time)
+
+            queue_client.delete_message(message)
+            
+            return True
+    return False
+        
+
+
+def setup_azure(azure_connection_string, queue_name, priorityqueue_name):
     try:
         queue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=queue_name)
+        priorityQueue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=priorityqueue_name)
         blob_service_client = BlobServiceClient.from_connection_string(azure_connection_string)
     except Exception as e:
         logger.exception(e)
 
-    return (queue_client, blob_service_client)
+    return (queue_client, priorityQueue_client, blob_service_client)
 
 def measure_time(start_time):
     generation_time = time.time() - start_time
@@ -189,10 +201,11 @@ def main(argv):
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
 
-    queue_client, blob_service_client = setup_azure(azure_connection_string, args.queue_name)
+    queue_client, priorityQueue_client, blob_service_client = setup_azure(azure_connection_string, "jobs", "priority-jobs")
 
     logger.info ("preparing azure resources")
-    prepare_queue(queue_client, args.queue_name)
+    prepare_queue(queue_client, "jobs")
+    prepare_queue(priorityQueue_client, "priority-jobs")
     prepare_blob(blob_service_client, "images")
     prepare_blob(blob_service_client, "results")
 
@@ -200,7 +213,7 @@ def main(argv):
     ensure_dir("/app/images/")
 
     logger.info ("starting queue client")
-    poll_queue(queue_client, blob_service_client, args.queue_name)
+    poll_queue(queue_client, priorityQueue_client, blob_service_client, "jobs", )
 
 if __name__ == '__main__':
   main(sys.argv[1:])

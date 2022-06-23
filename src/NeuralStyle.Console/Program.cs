@@ -63,7 +63,7 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);

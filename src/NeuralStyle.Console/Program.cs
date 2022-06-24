@@ -21,15 +21,15 @@ namespace NeuralStyle.Console
             var webContainer = Factory.ConstructContainer("$web");
 
             var images = @"C:\Data\images";
-            var stylePath = @"C:\Data\images\style";
-            var inPath = @"C:\Data\images\in";
-            var inDonePath = @"C:\Data\images\in\done";
-            var outPath = @"C:\Data\images\out";
-            var outScaledPath = @"C:\Data\images\out_scaled";
-            var webPath = @"C:\Data\images\web\pages";
-            var sharePath = @"C:\Data\images\share";
-            var templateFile = @"C:\Data\images\web\template.html";
-            var mintPath = @"C:\Data\images\mint\girl-playing-chess";
+            var stylePath = $@"{images}\style";
+            var inPath = $@"{images}\in";
+            var inDonePath = $@"{images}\in\done";
+            var outPath = $@"{images}\out";
+            var outScaledPath = $@"{images}\out_scaled";
+            var webPath = $@"{images}\web\pages";
+            var sharePath = $@"{images}\share";
+            var templateFile = $@"{images}\web\template.html";
+            var mintPath = $@"{images}\mint\girl-playing-chess";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo");
@@ -38,8 +38,8 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\todo\tea_time.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\wave_off_kanagawa.jpg" };
+            var singlePic = new[] { $@"{inPath}\done\dana_1.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\monet_fishing_boats.jpg" };
 
             var testPicsForStyleing = new[] { $@"{inPath}\done\ana-lolita.jpg",  $@"{inPath}\done\norwegen_2.jpg", $@"{inPath}\done\dana_1.jpg" };
             var bestStyles = new[] { $@"{stylePath}\bob_marley.jpg", 
@@ -78,11 +78,11 @@ namespace NeuralStyle.Console
             
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
-            CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
+            //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
             
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
             
-            //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleing, todoStyles, settings);
+            //CreateJobs.CreateNew(container, priorityQueue, singlePic, todoStyles, settings);
             
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, bestStyles, settings);
 

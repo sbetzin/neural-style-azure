@@ -16,6 +16,7 @@ namespace NeuralStyle.Console
             Logger.NewLog += System.Console.WriteLine;
 
             var queue = Factory.ConstructQueue("jobs");
+            var priorityQueue = Factory.ConstructQueue("priority-jobs");
             var container = Factory.ConstructContainer("images");
             var webContainer = Factory.ConstructContainer("$web");
 
@@ -31,21 +32,31 @@ namespace NeuralStyle.Console
             var mintPath = @"C:\Data\images\mint\girl-playing-chess";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
+            var todoStyles = Directory.GetFiles($@"{stylePath}\todo");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\blumen-01.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\lovis_corinth_morgensonne.jpg" };
+            var singlePic = new[] { $@"{inPath}\todo\tea_time.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\wave_off_kanagawa.jpg" };
+
+            var testPicsForStyleing = new[] { $@"{inPath}\done\ana-lolita.jpg",  $@"{inPath}\done\norwegen_2.jpg", $@"{inPath}\done\dana_1.jpg" };
+            var bestStyles = new[] { $@"{stylePath}\bob_marley.jpg", 
+                $@"{stylePath}\anca_stefanescu_pegasus.jpg",
+                $@"{stylePath}\dieu_deep_in_my.jpg",
+                $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg",
+                $@"{stylePath}\kandinsky_schwarz_und_violett.jpg",
+                $@"{stylePath}\kandinsky_bayerisches_dorf_mit_feld.jpg",
+                $@"{stylePath}\cat1.jpg",
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg",
+            };
 
             UpdateNames.Ensure_Correct_Filenames(images);
-
-            //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
-
             CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", outPath);
+            //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
 
 
             var settings = new JobSettings()
@@ -63,18 +74,17 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            
+            
+            //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
-            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settingsHighCw);
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.01, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.0001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.00001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500, ContentWeight = 0.000001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 5000, ContentWeight = 0.000001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 50000, ContentWeight = 0.000001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, new JobSettings(){Iterations = 500, ContentLossFunction =1, StyleWeight = 500000, ContentWeight = 0.000001, Size =1200, TemporalWeight = 200, TvWeight =0.001});
+            CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
+            
+            //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
+            
+            //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleing, todoStyles, settings);
+            
+            //CreateJobs.CreateNew(container, priorityQueue, singlePic, bestStyles, settings);
 
 
             Logger.Log("");

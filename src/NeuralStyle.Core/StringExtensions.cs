@@ -28,12 +28,12 @@ namespace NeuralStyle.Core
 
         public static string RemoveScalingName(this string file)
         {
-            if (!file.Contains("-art-scale") && !file.Contains(("-low_res-scale")))
+            if (!file.Contains("-art-scale") && !file.Contains("-low_res-scale") && !file.Contains("-very_compressed-scale"))
             {
                 return file;
             }
 
-            var parts = file.Split(new string[] { "-art-scale", "-low_res-scale" }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = file.Split(new string[] { "-art-scale", "-low_res-scale", "-very_compressed-scale" }, StringSplitOptions.RemoveEmptyEntries);
 
             return $"{parts[0]}.jpg";
         }

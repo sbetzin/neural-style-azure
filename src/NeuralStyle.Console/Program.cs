@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
-using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Model;
 
 namespace NeuralStyle.Console
@@ -41,15 +38,17 @@ namespace NeuralStyle.Console
             var singlePic = new[] { $@"{inPath}\done\dana_1.jpg" };
             var singleStyle = new[] { $@"{stylePath}\monet_fishing_boats.jpg" };
 
-            var testPicsForStyleing = new[] { $@"{inPath}\done\ana-lolita.jpg",  $@"{inPath}\done\norwegen_2.jpg", $@"{inPath}\done\dana_1.jpg" };
-            var bestStyles = new[] { $@"{stylePath}\bob_marley.jpg", 
+            var testPicsForStyleing = new[] { $@"{inPath}\done\ana-lolita.jpg", $@"{inPath}\done\norwegen_2.jpg", $@"{inPath}\done\dana_1.jpg" };
+            var bestStyles = new[]
+            {
+                $@"{stylePath}\bob_marley.jpg",
                 $@"{stylePath}\anca_stefanescu_pegasus.jpg",
                 $@"{stylePath}\dieu_deep_in_my.jpg",
                 $@"{stylePath}\hume_disin_die_glaubwuerdigkeit.jpg",
                 $@"{stylePath}\kandinsky_schwarz_und_violett.jpg",
                 $@"{stylePath}\kandinsky_bayerisches_dorf_mit_feld.jpg",
                 $@"{stylePath}\cat1.jpg",
-                $@"{stylePath}\elena_prokopenko_tanz7.jpg",
+                $@"{stylePath}\elena_prokopenko_tanz7.jpg"
             };
 
             UpdateNames.Ensure_Correct_Filenames(images);
@@ -59,7 +58,7 @@ namespace NeuralStyle.Console
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
 
 
-            var settings = new JobSettings()
+            var settings = new JobSettings
             {
                 Iterations = 500,
                 Size = 1200,
@@ -74,16 +73,15 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            
-            
+
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
-            
+
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
-            
+
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, todoStyles, settings);
-            
+
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, bestStyles, settings);
 
 

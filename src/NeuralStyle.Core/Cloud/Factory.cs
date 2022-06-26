@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage.Queue;
+using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 
 namespace NeuralStyle.Core.Cloud
 {
     public static class Factory
     {
-        public static CloudQueue ConstructQueue(string queueName)
+        public static QueueClient ConstructQueue(string queueName)
         {
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
             var queue = QueueAdapter.GetAzureQueue(connectionString, queueName);
@@ -14,7 +14,7 @@ namespace NeuralStyle.Core.Cloud
             return queue;
         }
 
-        public static CloudBlobContainer ConstructContainer(string containerName)
+        public static BlobContainerClient ConstructContainer(string containerName)
         {
             var connectionString = Environment.GetEnvironmentVariable("AzureStorageConnectionString");
             var container = BlobAdapter.GetBlobContainer(connectionString, containerName);

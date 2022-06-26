@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Templating;
@@ -8,7 +8,7 @@ namespace NeuralStyle.Core.Features
 {
     public static class CreateWebpages
     {
-        public static void CreateAll(CloudBlobContainer webContainer, string outScaledPath, string webPath, string templateFile)
+        public static void CreateAll(BlobContainerClient webContainer, string outScaledPath, string webPath, string templateFile)
         {
             var outImages = outScaledPath.Get_All_Images(SearchOption.AllDirectories);
 
@@ -18,7 +18,7 @@ namespace NeuralStyle.Core.Features
             }
         }
 
-        private static void Create(CloudBlobContainer webContainer, string webPath, string templateFile, string outImage)
+        private static void Create(BlobContainerClient webContainer, string webPath, string templateFile, string outImage)
         {
             var webPage = WebpageCreator.FromTemplate(templateFile, outImage);
             var webFile = Path.Combine(webPath, $"{Path.GetFileNameWithoutExtension(outImage)}.html");
@@ -35,7 +35,7 @@ namespace NeuralStyle.Core.Features
             Logger.Log($"Creating web page for {outImage}");
 
             File.WriteAllText(webFile, webPage);
-            webFile.UploadTextToBlob(webContainer).Wait();
+            webFile.UploadTextToBlob(webContainer);
 
         }
     }

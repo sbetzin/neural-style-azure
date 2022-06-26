@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
+using Azure.Storage;
+using Azure.Storage.Queues;
 using NeuralStyle.Core.Model;
 using Newtonsoft.Json;
 
@@ -12,7 +12,7 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public  static void CreateJobs(this CloudQueue queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
+        public  static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
@@ -23,18 +23,14 @@ namespace NeuralStyle.Core.Cloud
             }
         }
 
-        public static CloudQueue GetAzureQueue(string connectionString, string queueName)
+        public static QueueClient GetAzureQueue(string connectionString, string queueName)
         {
-            var storageAccount = CloudStorageAccount.Parse(connectionString);
-            var queueClient = storageAccount.CreateCloudQueueClient();
+            var queueClient = new QueueClient(connectionString, queueName);
 
-            var queue = queueClient.GetQueueReference(queueName).EnsureThatExists();
-            queue.EncodeMessage = false;
-
-            return queue;
+            return queueClient;
         }
 
-        public static void CreateJob(this CloudQueue queue, string sourceFile, string styleFile, JobSettings settings)
+        public static void CreateJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings)
         {
             var job = new Job {SourceName = Path.GetFileName(sourceFile), 
                 StyleName = Path.GetFileName(styleFile), 
@@ -49,15 +45,14 @@ namespace NeuralStyle.Core.Cloud
                 
             job.TargetName = CreateTargetName(job);
 
-            var json = JsonConvert.SerializeObject(job);
-            var message = new CloudQueueMessage(json);
+            var json = JsonConvert.SerializeObject (job);
 
-            queue.AddMessage(message);
+            queue.SendMessage(json);
 
             Logger.Log($"   added job for image {sourceFile} with style {styleFile}");
         }
 
-        private static CloudQueue EnsureThatExists(this CloudQueue queue)
+        private static QueueClient EnsureThatExists(this QueueClient queue)
         {
             if (!queue.ExistsAsync().Result)
             {

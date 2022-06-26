@@ -1,25 +1,19 @@
 ﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using AngleSharp.Io.Dom;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace NeuralStyle.Core.Cloud
 {
     public static class BlobAdapter
     {
-        public static CloudBlobContainer GetBlobContainer(string connectionString, string containerName)
+        public static BlobContainerClient GetBlobContainer(string connectionString, string containerName)
         {
-            var storageAccount = CloudStorageAccount.Parse(connectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = new BlobContainerClient(connectionString, containerName);
 
-            var blobContainer = blobClient.GetContainerReference(containerName).EnsureThatExists();
-
-            return blobContainer;
+            return container;
         }
 
-        private static CloudBlobContainer EnsureThatExists(this CloudBlobContainer blobContainer)
+        private static BlobContainerClient EnsureThatExists(this BlobContainerClient blobContainer)
         {
             if (!blobContainer.ExistsAsync().Result)
             {
@@ -29,42 +23,47 @@ namespace NeuralStyle.Core.Cloud
             return blobContainer;
         }
 
-        public static void UploadImages(this CloudBlobContainer blobContainer, string[] images)
+        public static void UploadImages(this BlobContainerClient blobContainer, string[] images)
         {
             Logger.Log($"checking {images.Length} images for upload");
             foreach (var image in images)
             {
-                image.UploadToBlob(blobContainer).Wait();
+                image.UploadToBlob(blobContainer);
             }
         }
 
-        public static async Task UploadToBlob(this string file, CloudBlobContainer container)
+        public static void UploadToBlob(this string file, BlobContainerClient container)
         {
             var name = Path.GetFileName(file);
-            var blob = container.GetBlockBlobReference(name);
+            var blob = container.GetBlobClient(name);
 
-            if (blob.ExistsAsync().Result)
+
+            if ((bool)blob.Exists())
             {
                 var info = new FileInfo(file);
+                var props = (BlobProperties)blob.GetProperties();
 
-                if (info.Length == blob.Properties.Length) return;
+                if (info.Length == props.ContentLength)
+                {
+                    return;
+                }
             }
 
             Logger.Log($"   Uploading {file}");
 
-            await blob.UploadFromFileAsync(file);
+            blob.Upload(file, true);
         }
 
-        public static async Task UploadTextToBlob(this string file, CloudBlobContainer container)
+        public static void UploadTextToBlob(this string file, BlobContainerClient container)
         {
             var name = Path.GetFileName(file);
-            var blob = container.GetBlockBlobReference(name);
-            blob.Properties.ContentType = "text/html";
+            var blob = container.GetBlobClient(name);
 
-            var content = File.ReadAllText(file);
+            var headers = new BlobHttpHeaders { ContentType = "text/html" };
+
 
             Logger.Log($"   Uploading {file}");
-            await blob.UploadTextAsync(content);
+            blob.Upload(file, headers);
         }
     }
 }

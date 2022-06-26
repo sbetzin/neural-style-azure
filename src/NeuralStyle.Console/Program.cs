@@ -2,6 +2,7 @@
 using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
+using NeuralStyle.Core.Instagram;
 using NeuralStyle.Core.Model;
 
 namespace NeuralStyle.Console
@@ -35,8 +36,10 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\dana_1.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\monet_fishing_boats.jpg" };
+            var singlePic = new[] { $@"{inPath}\todo\kris.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\todo\nft_art_01.jpg" };
+            var singleShare = new[] { $@"{sharePath}\bird_in_the_wood-dance_1-1200px_cw_0.01_sw_500_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
+            
 
             var testPicsForStyleing = new[] { $@"{inPath}\done\ana-lolita.jpg", $@"{inPath}\done\norwegen_2.jpg", $@"{inPath}\done\dana_1.jpg" };
             var bestStyles = new[]
@@ -50,6 +53,8 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\cat1.jpg",
                 $@"{stylePath}\elena_prokopenko_tanz7.jpg"
             };
+
+            //InstagramAdapter.Test(singleShare[0]).Wait();
 
             UpdateNames.Ensure_Correct_Filenames(images);
             CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);

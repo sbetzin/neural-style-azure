@@ -6,12 +6,13 @@ LABEL version="1.0"
 #RUN apt-get install -y nano wget git sudo
 
 # install dependencies
-WORKDIR /src/
+COPY ["/src/*.yml", "/app/"]
+
+WORKDIR /app/
 RUN conda env create
 RUN activate pytorch-nst
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
-WORKDIR /app/
 COPY ["/src/*.py" ,"/app/"]
 
 ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]

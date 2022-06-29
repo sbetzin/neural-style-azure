@@ -6,10 +6,10 @@ LABEL version="1.1.1"
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 
 # remove python 2.7 and 3.5 from native installations
-RUN apt-get update && apt purge python2.7-minimal -y && apt purge python3-minimal -y && apt autoremove -y
+RUN apt purge python2.7-minimal -y && apt purge python3-minimal -y && apt autoremove -y
 
 # update basic os
-RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
+RUN apt-get install -y nano wget git sudo
 
 # dependecies for python libs (ssl)
 RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 

@@ -8,6 +8,9 @@ RUN apt-get update && apt purge python2.7-minimal -y && apt purge python3-minima
 # update basic os
 RUN apt-get update && apt-get -y upgrade && apt-get install -y nano wget git sudo
 
+# adding new key for nvidia rep
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
+
 # dependecies for python libs (ssl)
 RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
 

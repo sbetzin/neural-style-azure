@@ -10,7 +10,7 @@ namespace NeuralStyle.Core.Features
     {
         public static void Ensure_Correct_Filenames(string path)
         {
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.jpg", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 var correctName = file.CorrectName();

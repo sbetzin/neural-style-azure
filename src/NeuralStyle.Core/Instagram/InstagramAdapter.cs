@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using InstagramApiSharp.API.Builder;
 using InstagramApiSharp.Classes;
+using InstagramApiSharp.Classes.Android.DeviceInfo;
 using InstagramApiSharp.Classes.Models;
 using InstagramApiSharp.Logger;
 
@@ -9,15 +10,19 @@ namespace NeuralStyle.Core.Instagram
 {
     public static class InstagramAdapter
     {
-        public static async Task Test(string file)
+        public static async Task NewPost(string file, string text)
         {
             var userSession = new UserSessionData
             {
                 UserName = "info@artme.ai",
-                Password = "artmeaipictures"
+                Password = "artmeaipictures",
             };
 
+            var device = new AndroidDevice();
+            
+
             var api = InstaApiBuilder.CreateBuilder().SetUser(userSession).UseLogger(new DebugLogger(LogLevel.Exceptions)).Build();
+            api.SetDevice(device);
 
             var loginResult = await api.LoginAsync();
             Logger.Log($"Login sucessful: {loginResult.Succeeded}");
@@ -37,12 +42,9 @@ namespace NeuralStyle.Core.Instagram
             //    Y = 0.5
             //});
 
-            var caption = @"Another pic of the day!
-#web3 #xrp #xrpnft #xrpnfts #sologenic #digitalart # #nftcommunity #nft #nftcollector #nftcollectors #nftcollectibles #nftart #nft #crypto 
+            
 
-Want your own picture transferred into digital painting? DM us or mail to info@artme.ai";
-
-            var up = await api.MediaProcessor.UploadPhotoAsync(img, caption);
+            var up = await api.MediaProcessor.UploadPhotoAsync(img, text);
             
             Logger.Log($"Picture Post sucessful: {up.Succeeded}");
         }

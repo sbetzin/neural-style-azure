@@ -8,9 +8,9 @@ namespace NeuralStyle.Core.Features
 {
     public static class SortImages
     {
-        public static void SortNewImages(string sortImagePath, string outPath)
+        public static void SortNewImages(string sortImagePath, string searchPattern, string outPath)
         {
-            var images = sortImagePath.Get_All_Images(SearchOption.AllDirectories);
+            var images = sortImagePath.Get_All_Images(searchPattern, SearchOption.AllDirectories);
 
             foreach (var image in images)
             {
@@ -30,8 +30,8 @@ namespace NeuralStyle.Core.Features
                 return;
             }
 
-            var inFile = Path.Combine(outPath,"name", tags.In, fileName);
-            var styleFile = Path.Combine(outPath,"style", tags.Style, fileName);
+            var inFile = Path.Combine(outPath, "name", tags.In, fileName);
+            var styleFile = Path.Combine(outPath, "style", tags.Style, fileName);
 
             inFile.EnsureDirectoryExists();
             styleFile.EnsureDirectoryExists();

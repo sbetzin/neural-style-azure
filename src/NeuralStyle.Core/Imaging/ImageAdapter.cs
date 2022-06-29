@@ -17,9 +17,14 @@ namespace NeuralStyle.Core.Imaging
             return Directory.GetFiles(path, "*.jpg", searchOption).Select(Path.GetFileNameWithoutExtension).ToList();
         }
 
+        public static List<string> Get_All_Images(this string path, string seachPattern, SearchOption searchOption)
+        {
+            return Directory.GetFiles(path, seachPattern, searchOption).ToList();
+        }
+
         public static List<string> Get_All_Images(this string path, SearchOption searchOption)
         {
-            return Directory.GetFiles(path, "*.jpg", searchOption).ToList();
+            return Get_All_Images(path, "*.jpg", searchOption);
         }
 
         public static void EnsureDirectoryExists(this string inFile)

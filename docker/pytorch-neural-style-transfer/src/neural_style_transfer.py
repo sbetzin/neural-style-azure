@@ -54,8 +54,7 @@ def neural_style_transfer(config):
     dump_path = os.path.join(config['output_img_dir'], out_dir_name)
     os.makedirs(dump_path, exist_ok=True)
 
-    #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    device = torch.device("cuda")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f'using device {device}')
 
     content_img = utils.prepare_img(content_img_path, config['height'], device)
@@ -88,7 +87,7 @@ def neural_style_transfer(config):
 
     # magic numbers in general are a big no no - some things in this code are left like this by design to avoid clutter
     num_of_iterations = {
-        "lbfgs": 500,
+        "lbfgs": 1000,
         "adam": 3000,
     }
 
@@ -142,9 +141,9 @@ if __name__ == "__main__":
     # sorted so that the ones on the top are more likely to be changed than the ones on the bottom
     #
     parser = argparse.ArgumentParser()
-    parser.add_argument("--content_img_name", type=str, help="content image name", default='family_jump_08.jpg')
-    parser.add_argument("--style_img_name", type=str, help="style image name", default='vg_la_cafe.jpg')
-    parser.add_argument("--height", type=int, help="height of content and style images", default=800)
+    parser.add_argument("--content_img_name", type=str, help="content image name", default='figures.jpg')
+    parser.add_argument("--style_img_name", type=str, help="style image name", default='vg_starry_night.jpg')
+    parser.add_argument("--height", type=int, help="height of content and style images", default=400)
 
     parser.add_argument("--content_weight", type=float, help="weight factor for content loss", default=1e5)
     parser.add_argument("--style_weight", type=float, help="weight factor for style loss", default=3e4)
@@ -153,7 +152,7 @@ if __name__ == "__main__":
     parser.add_argument("--optimizer", type=str, choices=['lbfgs', 'adam'], default='lbfgs')
     parser.add_argument("--model", type=str, choices=['vgg16', 'vgg19'], default='vgg19')
     parser.add_argument("--init_method", type=str, choices=['random', 'content', 'style'], default='content')
-    parser.add_argument("--saving_freq", type=int, help="saving frequency for intermediate images (-1 means only final)", default=100)
+    parser.add_argument("--saving_freq", type=int, help="saving frequency for intermediate images (-1 means only final)", default=1)
     args = parser.parse_args()
 
     # some values of weights that worked for figures.jpg, vg_starry_night.jpg (starting point for finding good images)

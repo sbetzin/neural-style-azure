@@ -3,7 +3,7 @@ LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 
 # install basics
-RUN apt-get install -y nano wget git sudo
+#RUN apt-get install -y nano wget git sudo
 
 # install dependencies
 WORKDIR /src/

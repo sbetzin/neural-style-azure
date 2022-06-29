@@ -9,7 +9,7 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
 RUN apt purge python2.7-minimal -y && apt purge python3-minimal -y && apt autoremove -y
 
 # update basic os
-RUN apt-get install -y nano wget git sudo
+RUN apt-get update && apt-get install -y nano wget git sudo
 
 # dependecies for python libs (ssl)
 RUN apt-get -y install libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 

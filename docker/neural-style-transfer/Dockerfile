@@ -5,8 +5,12 @@ LABEL version="1.0"
 # Install basics
 RUN sudo apt-get update && sudo apt-get install -y nano wget curl
 
-ENV TZ=Europe/Berlin
-RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
+# Install Timezone
+RUN sudo apt-get update && sudo apt-get install -y tzdata 
+
+# Update Timezone
+#ENV TZ=Europe/Berlin
+#RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
 
 # Install OpenCV
 RUN sudo apt-get install python3-opencv -y

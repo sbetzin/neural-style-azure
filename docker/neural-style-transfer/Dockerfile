@@ -23,8 +23,8 @@ SHELL ["/root/anaconda/bin/conda", "run", "-n", "pytorch-nst", "/bin/bash", "-c"
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
-COPY ["/src/utils/*.py" ,"/app/utils"]
-COPY ["/src/models/*.py" ,"/app/models"]
+COPY ["/src/utils/*.py" ,"/app/utils/"]
+COPY ["/src/models/*.py" ,"/app/models/"]
 
 RUN apt update && apt install -y libsm6 libxext6
 RUN apt-get install -y libxrender-dev

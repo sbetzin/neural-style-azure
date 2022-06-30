@@ -85,26 +85,22 @@ def neural_style_transfer(config):
     target_style_representation = [utils.gram_matrix(x) for cnt, x in enumerate(style_img_set_of_feature_maps) if cnt in style_feature_maps_indices_names[0]]
     target_representations = [target_content_representation, target_style_representation]
 
-    # magic numbers in general are a big no no - some things in this code are left like this by design to avoid clutter
-    num_of_iterations = {
-        "lbfgs": 1000,
-        "adam": 3000,
-    }
-
+    iterations = config["iterations"]
     #
     # Start of optimization procedure
     #
     if config['optimizer'] == 'adam':
         optimizer = Adam((optimizing_img,), lr=1e1)
         tuning_step = make_tuning_step(neural_net, optimizer, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
-        for cnt in range(num_of_iterations[config['optimizer']]):
+        for cnt in range(iterations):
             total_loss, content_loss, style_loss, tv_loss = tuning_step(optimizing_img)
             with torch.no_grad():
                 print(f'Adam | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
-                utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, num_of_iterations[config['optimizer']], should_display=False)
+                
+                utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
-        optimizer = LBFGS((optimizing_img,), max_iter=num_of_iterations['lbfgs'], line_search_fn='strong_wolfe')
+        optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')
         cnt = 0
 
         def closure():
@@ -116,12 +112,15 @@ def neural_style_transfer(config):
                 total_loss.backward()
             with torch.no_grad():
                 print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
-                utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, num_of_iterations[config['optimizer']], should_display=False)
+                
+                # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
             cnt += 1
             return total_loss
 
         optimizer.step(closure)
+        utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        
 
     return dump_path
 

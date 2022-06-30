@@ -1,15 +1,14 @@
 #!/usr/bin/env python
-import datetime
 import time
 import json
-import base64
 import os
 import sys
 import os.path
 import logging
-import numpy
 import argparse
 import insights
+import piexif
+import origcolor
 
 from azure.storage.queue import QueueClient
 from azure.storage.blob import BlobServiceClient, BlobClient
@@ -59,70 +58,62 @@ def handle_message(blob_service_client, message):
         logger.info("handling new message %s", message.id )
         
         job = json.loads(message.content)
-        source_name = job["SourceName"]
-        style_name = job["StyleName"]
-        target_name = job["TargetName"]
-        style_weight = job["StyleWeight"]
-        content_weight = job["ContentWeight"]
-        tv_weight = job["TvWeight"]
-        temporal_weight = job["TemporalWeight"]
-        content_loss_function = job["ContentLossFunction"]
-        size = job["Size"]
-        iterations = job["Iterations"]
-        model = job["Model"]
-
         telemetrie.track_event ("new image", job)
+        
+        content_name = job["ContentName"]
+        style_name = job["StyleName"]
+        target_name_origcolor_0 = job["TargetName"].replace("#origcolor#", "0")
+        target_name_origcolor_1 = job["TargetName"].replace("#origcolor#", "1")
+               
+        directory_content = "/app/images/in/"
+        directory_style = "/app/images/style/"
+        directory_out = "/app/images/out/"
 
-        image_dir_in = "/app/images/in/"
-        image_dir_style = "/app/images/style/"
-        image_dir_out = "/app/images/out/"
-        img_format = (4, '.jpg')  # saves images in the format: %04d.jpg
-         
-        source_file = os.path.join(image_dir_in, source_name)
-        style_file =  os.path.join(image_dir_style, style_name)
+        content_file = os.path.join(directory_content, content_name)
+        style_file =  os.path.join(directory_style, style_name)
 
-        config = dict()
-        config['content_images_dir'] = image_dir_in
-        config['style_images_dir'] = image_dir_style
-        config['output_img_dir'] = image_dir_out
-        config['img_format'] = img_format
-
-
-        config['content_img_name'] = source_file
-        config['style_img_name'] = style_file
-        config['height'] = str(size)
-        config['content_weight'] = str(content_weight)
-        config['style_weight'] = str(style_weight)
-        config['tv_weight'] = str(tv_weight)
-        config['optimizer'] = "lbfgs"
-        config['model'] = "vgg19"
-        config['init_method'] = "content"
-        config['saving_freq'] = "-1"
-    
-        # args.extend(["--img_name", target_name])
-        # args.extend(["--device","/gpu:0"])
-
-        logger.info("downloading %s", source_file )
-        download_file(blob_service_client, source_name, source_file)
-
-        logger.info("downloading %s", style_file )
+        out_file_origcolor_0 =  os.path.join(directory_out, target_name_origcolor_0)
+        out_file_origcolor_1 =  os.path.join(directory_out, target_name_origcolor_1)
+        
+        config = create_config(directory_content, directory_style, directory_out, content_file, style_file, out_file_origcolor_0)
+        transfer_job_param_to_config(job, config)
+        
+        logger.info("downloading %s and %s", content_file, style_file )
+        download_file(blob_service_client, content_name, content_file)
         download_file(blob_service_client, style_name, style_file)
 
-
-        logger.info("start job with Source=%s, Style=%s, Target=%s, Size=%s, Model=%s", source_name, style_name, target_name, size, model)
-
-        target_name_origcolor_0 = target_name.replace("#origcolor#", "0")
-        target_name_origcolor_1 = target_name.replace("#origcolor#", "1")
-
-        out_file_origcolor_0 =  os.path.join(image_dir_out, target_name_origcolor_0)
-        out_file_origcolor_1 =  os.path.join(image_dir_out, target_name_origcolor_1)
-
+        logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
         neural_style_transfer(config)
 
+        logger.info("creating original colors")
+        origcolor.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
+        
         upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.exception(e)
+
+def create_config(directory_content, directory_style, directory_out, content_file, style_file, out_file_origcolor_0):
+    config = dict()
+    config['content_images_dir'] = directory_content
+    config['style_images_dir'] = directory_style
+    config['output_img_dir'] = directory_out
+    config['content_img_name'] = content_file
+    config['style_img_name'] = style_file
+    config['output_img_name'] = out_file_origcolor_0
+    config['saving_freq'] = -1
+    return config
+
+def transfer_job_param_to_config(job, config):
+    config["iterations"] = job["Iterations"]
+    config['img_format'] = (4, '.jpg') # saves images in the format: %04d.jpg
+    config['height'] = job["Size"]
+    config['content_weight'] = job["ContentWeight"]
+    config['style_weight'] = job["StyleWeight"]
+    config['tv_weight'] = job["TvWeight"]
+    config['optimizer'] = job["Optimizer"]
+    config['model'] =  job["Model"]
+    config['init_method'] = job["Init"]
 
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
@@ -219,7 +210,7 @@ def main(argv):
     queue_name ="test"
     priority_queue_name = "priority-jobs"
 
-    queue_client, priority_queue_client, blob_service_client = setup_azure_queue(azure_connection_string, queue_name)
+    queue_client = setup_azure_queue(azure_connection_string, queue_name)
     priority_queue_client = setup_azure_queue(azure_connection_string, priority_queue_name)
     blob_service_client = setup_azure_blob(azure_connection_string)
   

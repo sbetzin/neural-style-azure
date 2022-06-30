@@ -87,6 +87,16 @@ def save_and_maybe_display(optimizing_img, dump_path, config, img_id, num_of_ite
         plt.imshow(np.uint8(get_uint8_range(out_img)))
         plt.show()
 
+def save_optimized_image(optimizing_img, output_img_name):
+    out_img = optimizing_img.squeeze(axis=0).to('cpu').detach().numpy()
+    out_img = np.moveaxis(out_img, 0, 2)  # swap channel from 1st to 3rd position: ch, _, _ -> _, _, chr
+
+    dump_img = np.copy(out_img)
+    dump_img += np.array(IMAGENET_MEAN_255).reshape((1, 1, 3))
+    dump_img = np.clip(dump_img, 0, 255).astype('uint8')
+    
+    cv.imwrite(output_img_name, dump_img[:, :, ::-1])
+
 
 def get_uint8_range(x):
     if isinstance(x, np.ndarray):

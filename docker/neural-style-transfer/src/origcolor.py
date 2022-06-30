@@ -2,6 +2,14 @@
 import numpy as np
 import cv2 as cv2
 
+def create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1):
+    content_image = read_image(content_file)
+    out_image = read_image(out_file_origcolor_0)
+        
+    out_image_orginal_colors = to_original_colors(content_image, out_image)
+    
+    save_image(out_file_origcolor_1, out_image_orginal_colors)
+
 def save_image(path, image):
     cv2.cv2.imwrite(path, image)
 
@@ -23,6 +31,5 @@ def to_original_colors(content_image, output_image):
     _, c2, c3 = cv2.cv2.split(content_cvt)
     merged = cv2.cv2.merge((c1, c2, c3))
     dst = cv2.cv2.cvtColor(merged, cv2.cv2.COLOR_YUV2BGR).astype(np.float32)
-    # dst = preprocess(dst)
 
     return dst

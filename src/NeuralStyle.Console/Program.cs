@@ -13,7 +13,7 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            var queue = Factory.ConstructQueue("jobs");
+            var queue = Factory.ConstructQueue("test");
             var priorityQueue = Factory.ConstructQueue("priority-jobs");
             var container = Factory.ConstructContainer("images");
             var webContainer = Factory.ConstructContainer("$web");
@@ -80,8 +80,8 @@ Original photo was taken in Norway - Stavanger
 #web3 #xrp #xrpnft #xrpnfts #sologenic #digitalart # #nftcommunity #nft #nftcollector #nftcollectors #nftcollectibles #nftart #nft #crypto";
             //InstagramAdapter.NewPost(singleShare[0], text).Wait();
 
-            UpdateNames.Ensure_Correct_Filenames(images);
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
+            //UpdateNames.Ensure_Correct_Filenames(images);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -89,13 +89,14 @@ Original photo was taken in Norway - Stavanger
 
             var settings = new JobSettings
             {
-                Iterations = 500,
-                Size = 1200,
+                Size = 100,
                 StyleWeight = 30000.0,
                 ContentWeight = 100000.0,
                 TvWeight = 0.001,
-                TemporalWeight = 200,
-                ContentLossFunction = 1
+                Model = "vgg19",
+                Optimizer = "lbfgs",
+                Iterations = 500,
+                Init="content",
             };
 
 
@@ -107,6 +108,7 @@ Original photo was taken in Norway - Stavanger
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 
@@ -117,7 +119,7 @@ Original photo was taken in Norway - Stavanger
             Logger.Log("Done");
 
 
-            System.Console.ReadKey();
+            //System.Console.ReadKey();
         }
     }
 }

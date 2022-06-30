@@ -5,15 +5,17 @@ LABEL version="1.0"
 # Install basics
 RUN sudo apt-get update && sudo apt-get install -y nano wget curl
 
-WORKDIR /app/
+# Install OpenCV
+RUN sudo apt-get install python3-opencv -y
+
+WORKDIR /env/
+COPY ["/env/environment.yml", "/env/"]
+RUN conda env update
+
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
+WORKDIR /app/
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/utils/*.py" ,"/app/utils/"]
 COPY ["/src/models/definitions/*.py" ,"/app/models/definitions/"]
 
-# Make RUN commands use the new environment:
-#SHELL ["conda", "run", "-n", "styletransfer", "/bin/bash", "-c"]
-
 ENTRYPOINT ["python", "/app/queueclient.py"]
-
-#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "styletransfer", "python", "/app/queueclient.py"]

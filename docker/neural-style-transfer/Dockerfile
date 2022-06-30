@@ -16,10 +16,11 @@ RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-lat
 ENV PATH /root/miniconda/bin:$PATH
 
 # Install dependencies
-WORKDIR /app/
-COPY ["/src/environment.yml", "/app/"]
+WORKDIR /env/
+COPY ["/env/environment.yml", "/env/"]
 RUN conda env update --file environment.yml
 
+WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/utils/*.py" ,"/app/utils/"]

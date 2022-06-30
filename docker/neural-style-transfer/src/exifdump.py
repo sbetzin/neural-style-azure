@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import piexif
-import array
-import utils
 
 def write_exif(target_file, config):
   exif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}

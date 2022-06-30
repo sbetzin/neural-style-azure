@@ -17,6 +17,7 @@ WORKDIR /app/
 COPY ["/src/*.yml", "/app/"]
 RUN /root/anaconda/bin/conda env create
 
+# https://pythonspeed.com/articles/activate-conda-dockerfile/
 # Make RUN commands use the new environment:
 SHELL ["/root/anaconda/bin/conda", "run", "-n", "pytorch-nst", "/bin/bash", "-c"]
 

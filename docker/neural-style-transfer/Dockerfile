@@ -3,7 +3,7 @@ LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 
 # Install basics
-RUN apt-get update && apt-get install -y nano wget curl
+RUN sudo apt-get update && apt-get install -y nano wget curl
 
 WORKDIR /app/
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files

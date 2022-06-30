@@ -19,7 +19,7 @@ pull:
 	docker pull $(IMGNAME):$(IMGTAG)
 	
 logs:
-	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-transfer")
+	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-transfer") -f
 
 prune:
 	docker container prune --force

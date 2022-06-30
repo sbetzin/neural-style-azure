@@ -6,11 +6,10 @@ LABEL version="1.0"
 RUN apt-get update && apt-get install -y nano wget git sudo curl
 
 # install anaconda
+# https://docs.anaconda.com/anaconda/install/silent-mode/
 RUN cd /tmp
 RUN curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
 RUN bash anaconda.sh -b -p $HOME/anaconda
-
-
 
 # install dependencies
 COPY ["/src/*.yml", "/app/"]

@@ -9,25 +9,22 @@ RUN apt-get install -y libxrender-dev
 # Install basics
 RUN apt-get update && apt-get install -y nano wget git sudo curl
 
-# Install anaconda
-# https://docs.anaconda.com/anaconda/install/silent-mode/
-WORKDIR /tmp/
-RUN curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
-RUN bash anaconda.sh -b -p $HOME/anaconda
-RUN rm anaconda.sh
+
+# Install miniconda
+# export PATH="~/miniconda/bin:$PATH"
+RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
+ENV PATH /root/miniconda/bin:$PATH
 
 # Install dependencies
 WORKDIR /app/
-COPY ["/src/*.yml", "/app/"]
-RUN /root/anaconda/bin/conda env create
-
-# https://pythonspeed.com/articles/activate-conda-dockerfile/
-# Make RUN commands use the new environment:
-SHELL ["/root/anaconda/bin/conda", "run", "-n", "pytorch-nst", "/bin/bash", "-c"]
+COPY ["/src/environment.yml", "/app/"]
+RUN conda env update --file environment.yml
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/utils/*.py" ,"/app/utils/"]
 COPY ["/src/models/definitions/*.py" ,"/app/models/definitions/"]
 
-ENTRYPOINT ["/root/anaconda/bin/conda", "run", "--no-capture-output", "-n", "pytorch-nst", "python", "/app/queueclient.py"]
+ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]
+
+#ENTRYPOINT ["/root/anaconda/bin/conda", "run", "--no-capture-output", "-n", "pytorch-nst", "python", "/app/queueclient.py"]

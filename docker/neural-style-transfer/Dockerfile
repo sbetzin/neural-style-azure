@@ -15,4 +15,4 @@ RUN activate pytorch-nst
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 
-ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]
+ENTRYPOINT ["/opt/conda/bin/python", "/app/queueclient.py"]

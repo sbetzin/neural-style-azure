@@ -2,18 +2,19 @@ FROM nvidia/cuda:11.0.3-base-ubuntu20.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 
-# install basics
+# Install basics
 RUN apt-get update && apt-get install -y nano wget git sudo curl
 
-# install anaconda
+# Install anaconda
 # https://docs.anaconda.com/anaconda/install/silent-mode/
-RUN cd /tmp
+WORKDIR /tmp/
 RUN curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
 RUN bash anaconda.sh -b -p $HOME/anaconda
+RUN rm anaconda.sh
 
-# install dependencies
-COPY ["/src/*.yml", "/app/"]
+# Install dependencies
 WORKDIR /app/
+COPY ["/src/*.yml", "/app/"]
 RUN conda env create
 RUN conda activate pytorch-nst
 

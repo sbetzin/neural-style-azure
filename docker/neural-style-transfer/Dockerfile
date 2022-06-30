@@ -6,7 +6,7 @@ LABEL version="1.0"
 RUN sudo apt-get update && sudo apt-get install -y nano wget curl
 
 ENV TZ=Europe/Berlin
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
 
 # Install OpenCV
 RUN sudo apt-get install python3-opencv -y

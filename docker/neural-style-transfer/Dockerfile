@@ -16,6 +16,7 @@ RUN rm anaconda.sh
 WORKDIR /app/
 COPY ["/src/*.yml", "/app/"]
 RUN /root/anaconda/bin/conda env create
+RUN /root/anaconda/bin/conda init bash
 RUN /root/anaconda/bin/conda activate pytorch-nst
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files

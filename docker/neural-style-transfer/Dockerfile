@@ -3,11 +3,11 @@ LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 
 # Install libs
-RUN apt update && apt install -y libsm6 libxext6
-RUN apt-get install -y libxrender-dev
+#RUN apt update && apt install -y libsm6 libxext6
+#RUN apt-get install -y libxrender-dev
 
 # Install basics
-RUN apt-get update && apt-get install -y nano wget git sudo curl
+RUN apt-get update && apt-get install -y nano wget curl
 
 
 # Install miniconda

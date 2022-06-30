@@ -48,8 +48,13 @@ def make_tuning_step(neural_net, optimizer, target_representations, content_feat
 
 
 def neural_style_transfer(config):
+    print('test 1')
     content_img_path = os.path.join(config['content_images_dir'], config['content_img_name'])
-    style_img_path = os.path.join(config['style_images_dir'], config['style_img_name'])    
+    
+    print('test 2')
+    style_img_path = os.path.join(config['style_images_dir'], config['style_img_name'])
+    
+    print('test 3')
     dump_path = os.path.join(config['output_img_dir'], "dump")
     
     print(f'  content path {content_img_path}')

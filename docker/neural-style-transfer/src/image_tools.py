@@ -2,6 +2,21 @@
 import numpy as np
 import cv2
 
+def find_target_size(content_img_file, max_size):
+    img = cv2.imread(content_img_file)
+    h, w, _ = img.shape
+    target_shape = (h,w)
+  
+    # resize if > max size
+    if h > w and h > max_size:
+        w = (float(max_size) / float(h)) * w
+        target_shape = (int(w), max_size)
+    if w > max_size:
+        h = (float(max_size) / float(w)) * h
+        target_shape = (max_size, int(h))
+    
+    return target_shape    
+    
 def create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1):
     content_image = read_image(content_file)
     out_image = read_image(out_file_origcolor_0)

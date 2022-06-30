@@ -7,6 +7,7 @@ from torch.autograd import Variable
 import numpy as np
 import os
 import argparse
+import shutil
 
 
 def build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index, style_feature_maps_indices, config):
@@ -50,15 +51,16 @@ def neural_style_transfer(config):
     content_img_path = os.path.join(config['content_images_dir'], config['content_img_name'])
     style_img_path = os.path.join(config['style_images_dir'], config['style_img_name'])
 
-    out_dir_name = 'combined_' + os.path.split(content_img_path)[1].split('.')[0] + '_' + os.path.split(style_img_path)[1].split('.')[0]
-    dump_path = os.path.join(config['output_img_dir'], out_dir_name)
+    dump_path = os.path.join(config['output_img_dir'], "dump")
+    shutil.rmtree(dump_path, ignore_errors=True)
     os.makedirs(dump_path, exist_ok=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f'using device {device}')
-
-    content_img = utils.prepare_img(content_img_path, config['height'], device)
-    style_img = utils.prepare_img(style_img_path, config['height'], device)
+    
+    target_shape = config['target_shape']
+    content_img = utils.prepare_img(content_img_path, target_shape, device)
+    style_img = utils.prepare_img(style_img_path, target_shape, device)
 
     if config['init_method'] == 'random':
         # white_noise_img = np.random.uniform(-90., 90., content_img.shape).astype(np.float32)

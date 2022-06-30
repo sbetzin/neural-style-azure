@@ -8,8 +8,7 @@ import logging
 import argparse
 import insights
 import exifdump
-import origcolor
-import cv2
+import image_tools
 
 from azure.storage.queue import QueueClient
 from azure.storage.blob import BlobServiceClient, BlobClient
@@ -87,10 +86,13 @@ def handle_message(blob_service_client, message):
         download_file(blob_service_client, style_name, style_file)
 
         logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
+        target_shape = image_tools.find_target_size(content_file, job["Size"])
+        config['target_shape'] = target_shape
+        
         neural_style_transfer(config)
 
         logger.info("creating original colors")
-        origcolor.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
+        image_tools.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
         
         logger.info("Setting exif data")
         exifdump.write_exif(out_file_origcolor_0, config)
@@ -115,7 +117,6 @@ def create_config(directory_content, directory_style, directory_out, content_fil
 def transfer_job_param_to_config(job, config):
     config["iterations"] = job["Iterations"]
     config['img_format'] = (4, '.jpg') # saves images in the format: %04d.jpg
-    config['height'] = job["Size"]
     config['content_weight'] = job["ContentWeight"]
     config['style_weight'] = job["StyleWeight"]
     config['tv_weight'] = job["TvWeight"]

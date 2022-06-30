@@ -3,26 +3,22 @@ import piexif
 import array
 import utils
 
-en = u"ana"
-test =  bytearray(en, "utf-16-le")
-exif_dict = piexif.load("C:/Data/test.jpg")
+def write_exif(target_file, config):
+  exif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}
+  content_name = config['content_img_name']
+  style_name =  config['style_img_name'] 
+  keywords = "{0},{1}".format(content_name, style_name)
+  
+#   comment = "max_size={0},max_iterations={1},init_img_type={2},content_weight={3},style_weight={4},tv_weight={5}, color_convert_type={8}, optimizer={10}, model={12}".format(
+#     args.max_size, args.max_iterations, args.init_img_type, args.content_weight, args.style_weight, args.tv_weight, args.temporal_weight, args.content_loss_function, args.color_convert_type, args.pooling_type, args.optimizer, args.learning_rate, args.model_weights)
 
-comment = bytearray(exif_dict["0th"][piexif.ImageIFD.XPComment])
-keywords = bytearray(exif_dict["0th"][piexif.ImageIFD.XPKeywords])
+  comment = "max_size={height},max_iterations={iterations},init_img_type={init_method},content_weight={content_weight},style_weight={style_weight},tv_weight={tv_weight}, optimizer={optimizer}, model={model}".format(**config)
 
-# print (comment.decode("utf16").rstrip('\x00'))
-# print (keywords.decode("utf16").rstrip('\x00'))
+  exif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("Sebastian Betzin".encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPKeywords] = bytearray(keywords.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPTitle] = bytearray(content_name.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPSubject] = bytearray(style_name.encode("utf-16-le"))
+  exif["0th"][piexif.ImageIFD.XPComment] = bytearray(comment.encode("utf-16-le"))
 
-
-new_keywords = bytearray("content=ana.jpg,style=van_gogh.jpg,iterations=500".encode("utf-16-le"))
-exif_dict["0th"][piexif.ImageIFD.XPKeywords] = new_keywords
-
-newexif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}
-newexif["0th"][piexif.ImageIFD.XPKeywords] = new_keywords
-newexif["0th"][piexif.ImageIFD.XPAuthor] = bytearray("tensorflow neural style".encode("utf-16-le"))
-newexif["0th"][piexif.ImageIFD.XPTitle] = bytearray("ana.jpg".encode("utf-16-le"))
-newexif["0th"][piexif.ImageIFD.XPSubject] = bytearray("van_gogh_die_sterne.jpg".encode("utf-16-le"))
-newexif["0th"][piexif.ImageIFD.XPComment] = bytearray("iteration=500,size=700,cw=5,sw=100".encode("utf-16-le"))
-
-exif_bytes = piexif.dump(newexif)
-piexif.insert(exif_bytes, "C:/Data/test.jpg")
+  exif_bytes = piexif.dump(exif)
+  piexif.insert(exif_bytes, target_file)

@@ -7,7 +7,7 @@ import os.path
 import logging
 import argparse
 import insights
-import piexif
+import exifdump
 import origcolor
 
 from azure.storage.queue import QueueClient
@@ -87,6 +87,10 @@ def handle_message(blob_service_client, message):
 
         logger.info("creating original colors")
         origcolor.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
+        
+        logger.info("Setting exif data")
+        exifdump.write_exif(out_file_origcolor_0, config)
+        exifdump.write_exif(out_file_origcolor_1, config)
         
         upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)

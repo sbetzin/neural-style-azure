@@ -2,6 +2,10 @@ FROM nvidia/cuda:11.0.3-base-ubuntu20.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 
+# Install libs
+RUN apt update && apt install -y libsm6 libxext6
+RUN apt-get install -y libxrender-dev
+
 # Install basics
 RUN apt-get update && apt-get install -y nano wget git sudo curl
 
@@ -25,8 +29,5 @@ SHELL ["/root/anaconda/bin/conda", "run", "-n", "pytorch-nst", "/bin/bash", "-c"
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/utils/*.py" ,"/app/utils/"]
 COPY ["/src/models/definitions/*.py" ,"/app/models/definitions/"]
-
-RUN apt update && apt install -y libsm6 libxext6
-RUN apt-get install -y libxrender-dev
 
 ENTRYPOINT ["/root/anaconda/bin/conda", "run", "--no-capture-output", "-n", "pytorch-nst", "python", "/app/queueclient.py"]

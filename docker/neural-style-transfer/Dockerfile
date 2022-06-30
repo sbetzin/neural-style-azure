@@ -26,6 +26,9 @@ COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/utils/*.py" ,"/app/utils/"]
 COPY ["/src/models/definitions/*.py" ,"/app/models/definitions/"]
 
+# Make RUN commands use the new environment:
+#SHELL ["conda", "run", "-n", "styletransfer", "/bin/bash", "-c"]
+
 ENTRYPOINT ["/root/miniconda/bin/python", "/app/queueclient.py"]
 
-#ENTRYPOINT ["/root/anaconda/bin/conda", "run", "--no-capture-output", "-n", "pytorch-nst", "python", "/app/queueclient.py"]
+#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "styletransfer", "python", "/app/queueclient.py"]

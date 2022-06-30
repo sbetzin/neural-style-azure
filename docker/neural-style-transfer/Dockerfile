@@ -6,6 +6,7 @@ LABEL version="1.0"
 RUN sudo apt-get update && sudo apt-get install -y nano wget curl
 
 # Install Timezone
+ENV DEBIAN_FRONTEND=noninteractive
 RUN sudo apt-get update && sudo apt-get install -y tzdata 
 
 # Update Timezone

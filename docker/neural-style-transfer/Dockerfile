@@ -15,7 +15,11 @@ RUN apt-get install python3-opencv -y
 
 WORKDIR /env/
 COPY ["/env/environment.yml", "/env/"]
+#RUN chmod 777 /env/environment.yml
+
+USER user
 RUN conda env update
+
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 WORKDIR /app/

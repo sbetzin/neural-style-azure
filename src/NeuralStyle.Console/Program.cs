@@ -89,7 +89,7 @@ Original photo was taken in Norway - Stavanger
 
             var settings = new JobSettings
             {
-                Size = 990,
+                Size = 1000,
                 StyleWeight = 50000.0,
                 ContentWeight = 50000.0,
                 TvWeight = 0.001,

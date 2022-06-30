@@ -108,19 +108,22 @@ def neural_style_transfer(config):
         cnt = 0
 
         def closure():
-            nonlocal cnt
-            if torch.is_grad_enabled():
-                optimizer.zero_grad()
-            total_loss, content_loss, style_loss, tv_loss = build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
-            if total_loss.requires_grad:
-                total_loss.backward()
-            with torch.no_grad():
-                print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
-                
-                # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
+            try:
+                nonlocal cnt
+                if torch.is_grad_enabled():
+                    optimizer.zero_grad()
+                total_loss, content_loss, style_loss, tv_loss = build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
+                if total_loss.requires_grad:
+                    total_loss.backward()
+                with torch.no_grad():
+                    print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
+                    
+                    # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
-            cnt += 1
-            return total_loss
+                cnt += 1
+                return total_loss
+            except Exception as e:
+                print(e)
 
         optimizer.step(closure)
         utils.save_optimized_image(optimizing_img, config['output_img_name'])

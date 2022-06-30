@@ -1,8 +1,8 @@
 FROM  anibali/pytorch:1.8.1-cuda11.1
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
+USER root
 
-RUN sudo -s
 # Install basics
 RUN apt-get update && apt-get install -y nano wget curl
 

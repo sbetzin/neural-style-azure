@@ -33,7 +33,6 @@ def read_image(path):
 
     return img
 
-
 def to_original_colors(content_image, output_image):
     h, w, _ = output_image.shape
 

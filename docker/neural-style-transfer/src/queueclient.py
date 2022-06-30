@@ -9,6 +9,7 @@ import argparse
 import insights
 import exifdump
 import origcolor
+import cv2
 
 from azure.storage.queue import QueueClient
 from azure.storage.blob import BlobServiceClient, BlobClient

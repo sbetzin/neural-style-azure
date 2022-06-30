@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import numpy as np
-import cv2 as cv2
+import cv2
 
 def create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1):
     content_image = read_image(content_file)

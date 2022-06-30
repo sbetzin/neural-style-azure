@@ -16,10 +16,11 @@ RUN rm anaconda.sh
 WORKDIR /app/
 COPY ["/src/*.yml", "/app/"]
 RUN /root/anaconda/bin/conda env create
-RUN /root/anaconda/bin/conda init bash
-RUN /root/anaconda/bin/conda activate pytorch-nst
+
+# Make RUN commands use the new environment:
+SHELL ["/root/anaconda/bin/conda", "run", "-n", "pytorch-nst", "/bin/bash", "-c"]
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 COPY ["/src/*.py" ,"/app/"]
 
-ENTRYPOINT ["/opt/conda/bin/python", "/app/queueclient.py"]
+ENTRYPOINT ["/root/anaconda/bin/conda", "run", "--no-capture-output", "-n", "pytorch-nst", "python", "/app/queueclient.py"]

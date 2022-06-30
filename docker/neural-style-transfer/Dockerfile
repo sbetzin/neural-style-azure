@@ -6,12 +6,7 @@ LABEL version="1.0"
 RUN sudo apt-get update && sudo apt-get install -y nano wget curl
 
 # Install Timezone
-ENV DEBIAN_FRONTEND=noninteractive
-RUN sudo apt-get update && sudo apt-get install -y tzdata 
-
-# Update Timezone
-#ENV TZ=Europe/Berlin
-#RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && sudo echo $TZ > /etc/timezone
+RUN sudo DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
 # Install OpenCV
 RUN sudo apt-get install python3-opencv -y

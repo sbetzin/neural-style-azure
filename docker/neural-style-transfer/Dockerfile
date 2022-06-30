@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y nano wget git sudo curl
 # install anaconda
 RUN cd /tmp
 RUN curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
-RUN bash anaconda.sh
+RUN bash anaconda.sh -b -p $HOME/anaconda
 
 
 

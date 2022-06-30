@@ -15,7 +15,7 @@ RUN apt-get install python3-opencv -y
 
 WORKDIR /env/
 COPY ["/env/environment.yml", "/env/"]
-#RUN chmod 777 /env/environment.yml
+RUN chmod 777 /env/environment.yml
 
 USER user
 RUN conda env update

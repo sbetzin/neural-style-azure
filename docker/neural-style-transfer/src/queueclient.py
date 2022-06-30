@@ -68,6 +68,7 @@ def handle_message(blob_service_client, message):
         directory_content = "/app/images/in/"
         directory_style = "/app/images/style/"
         directory_out = "/app/images/out/"
+        os.makedirs([directory_content, directory_style, directory_out], exist_ok=True)
 
         content_file = os.path.join(directory_content, content_name)
         style_file =  os.path.join(directory_style, style_name)

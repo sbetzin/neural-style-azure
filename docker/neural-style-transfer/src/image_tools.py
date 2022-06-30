@@ -5,7 +5,7 @@ import cv2
 def find_target_size(content_img_file, max_size):
     img = cv2.imread(content_img_file)
     h, w, _ = img.shape
-    target_shape = (h,w)
+    target_shape = (w,h)
   
     # resize if > max size
     if h > w and h > max_size:

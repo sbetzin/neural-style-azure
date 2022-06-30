@@ -85,10 +85,11 @@ def handle_message(blob_service_client, message):
         download_file(blob_service_client, content_name, content_file)
         download_file(blob_service_client, style_name, style_file)
 
-        logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
+        logger.info("calculating target shape with max_size=%s", job["Size"])
         target_shape = image_tools.find_target_size(content_file, job["Size"])
         config['target_shape'] = target_shape
         
+        logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
         neural_style_transfer(config)
 
         logger.info("creating original colors")

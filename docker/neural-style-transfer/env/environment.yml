@@ -1,4 +1,4 @@
-name: styletransfer
+name: base
 channels:
   - defaults
   - pytorch

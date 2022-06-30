@@ -123,6 +123,7 @@ def transfer_job_param_to_config(job, config):
     config['optimizer'] = job["Optimizer"]
     config['model'] =  job["Model"]
     config['init_method'] = job["Init"]
+    config['max_size'] = job["Size"]
 
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)

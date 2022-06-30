@@ -89,12 +89,12 @@ Original photo was taken in Norway - Stavanger
 
             var settings = new JobSettings
             {
-                Size = 1100,
+                Size = 990,
                 StyleWeight = 50000.0,
                 ContentWeight = 50000.0,
                 TvWeight = 0.001,
                 Model = "vgg19",
-                Optimizer = "lbfgs",
+                Optimizer = "adam",
                 Iterations = 500,
                 Init="content",
             };

@@ -108,7 +108,9 @@ def neural_style_transfer(config):
             with torch.no_grad():
                 print(f'Adam | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
                 
-                utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
+                #utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
+        
+        utils.save_optimized_image(optimizing_img, config['output_img_name'])
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
         optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')

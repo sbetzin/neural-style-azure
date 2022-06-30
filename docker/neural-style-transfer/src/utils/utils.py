@@ -24,13 +24,7 @@ def load_image(img_path, target_shape=None):
     img = cv.imread(img_path)[:, :, ::-1]  # [:, :, ::-1] converts BGR (opencv format...) into RGB
 
     if target_shape is not None:  # resize section
-        if isinstance(target_shape, int) and target_shape != -1:  # scalar -> implicitly setting the height
-            current_height, current_width = img.shape[:2]
-            new_height = target_shape
-            new_width = int(current_width * (new_height / current_height))
-            img = cv.resize(img, (new_width, new_height), interpolation=cv.INTER_CUBIC)
-        else:  # set both dimensions to target shape
-            img = cv.resize(img, (target_shape[1], target_shape[0]), interpolation=cv.INTER_CUBIC)
+        img = cv.resize(img, (target_shape[0], target_shape[1]), interpolation=cv.INTER_CUBIC)
 
     # this need to go after resizing - otherwise cv.resize will push values outside of [0,1] range
     img = img.astype(np.float32)  # convert from uint8 to float32

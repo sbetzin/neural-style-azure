@@ -13,7 +13,7 @@ import insights
 
 from azure.storage.queue import QueueClient
 from azure.storage.blob import BlobServiceClient, BlobClient
-from neural_style import main as neural_style_calc
+from neural_style_transfer import neural_style_transfer as neural_style_transfer
 from azure.core.exceptions import ResourceExistsError
 
 logging.basicConfig(level=logging.INFO)
@@ -73,24 +73,34 @@ def handle_message(blob_service_client, message):
 
         telemetrie.track_event ("new image", job)
 
-        image_dir = "/app/images/"
-        source_file = os.path.join(image_dir, source_name)
-        style_file =  os.path.join(image_dir, style_name)
+        image_dir_in = "/app/images/in/"
+        image_dir_style = "/app/images/style/"
+        image_dir_out = "/app/images/out/"
+        img_format = (4, '.jpg')  # saves images in the format: %04d.jpg
+         
+        source_file = os.path.join(image_dir_in, source_name)
+        style_file =  os.path.join(image_dir_style, style_name)
 
-        args = ["--content_img", source_file]
-        args.extend(["--style_imgs", style_file])
-        args.extend(["--img_name", target_name])
-        args.extend(["--content_weight", str(content_weight)])
-        args.extend(["--style_weight", str(style_weight)])
-        args.extend(["--tv_weight", str(tv_weight)])
-        args.extend(["--temporal_weight", str(temporal_weight)])
-        args.extend(["--max_size", str(size)])
-        args.extend(["--max_iterations", str(iterations)])
-        args.extend(["--img_output_dir", image_dir])
-        args.extend(["--model_weights", model])
-        args.extend(["--verbose"])
-        args.extend(["--content_loss_function", str(content_loss_function)])
-        args.extend(["--device","/gpu:0"])
+        config = dict()
+        config['content_images_dir'] = image_dir_in
+        config['style_images_dir'] = image_dir_style
+        config['output_img_dir'] = image_dir_out
+        config['img_format'] = img_format
+
+
+        config['content_img_name'] = source_file
+        config['style_img_name'] = style_file
+        config['height'] = str(size)
+        config['content_weight'] = str(content_weight)
+        config['style_weight'] = str(style_weight)
+        config['tv_weight'] = str(tv_weight)
+        config['optimizer'] = "lbfgs"
+        config['model'] = "vgg19"
+        config['init_method'] = "content"
+        config['saving_freq'] = "-1"
+    
+        # args.extend(["--img_name", target_name])
+        # args.extend(["--device","/gpu:0"])
 
         logger.info("downloading %s", source_file )
         download_file(blob_service_client, source_name, source_file)
@@ -104,10 +114,10 @@ def handle_message(blob_service_client, message):
         target_name_origcolor_0 = target_name.replace("#origcolor#", "0")
         target_name_origcolor_1 = target_name.replace("#origcolor#", "1")
 
-        out_file_origcolor_0 =  os.path.join(image_dir, target_name_origcolor_0)
-        out_file_origcolor_1 =  os.path.join(image_dir, target_name_origcolor_1)
+        out_file_origcolor_0 =  os.path.join(image_dir_out, target_name_origcolor_0)
+        out_file_origcolor_1 =  os.path.join(image_dir_out, target_name_origcolor_1)
 
-        neural_style_calc(args)
+        neural_style_transfer(config)
 
         upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
@@ -134,9 +144,8 @@ def upload_file(blob_service_client, target_name, file_name):
     except Exception as e:
         logger.exception(e)
 
-def poll_queue(queue_client, priorityQueue_client, blob_service_client, queue_name):
+def poll_queue(queue_client, priorityQueue_client, blob_service_client):
     try:
-        logger.info ("starting to poll jobs queue: %s", queue_name)
         while True:
            
             hadPriorityMessages = CheckQueue(priorityQueue_client, blob_service_client)
@@ -164,15 +173,21 @@ def CheckQueue(queue_client, blob_service_client):
         
 
 
-def setup_azure(azure_connection_string, queue_name, priorityqueue_name):
+def setup_azure_queue(azure_connection_string, queue_name):
     try:
         queue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=queue_name)
-        priorityQueue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=priorityqueue_name)
+    except Exception as e:
+        logger.exception(e)
+
+    return queue_client
+
+def setup_azure_blob(azure_connection_string):
+    try:
         blob_service_client = BlobServiceClient.from_connection_string(azure_connection_string)
     except Exception as e:
         logger.exception(e)
 
-    return (queue_client, priorityQueue_client, blob_service_client)
+    return blob_service_client
 
 def measure_time(start_time):
     generation_time = time.time() - start_time
@@ -193,27 +208,32 @@ def parse_args(argv):
 def main(argv):
     logger.info("parsing arguments")
     args = parse_args(argv)
-
+    
     azure_connection_string = os.getenv("AzureStorageConnectionString")
     if azure_connection_string == None:
         raise NameError("environment variable AzureStorageConnectionString is not set")
 
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
+        
+    queue_name ="test"
+    priority_queue_name = "priority-jobs"
 
-    queue_client, priorityQueue_client, blob_service_client = setup_azure(azure_connection_string, "jobs", "priority-jobs")
-
+    queue_client, priority_queue_client, blob_service_client = setup_azure_queue(azure_connection_string, queue_name)
+    priority_queue_client = setup_azure_queue(azure_connection_string, priority_queue_name)
+    blob_service_client = setup_azure_blob(azure_connection_string)
+  
     logger.info ("preparing azure resources")
-    prepare_queue(queue_client, "jobs")
-    prepare_queue(priorityQueue_client, "priority-jobs")
+    prepare_queue(queue_client, queue_name)
+    prepare_queue(priority_queue_client, priority_queue_name)
     prepare_blob(blob_service_client, "images")
     prepare_blob(blob_service_client, "results")
 
     logger.info ("ensuring directory exists")
     ensure_dir("/app/images/")
 
-    logger.info ("starting queue client")
-    poll_queue(queue_client, priorityQueue_client, blob_service_client, "jobs", )
+    logger.info ("starting to poll jobs queue: %s", queue_name)
+    poll_queue(queue_client, priority_queue_client, blob_service_client)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

@@ -81,7 +81,7 @@ Original photo was taken in Norway - Stavanger
             //InstagramAdapter.NewPost(singleShare[0], text).Wait();
 
             UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
+            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -106,7 +106,7 @@ Original photo was taken in Norway - Stavanger
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
-            CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
+            //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 

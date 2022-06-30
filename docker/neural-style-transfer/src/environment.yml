@@ -11,3 +11,7 @@ dependencies:
   - pip:
     - numpy==1.18.1
     - opencv-python==4.2.0.32
+    - piexif==1.1.3
+    - azure-storage-queue
+    - azure-storage-blob
+    - applicationinsights

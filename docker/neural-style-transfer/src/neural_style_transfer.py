@@ -152,7 +152,7 @@ if __name__ == "__main__":
     parser.add_argument("--optimizer", type=str, choices=['lbfgs', 'adam'], default='lbfgs')
     parser.add_argument("--model", type=str, choices=['vgg16', 'vgg19'], default='vgg19')
     parser.add_argument("--init_method", type=str, choices=['random', 'content', 'style'], default='content')
-    parser.add_argument("--saving_freq", type=int, help="saving frequency for intermediate images (-1 means only final)", default=1)
+    parser.add_argument("--saving_freq", type=int, help="saving frequency for intermediate images (-1 means only final)", default=-1)
     args = parser.parse_args()
 
     # some values of weights that worked for figures.jpg, vg_starry_night.jpg (starting point for finding good images)

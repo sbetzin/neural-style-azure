@@ -39,7 +39,7 @@ namespace NeuralStyle.Console
             var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
             var singleStyle = new[]
             {
-                $@"{stylePath}\todo\richard_day_stevie_wonder_2.jpg",
+                $@"{stylePath}\todo\richard_day_elvis.jpg",
             };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 

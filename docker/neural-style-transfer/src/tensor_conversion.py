@@ -10,7 +10,7 @@ mean = np.asarray([ 0.485, 0.456, 0.406 ])
 std = np.asarray([ 0.229, 0.224, 0.225 ])
 
 
-def load_image_as_tensor(img_path, max_size=1200, shape=None):        
+def load_image_as_tensor(img_path, device, max_size=1200, shape=None):        
     image = Image.open(img_path).convert('RGB')
     w, h=image.size[0], image.size[1]
     # print(f'size={image.size}, h={h}, w={w} ')    
@@ -34,7 +34,7 @@ def load_image_as_tensor(img_path, max_size=1200, shape=None):
         ])
 
     # discard the transparent, alpha channel (that's the :3) and add the batch dimension
-    return tfm(image)[:3,:,:].unsqueeze(0)   
+    return tfm(image)[:3,:,:].unsqueeze(0).to(device) 
 
 def save_image_from_tensor(img, filename):    
     tfm=transforms.Compose([

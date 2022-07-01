@@ -61,8 +61,8 @@ def neural_style_transfer(config):
     target_shape = config['target_shape']
     max_size= config['max_size']
     
-    content_img = tensor_conversion.load_image_as_tensor(content_img_path, max_size).to(device)
-    style_img = tensor_conversion.load_image_as_tensor(style_img_path, max_size).to(device)
+    content_img = tensor_conversion.load_image_as_tensor(content_img_path, device, max_size)
+    style_img = tensor_conversion.load_image_as_tensor(style_img_path, device, max_size)
     
     # content_img = utils.prepare_img(content_img_path, target_shape, device)
     # style_img = utils.prepare_img(style_img_path, target_shape, device)
@@ -74,7 +74,7 @@ def neural_style_transfer(config):
     elif config['init_method'] == 'content':
         init_img = content_img
     else:
-        init_img = style_img
+        init_img = style_img = tensor_conversion.load_image_as_tensor(style_img_path, shape=target_shape)
 
     # we are tuning optimizing_img's pixels! (that's why requires_grad=True)
     optimizing_img = Variable(init_img, requires_grad=True)

@@ -13,14 +13,13 @@ std = np.asarray([ 0.229, 0.224, 0.225 ])
 def load_image_as_tensor(img_path, device, max_size=1200, shape=None):        
     image = Image.open(img_path).convert('RGB')
     w, h=image.size[0], image.size[1]
-    # print(f'size={image.size}, h={h}, w={w} ')    
-    
+
     # large images will slow down processing    
     if max(image.size) > max_size:
         scale=max_size/max(image.size)
         size = torch.Size((int(h*scale), int (w*scale)))
     else:        
-            size=torch.Size((h, w))
+        size=torch.Size((h, w))
             
     if shape is not None:
         size=shape

@@ -118,9 +118,9 @@ def create_config(directory_content, directory_style, directory_out, content_fil
 def transfer_job_param_to_config(job, config):
     config["iterations"] = job["Iterations"]
     config['img_format'] = (4, '.jpg') # saves images in the format: %04d.jpg
-    config['content_weight'] = job["ContentWeight"]
-    config['style_weight'] = job["StyleWeight"]
-    config['tv_weight'] = job["TvWeight"]
+    config['content_weight'] = job["ContentWeight"] * job["size"]
+    config['style_weight'] = job["StyleWeight"]* job["size"]
+    config['tv_weight'] = job["TvWeight"]* job["size"]
     config['optimizer'] = job["Optimizer"]
     config['model'] =  job["Model"]
     config['init_method'] = job["Init"]

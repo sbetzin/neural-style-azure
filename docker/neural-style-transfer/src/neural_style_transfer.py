@@ -61,11 +61,11 @@ def neural_style_transfer(config):
     target_shape = config['target_shape']
     max_size= config['max_size']
     
-    # content_img = tensor_conversion.load_image_as_tensor(content_img_path, max_size).to(device)
-    # style_img = tensor_conversion.load_image_as_tensor(style_img_path, max_size).to(device)
+    content_img = tensor_conversion.load_image_as_tensor(content_img_path, max_size).to(device)
+    style_img = tensor_conversion.load_image_as_tensor(style_img_path, max_size).to(device)
     
-    content_img = utils.prepare_img(content_img_path, target_shape, device)
-    style_img = utils.prepare_img(style_img_path, target_shape, device)
+    # content_img = utils.prepare_img(content_img_path, target_shape, device)
+    # style_img = utils.prepare_img(style_img_path, target_shape, device)
 
     if config['init_method'] == 'random':
         # white_noise_img = np.random.uniform(-90., 90., content_img.shape).astype(np.float32)
@@ -106,8 +106,8 @@ def neural_style_transfer(config):
                 
                 #utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
         
-        # tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
-        utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
+        # utils.save_optimized_image(optimizing_img, config['output_img_name'])
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
         optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')
@@ -129,8 +129,8 @@ def neural_style_transfer(config):
             return total_loss
 
         optimizer.step(closure)
-        utils.save_optimized_image(optimizing_img, config['output_img_name'])
-        #tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
+        #utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
         
 
     return dump_path

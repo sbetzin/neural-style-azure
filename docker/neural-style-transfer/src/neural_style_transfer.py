@@ -63,9 +63,6 @@ def neural_style_transfer(config):
     content_img = tensor_conversion.load_image_as_tensor(content_img_path, device, max_size)
     style_img = tensor_conversion.load_image_as_tensor(style_img_path, device, max_size)
     
-    # content_img = utils.prepare_img(content_img_path, target_shape, device)
-    # style_img = utils.prepare_img(style_img_path, target_shape, device)
-
     if config['init_method'] == 'random':
         # white_noise_img = np.random.uniform(-90., 90., content_img.shape).astype(np.float32)
         gaussian_noise_img = np.random.normal(loc=0, scale=90., size=content_img.shape).astype(np.float32)
@@ -74,7 +71,6 @@ def neural_style_transfer(config):
         init_img = content_img
     else:
         _, _,h ,w =content_img.shape
-        
         init_img = tensor_conversion.load_image_as_tensor(style_img_path, device, shape=(h,w))
 
     # we are tuning optimizing_img's pixels! (that's why requires_grad=True)
@@ -105,7 +101,6 @@ def neural_style_transfer(config):
                 #utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
         
         tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
-        # utils.save_optimized_image(optimizing_img, config['output_img_name'])
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
         optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')
@@ -120,17 +115,14 @@ def neural_style_transfer(config):
                 total_loss.backward()
             with torch.no_grad():
                 print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
-                
                 # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
             cnt += 1
             return total_loss
 
         optimizer.step(closure)
-        #utils.save_optimized_image(optimizing_img, config['output_img_name'])
         tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
-        
-
+    
     return dump_path
 
 

@@ -39,7 +39,7 @@ def load_image_as_tensor(img_path, max_size=1200, shape=None):
 def save_image_from_tensor(img, filename):    
     tfm=transforms.Compose([
         # reverse the normalization
-        transforms.Lambda(lambda x: x.div(1.) ), 
+        transforms.Lambda(lambda x: x.div(255) ), 
         transforms.Normalize((-1 * mean / std), (1.0 / std),inplace=True) 
         ])
     

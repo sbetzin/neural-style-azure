@@ -87,29 +87,29 @@ Original photo was taken in Norway - Stavanger
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
 
 
-            var settings = new JobSettings
-            {
-                Size = 800,
-                StyleWeight = 1e5,
-                ContentWeight = 1e0,
-                TvWeight = 1e0,
-                Model = "vgg19",
-                Optimizer = "lbfgs",
-                Iterations = 500,
-                Init = "content",
-            };
-
             //var settings = new JobSettings
             //{
-            //    Size = 1200,
-            //    StyleWeight = 1e7,
-            //    ContentWeight = 1e1,
-            //    TvWeight = 1e2,
+            //    Size = 500,
+            //    StyleWeight = 1e5,
+            //    ContentWeight = 1e0,
+            //    TvWeight = 1e0,
             //    Model = "vgg19",
-            //    Optimizer = "adam",
+            //    Optimizer = "lbfgs",
             //    Iterations = 500,
             //    Init = "content",
             //};
+
+            var settings = new JobSettings
+            {
+                Size = 600,
+                StyleWeight = 1e4,
+                ContentWeight = 1e3,
+                TvWeight = 1e0,
+                Model = "vgg19",
+                Optimizer = "adam",
+                Iterations = 500,
+                Init = "content",
+            };
 
 
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);

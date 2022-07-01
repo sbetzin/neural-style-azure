@@ -74,10 +74,7 @@ def neural_style_transfer(config):
     elif config['init_method'] == 'content':
         init_img = content_img
     else:
-        # init image has same dimension as content image - this is a hard constraint
-        # feature maps need to be of same size for content image and init image
-        style_img_resized = utils.prepare_img(style_img_path, np.asarray(content_img.shape[2:]), device)
-        init_img = style_img_resized
+        init_img = style_img
 
     # we are tuning optimizing_img's pixels! (that's why requires_grad=True)
     optimizing_img = Variable(init_img, requires_grad=True)

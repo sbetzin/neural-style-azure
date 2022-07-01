@@ -6,11 +6,9 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
-#mean = np.asarray([ 0.485, 0.456, 0.406 ])
-#std = np.asarray([ 0.229, 0.224, 0.225 ])
+mean = np.asarray([ 0.485, 0.456, 0.406 ])
+std = np.asarray([ 0.229, 0.224, 0.225 ])
 
-mean = np.asarray([123.675, 116.28, 103.53 ])
-std = np.asarray([ 1, 1, 1 ])
 
 def load_image_as_tensor(img_path, max_size=1200, shape=None):        
     image = Image.open(img_path).convert('RGB')
@@ -32,7 +30,7 @@ def load_image_as_tensor(img_path, max_size=1200, shape=None):
         transforms.ToTensor(),
         # normalize image based on mean and std of ImageNet dataset
         transforms.Normalize(mean, std, inplace=True), 
-        transforms.Lambda(lambda x: x.mul(1.))
+        transforms.Lambda(lambda x: x.mul(255))
         ])
 
     # discard the transparent, alpha channel (that's the :3) and add the batch dimension

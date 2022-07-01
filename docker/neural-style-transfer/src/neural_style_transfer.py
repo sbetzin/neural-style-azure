@@ -106,7 +106,8 @@ def neural_style_transfer(config):
                 
                 #utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
         
-        utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
+        #utils.save_optimized_image(optimizing_img, config['output_img_name'])
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
         optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')

@@ -75,8 +75,8 @@ def handle_message(blob_service_client, message):
         content_file = os.path.join(directory_content, content_name)
         style_file =  os.path.join(directory_style, style_name)
 
-        out_file_origcolor_0 =  os.path.join(directory_out, target_name_origcolor_0)
-        out_file_origcolor_1 =  os.path.join(directory_out, target_name_origcolor_1)
+        out_file_origcolor_0 = os.path.join(directory_out, target_name_origcolor_0)
+        out_file_origcolor_1 = os.path.join(directory_out, target_name_origcolor_1)
         
         config = create_config(directory_content, directory_style, directory_out, content_file, style_file, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)

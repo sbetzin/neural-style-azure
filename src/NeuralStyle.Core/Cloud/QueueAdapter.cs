@@ -67,7 +67,7 @@ namespace NeuralStyle.Core.Cloud
         {
             var prefix = Path.GetFileNameWithoutExtension(job.ContentName).BuildPrefix(Path.GetFileNameWithoutExtension(job.StyleName));
 
-            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_model_{job.Model}_opt_{job.Optimizer}_origcolor_#origcolor#.jpg";
+            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_tv_{job.TvWeight}_model_{job.Model}_opt_{job.Optimizer}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

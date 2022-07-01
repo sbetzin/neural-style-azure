@@ -36,10 +36,10 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\todo\bridge.jpg" };
+            var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
             var singleStyle = new[]
             {
-                $@"{stylePath}\gogh_nachtcafe.jpg",
+                $@"{stylePath}\todo\guillermo_arismendi_test_01.jpg",
             };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
@@ -81,7 +81,7 @@ Original photo was taken in Norway - Stavanger
             //InstagramAdapter.NewPost(singleShare[0], text).Wait();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*ove*.jpg", outPath);
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
 
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -89,20 +89,32 @@ Original photo was taken in Norway - Stavanger
 
             var settings = new JobSettings
             {
-                Size = 1000,
-                StyleWeight = 50000.0,
-                ContentWeight = 50000.0,
-                TvWeight = 0.001,
+                Size = 150,
+                StyleWeight = 1e5,
+                ContentWeight = 1e0,
+                TvWeight = 1e0,
                 Model = "vgg19",
-                Optimizer = "adam",
+                Optimizer = "lbfgs",
                 Iterations = 500,
-                Init="content",
+                Init = "content",
             };
+
+            //var settings = new JobSettings
+            //{
+            //    Size = 1200,
+            //    StyleWeight = 1e7,
+            //    ContentWeight = 1e1,
+            //    TvWeight = 1e2,
+            //    Model = "vgg19",
+            //    Optimizer = "adam",
+            //    Iterations = 500,
+            //    Init = "content",
+            //};
 
 
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
-            
+
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);

@@ -1,6 +1,5 @@
 import utils.utils as utils
 from utils.video_utils import create_video_from_intermediate_results
-
 import torch
 from torch.optim import Adam, LBFGS
 from torch.autograd import Variable
@@ -8,6 +7,7 @@ import numpy as np
 import os
 import argparse
 import shutil
+import tensor_conversion
 
 
 def build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index, style_feature_maps_indices, config):
@@ -59,8 +59,13 @@ def neural_style_transfer(config):
     print(f'using device {device}')
     
     target_shape = config['target_shape']
-    content_img = utils.prepare_img(content_img_path, target_shape, device)
-    style_img = utils.prepare_img(style_img_path, target_shape, device)
+    max_size= config['max_size']
+    
+    content_img = tensor_conversion.load_image_as_tensor(content_img_path, max_size)
+    style_img = tensor_conversion.load_image_as_tensor(style_img_path, max_size)
+    
+    # content_img = utils.prepare_img(content_img_path, target_shape, device)
+    # style_img = utils.prepare_img(style_img_path, target_shape, device)
 
     if config['init_method'] == 'random':
         # white_noise_img = np.random.uniform(-90., 90., content_img.shape).astype(np.float32)
@@ -108,25 +113,23 @@ def neural_style_transfer(config):
         cnt = 0
 
         def closure():
-            try:
-                nonlocal cnt
-                if torch.is_grad_enabled():
-                    optimizer.zero_grad()
-                total_loss, content_loss, style_loss, tv_loss = build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
-                if total_loss.requires_grad:
-                    total_loss.backward()
-                with torch.no_grad():
-                    print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
-                    
-                    # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
+            nonlocal cnt
+            if torch.is_grad_enabled():
+                optimizer.zero_grad()
+            total_loss, content_loss, style_loss, tv_loss = build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
+            if total_loss.requires_grad:
+                total_loss.backward()
+            with torch.no_grad():
+                print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
+                
+                # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
-                cnt += 1
-                return total_loss
-            except Exception as e:
-                print(e)
+            cnt += 1
+            return total_loss
 
         optimizer.step(closure)
-        utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        #utils.save_optimized_image(optimizing_img, config['output_img_name'])
+        tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
         
 
     return dump_path

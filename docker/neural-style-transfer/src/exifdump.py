@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 import piexif
+import os
 
+def filename(filename):
+    """Given a full path to a file, returns just its name, without path or extension"""
+    return os.path.splitext(filename)[0]
+  
 def write_exif(target_file, config):
   exif = {"0th": {}, "Exif" : {}, "GPS" : {}, "1st" : {}}
-  content_name = config['content_img_name']
-  style_name =  config['style_img_name'] 
+  content_name = filename(config['content_img_name'])
+  style_name =  filename(config['style_img_name'])
   keywords = "{0},{1}".format(content_name, style_name)
   
 #   comment = "max_size={0},max_iterations={1},init_img_type={2},content_weight={3},style_weight={4},tv_weight={5}, color_convert_type={8}, optimizer={10}, model={12}".format(

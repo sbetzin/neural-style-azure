@@ -36,10 +36,10 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\norwegen_2.jpg" };
+            var singlePic = new[] { $@"{inPath}\todo\krbbeg.jpg" };
             var singleStyle = new[]
             {
-                $@"{stylePath}\abstract.jpg",
+                $@"{stylePath}\gogh_houses.jpg",
             };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
@@ -76,7 +76,7 @@ namespace NeuralStyle.Console
 
             var settings = new JobSettings
             {
-                Size = 850,
+                Size = 900,
                 StyleWeight = 1e5,
                 ContentWeight = 1e0,
                 TvWeight = 1e-1,
@@ -101,8 +101,22 @@ namespace NeuralStyle.Console
 
             //PostInstaMessage();
 
+            UpdateNames.Ensure_Correct_Filenames(images);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
+
+            //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
+            //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
+
+
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
+
+
+
+
+
+
+
 
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 

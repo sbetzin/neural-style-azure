@@ -78,7 +78,7 @@ def handle_message(blob_service_client, message):
         out_file_origcolor_0 = os.path.join(directory_out, target_name_origcolor_0)
         out_file_origcolor_1 = os.path.join(directory_out, target_name_origcolor_1)
         
-        config = create_config(directory_content, directory_style, directory_out, content_file, style_file, out_file_origcolor_0)
+        config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)
         
         logger.info("downloading %s and %s", content_file, style_file )
@@ -104,13 +104,13 @@ def handle_message(blob_service_client, message):
     except Exception as e:
         logger.exception(e)
 
-def create_config(directory_content, directory_style, directory_out, content_file, style_file, out_file_origcolor_0):
+def create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0):
     config = dict()
     config['content_images_dir'] = directory_content
     config['style_images_dir'] = directory_style
     config['output_img_dir'] = directory_out
-    config['content_img_name'] = content_file
-    config['style_img_name'] = style_file
+    config['content_img_name'] = content_name
+    config['style_img_name'] = style_name
     config['output_img_name'] = out_file_origcolor_0
     config['saving_freq'] = -1
     return config

@@ -139,7 +139,7 @@ def upload_file(blob_service_client, target_name, file_name):
             
             blob_client = blob_service_client.get_blob_client(container="results", blob=target_name)
             with open(file_name, "rb") as data:
-                blob_client.upload_blob(data)
+                blob_client.upload_blob(data, overwrite=True)
 
         else:
             logger.info("file %s does not exit", file_name)

@@ -101,8 +101,8 @@ namespace NeuralStyle.Console
 
             //PostInstaMessage();
 
-            UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath);
+            //UpdateNames.Ensure_Correct_Filenames(images);
+            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*tmpw*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -123,7 +123,7 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
-            CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, singlePic, singlePic, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 

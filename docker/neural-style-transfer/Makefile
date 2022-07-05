@@ -18,14 +18,14 @@ start-two:
 	
 
 stop:
-	nvidia-docker stop $(shell docker ps -q --filter "image=$(IMGNAME):$(IMGTAG)")
+	nvidia-docker stop $(shell docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)")
 	docker container prune --force
 
 pull:
 	docker pull $(IMGNAME):$(IMGTAG)
 	
 logs:
-	nvidia-docker logs $(shell docker ps -q --filter "image=$(IMGNAME):$(IMGTAG)") -f
+	nvidia-docker logs $(shell docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)") -f
 
 prune:
 	docker container prune --force

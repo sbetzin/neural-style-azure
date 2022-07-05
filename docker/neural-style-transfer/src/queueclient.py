@@ -90,7 +90,7 @@ def handle_message(blob_service_client, message):
         config['target_shape'] = target_shape
         
         logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
-        neural_style_transfer(config)
+        neural_style_transfer(logger, config)
 
         logger.info("creating original colors")
         image_tools.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)

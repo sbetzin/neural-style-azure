@@ -36,28 +36,30 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\todo\krbbeg.jpg" };
+            var singlePic = new[] { $@"{inPath}\todo\4th_july_02.jpg" };
             var singleStyle = new[]
             {
-                $@"{stylePath}\gogh_houses.jpg",
+                $@"{stylePath}\backup\egon_schiele_crescent_of_houses.jpg",
             };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
 
             var testPicsForStyleTest = new[] {
-                $@"{inPath}\done\helen_gadjilova_01.jpg",
-                $@"{inPath}\done\helen_gadjilova_02.jpg",
-                $@"{inPath}\done\helen_gadjilova_03.jpg",
-                $@"{inPath}\done\helen_gadjilova_04.jpg",
-                $@"{inPath}\done\helen_gadjilova_05.jpg",
-                $@"{inPath}\done\ana-blume.jpg",
+             $@"{inPath}\done\helen_gadjilova_01.jpg",
+             $@"{inPath}\done\helen_gadjilova_02.jpg",
+             $@"{inPath}\done\helen_gadjilova_03.jpg",
+             $@"{inPath}\done\helen_gadjilova_04.jpg",
                 $@"{inPath}\done\lofoten_reine.jpg",
                 $@"{inPath}\done\ana-schwanger.jpg",
+                $@"{inPath}\done\ana-lolita.jpg",
                 $@"{inPath}\done\norwegen_2.jpg",
-                $@"{inPath}\done\blumen-02.jpg",
-                $@"{inPath}\done\angel-with-sword.jpg",
+                $@"{inPath}\done\friesland-kanal.jpg",
                 $@"{inPath}\done\friesland-muehle.jpg",
-
+                $@"{inPath}\done\friesland-schiffe.jpg",
+                $@"{inPath}\done\frau-02.jpg",
+                $@"{inPath}\done\ove.jpg",
+                $@"{inPath}\done\lofoten-12.jpg",
+                $@"{inPath}\done\leon_01.jpg",
             };
 
             var bestStyles = new[]
@@ -76,7 +78,7 @@ namespace NeuralStyle.Console
 
             var settings = new JobSettings
             {
-                Size = 900,
+                Size = 800,
                 StyleWeight = 1e5,
                 ContentWeight = 1e0,
                 TvWeight = 1e-1,
@@ -85,6 +87,18 @@ namespace NeuralStyle.Console
                 Iterations = 500,
                 Init = "content",
             };
+
+            //var settings = new JobSettings
+            //{
+            //    Size = 1200,
+            //    StyleWeight = 1e6,
+            //    ContentWeight = 1e1,
+            //    TvWeight = 1e4,
+            //    Model = "vgg19",
+            //    Optimizer = "lbfgs",
+            //    Iterations = 500,
+            //    Init = "content",
+            //};
 
             //var settings = new JobSettings
             //{
@@ -101,7 +115,7 @@ namespace NeuralStyle.Console
 
             //PostInstaMessage();
 
-            //UpdateNames.Ensure_Correct_Filenames(images);
+            UpdateNames.Ensure_Correct_Filenames(images);
             SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*tmpw*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
@@ -114,16 +128,12 @@ namespace NeuralStyle.Console
 
 
 
-
-
-
-
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
-            CreateJobs.CreateNew(container, queue, singlePic, singlePic, settings);
+            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 
@@ -132,8 +142,6 @@ namespace NeuralStyle.Console
 
             Logger.Log("");
             Logger.Log("Done");
-
-
             //System.Console.ReadKey();
         }
 

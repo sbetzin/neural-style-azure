@@ -47,7 +47,7 @@ def make_tuning_step(neural_net, optimizer, target_representations, content_feat
     return tuning_step
 
 
-def neural_style_transfer(config):
+def neural_style_transfer(logger, config):
     content_img_path = os.path.join(config['content_images_dir'], config['content_img_name'])
     style_img_path = os.path.join(config['style_images_dir'], config['style_img_name'])
     dump_path = os.path.join(config['output_img_dir'], "dump")
@@ -96,7 +96,7 @@ def neural_style_transfer(config):
         for cnt in range(iterations):
             total_loss, content_loss, style_loss, tv_loss = tuning_step(optimizing_img)
             with torch.no_grad():
-                print(f'Adam | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
+                logger.info(f'Adam | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
                 
                 #utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
         
@@ -114,13 +114,14 @@ def neural_style_transfer(config):
             if total_loss.requires_grad:
                 total_loss.backward()
             with torch.no_grad():
-                print(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
+                logger.info(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
                 # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
             cnt += 1
             return total_loss
 
         optimizer.step(closure)
+        logger.info("Stopped after %s iterations", cnt)
         tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
     
     return dump_path

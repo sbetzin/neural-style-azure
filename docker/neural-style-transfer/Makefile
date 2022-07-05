@@ -1,4 +1,4 @@
-.PHONY: build rebuild clean start stop restart logs pull console-start console-stop console-logs prune
+.PHONY: build rebuild clean start start-two stop restart logs pull console-start console-stop console-logs prune
 IMGNAME=sbetzin/neural-style-transfer
 IMGTAG=1.0.0
 	
@@ -10,6 +10,12 @@ clean:
 
 start:
 	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+
+
+start-two:
+	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	
 
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=neural-style-transfer")

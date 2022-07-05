@@ -36,11 +36,10 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\todo\4th_july_02.jpg" };
-            var singleStyle = new[]
-            {
-                $@"{stylePath}\backup\egon_schiele_crescent_of_houses.jpg",
-            };
+            var singlePic = new[] { $@"{inPath}\done\lofoten-15.jpg" };
+            var singlePic2 = new[] { $@"{inPath}\done\helen_gadjilova_03.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\monet_ships_seine.jpg", };
+            var singleStyle2 = new[] { $@"{stylePath}\guillermo_arismendi_test_02.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
 
@@ -79,13 +78,13 @@ namespace NeuralStyle.Console
             var settings = new JobSettings
             {
                 Size = 800,
-                StyleWeight = 1e5,
-                ContentWeight = 1e0,
-                TvWeight = 1e-1,
+                ContentWeight = 1e9,
+                StyleWeight = 1e9,
+                TvWeight = 1e-2,
                 Model = "vgg19",
                 Optimizer = "lbfgs",
                 Iterations = 500,
-                Init = "content",
+                Init = "random",
             };
 
             //var settings = new JobSettings
@@ -115,8 +114,8 @@ namespace NeuralStyle.Console
 
             //PostInstaMessage();
 
-            UpdateNames.Ensure_Correct_Filenames(images);
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*tmpw*.jpg", outPath);
+            //UpdateNames.Ensure_Correct_Filenames(images);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*leon*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -132,8 +131,8 @@ namespace NeuralStyle.Console
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
-            //CreateJobs.CreateNew(container, priorityQueue, singlePic, singleStyle, settings);
-            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, singleStyle, allInDone, settings);
+            //CreateJobs.CreateNew(container, queue, testPicsForStyleTest, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 

@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using NeuralStyle.Core;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
@@ -36,18 +38,16 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\lofoten-15.jpg" };
-            var singlePic2 = new[] { $@"{inPath}\done\helen_gadjilova_03.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\monet_ships_seine.jpg", };
-            var singleStyle2 = new[] { $@"{stylePath}\guillermo_arismendi_test_02.jpg", };
+            var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\kandinsky_bayerisches_dorf_mit_feld.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
 
             var testPicsForStyleTest = new[] {
-             $@"{inPath}\done\helen_gadjilova_01.jpg",
-             $@"{inPath}\done\helen_gadjilova_02.jpg",
-             $@"{inPath}\done\helen_gadjilova_03.jpg",
-             $@"{inPath}\done\helen_gadjilova_04.jpg",
+                $@"{inPath}\done\helen_gadjilova_01.jpg",
+                $@"{inPath}\done\helen_gadjilova_02.jpg",
+                $@"{inPath}\done\helen_gadjilova_03.jpg",
+                $@"{inPath}\done\helen_gadjilova_04.jpg",
                 $@"{inPath}\done\lofoten_reine.jpg",
                 $@"{inPath}\done\ana-schwanger.jpg",
                 $@"{inPath}\done\ana-lolita.jpg",
@@ -75,24 +75,38 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\angel_botello_mother_and_child.jpg",
             };
 
+            //var settings = new JobSettings
+            //{
+            //    Size = 1000,
+            //    StyleWeight = 1e6,
+            //    ContentWeight = 1e1,
+            //    TvWeight = 1e0,
+            //    Model = "vgg19",
+            //    Optimizer = "lbfgs",
+            //    Iterations = 500,
+            //    Init = "content",
+            //};
+
+
             var settings = new JobSettings
             {
-                Size = 800,
-                ContentWeight = 1e9,
-                StyleWeight = 1e9,
-                TvWeight = 1e-2,
+                Size = 1000,
+                StyleWeight = 4e1,
+                ContentWeight = 1e8,
+                TvWeight = 1e0,
                 Model = "vgg19",
                 Optimizer = "lbfgs",
                 Iterations = 500,
-                Init = "random",
+                Init = "content",
             };
+
 
             //var settings = new JobSettings
             //{
-            //    Size = 1200,
-            //    StyleWeight = 1e6,
-            //    ContentWeight = 1e1,
-            //    TvWeight = 1e4,
+            //    Size = 1000,
+            //    StyleWeight = 1e5,
+            //    ContentWeight = 1e0,
+            //    TvWeight = 1e-1,
             //    Model = "vgg19",
             //    Optimizer = "lbfgs",
             //    Iterations = 500,
@@ -105,7 +119,6 @@ namespace NeuralStyle.Console
             //    StyleWeight = 1e5,
             //    ContentWeight = 1e4,
             //    TvWeight = 1e0,
-
             //    Model = "vgg19",
             //    Optimizer = "adam",
             //    Iterations = 500,
@@ -115,7 +128,7 @@ namespace NeuralStyle.Console
             //PostInstaMessage();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*leon*.jpg", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*1200px*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -124,14 +137,16 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
+            //CreateSeries(queue, container, singlePic, singleStyle);
 
 
+            //CreateGenerativeArt(container, queue, images);
 
             //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
-            CreateJobs.CreateNew(container, queue, singleStyle, allInDone, settings);
+            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, testPicsForStyleTest, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
@@ -142,6 +157,71 @@ namespace NeuralStyle.Console
             Logger.Log("");
             Logger.Log("Done");
             //System.Console.ReadKey();
+        }
+
+        private static void CreateSeries(QueueClient queue, BlobContainerClient container, string[] singlePic, string[] singleStyle)
+        {
+            var min = 1e-1;
+            var max = 1e1;
+            var count = 1;
+
+            var stepSize = (max - min) / count;
+
+            for (var step = 1; step <= count; step++)
+            {
+                var settings = new JobSettings
+                {
+                    Size = 1000,
+                    ContentWeight = max,
+                    StyleWeight = min + step * stepSize,
+                    TvWeight = 1e0,
+                    Model = "vgg19",
+                    Optimizer = "lbfgs",
+                    Iterations = 500,
+                    Init = "content",
+                };
+
+                CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
+            }
+
+        }
+
+        private static void CreateGenerativeArt(BlobContainerClient container, QueueClient queue, string images)
+        {
+            var settingsMix = new JobSettings
+            {
+                Size = 400,
+                ContentWeight = 1e9,
+                StyleWeight = 1e9,
+                TvWeight = 1e-2,
+                Model = "vgg19",
+                Optimizer = "lbfgs",
+                Iterations = 500,
+                Init = "random",
+            };
+
+            var settingsTransfer = new JobSettings
+            {
+                Size = 1000,
+                StyleWeight = 1e5,
+                ContentWeight = 1e0,
+                TvWeight = 1e0,
+                Model = "vgg19",
+                Optimizer = "lbfgs",
+                Iterations = 500,
+                Init = "content",
+            };
+
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\d1\diana_fedoriaka.jpg" }, new[] { $@"{images}\genart\d1\yana_hryhorenko.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\d2\oliakoval.jpg" }, new[] { $@"{images}\genart\d2\masha_reva.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\d3\veronique.jpg" }, new[] { $@"{images}\genart\d3\pasha_photo_from_painting.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r1\woman_window.jpg" }, new[] { $@"{images}\genart\r1\monsters.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r1\woman_window.jpg" }, new[] { $@"{images}\genart\r1\superposition.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r2\volobevza.jpg" }, new[] { $@"{images}\genart\r2\vpidust.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r2\vpidust.jpg" }, new[] { $@"{images}\genart\r2\volobevza.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r3\zhannet_podobed.jpg" }, new[] { $@"{images}\genart\r3\krispodobed.jpg" }, settingsTransfer);
+            //CreateJobs.CreateNew(container, queue, new[] { $@"{images}\genart\r3\krispodobed.jpg" }, new[] { $@"{images}\genart\r3\zhannet_podobed.jpg" }, settingsTransfer);
+
         }
 
         private static void PostInstaMessage()

@@ -30,6 +30,7 @@ namespace NeuralStyle.Console
             var sharePath = $@"{images}\share";
             var templateFile = $@"{images}\web\template.html";
             var mintPath = $@"{images}\mint\girl-playing-chess";
+            var thumbsPath = $@"{images}\thumbs";
 
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo");
@@ -87,13 +88,14 @@ namespace NeuralStyle.Console
             //    Init = "content",
             //};
 
+            // Styleweight 20000 scheint die Grenze zu sein, aber der der Loss anfängt
 
             var settings = new JobSettings
             {
                 Size = 1000,
-                StyleWeight = 4e1,
-                ContentWeight = 1e8,
-                TvWeight = 1e0,
+                StyleWeight = 1e5,
+                ContentWeight = 3e7,
+                TvWeight = 1,
                 Model = "vgg19",
                 Optimizer = "lbfgs",
                 Iterations = 500,
@@ -103,14 +105,14 @@ namespace NeuralStyle.Console
 
             //var settings = new JobSettings
             //{
-            //    Size = 1000,
-            //    StyleWeight = 1e5,
-            //    ContentWeight = 1e0,
-            //    TvWeight = 1e-1,
-            //    Model = "vgg19",
-            //    Optimizer = "lbfgs",
-            //    Iterations = 500,
-            //    Init = "content",
+            //     Size = 1000,
+            // StyleWeight = 1e5,
+            //ContentWeight = 3e4,
+            //TvWeight = 1,
+            //Model = "vgg19",
+            //Optimizer = "lbfgs",
+            //Iterations = 500,
+            //Init = "content",
             //};
 
             //var settings = new JobSettings
@@ -137,7 +139,8 @@ namespace NeuralStyle.Console
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            //CreateSeries(queue, container, singlePic, singleStyle);
+            //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
+            //CreateSeries.FromThumbs(queue, container, thumbsPath, singleStyle);
 
 
             //CreateGenerativeArt(container, queue, images);
@@ -146,7 +149,7 @@ namespace NeuralStyle.Console
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
-            CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
+            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, testPicsForStyleTest, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
@@ -159,32 +162,6 @@ namespace NeuralStyle.Console
             //System.Console.ReadKey();
         }
 
-        private static void CreateSeries(QueueClient queue, BlobContainerClient container, string[] singlePic, string[] singleStyle)
-        {
-            var min = 1e-1;
-            var max = 1e1;
-            var count = 1;
-
-            var stepSize = (max - min) / count;
-
-            for (var step = 1; step <= count; step++)
-            {
-                var settings = new JobSettings
-                {
-                    Size = 1000,
-                    ContentWeight = max,
-                    StyleWeight = min + step * stepSize,
-                    TvWeight = 1e0,
-                    Model = "vgg19",
-                    Optimizer = "lbfgs",
-                    Iterations = 500,
-                    Init = "content",
-                };
-
-                CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
-            }
-
-        }
 
         private static void CreateGenerativeArt(BlobContainerClient container, QueueClient queue, string images)
         {

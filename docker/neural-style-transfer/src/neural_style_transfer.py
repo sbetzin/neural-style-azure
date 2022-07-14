@@ -103,7 +103,7 @@ def neural_style_transfer(logger, config):
         tensor_conversion.save_image_from_tensor(optimizing_img, config['output_img_name'] )
     elif config['optimizer'] == 'lbfgs':
         # line_search_fn does not seem to have significant impact on result
-        optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe')
+        optimizer = LBFGS((optimizing_img,), max_iter=iterations, line_search_fn='strong_wolfe',)
         cnt = 0
 
         def closure():

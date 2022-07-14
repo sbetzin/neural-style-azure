@@ -12,7 +12,7 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public  static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
+        public static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
         {
             var jobs = sourceFiles.Product(styleFiles).ToList();
 
@@ -32,21 +32,31 @@ namespace NeuralStyle.Core.Cloud
 
         public static void CreateJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings)
         {
-            var job = new Job {ContentName = Path.GetFileName(sourceFile), 
-                StyleName = Path.GetFileName(styleFile), 
-                Iterations = settings.Iterations, 
-                Size = settings.Size, 
-                StyleWeight = settings.StyleWeight, 
+
+            var job = new Job
+            {
+                ContentName = Path.GetFileName(sourceFile),
+                StyleName = Path.GetFileName(styleFile),
+                Iterations = settings.Iterations,
+                Size = settings.Size,
+                StyleWeight = settings.StyleWeight,
                 ContentWeight = settings.ContentWeight,
-                TvWeight =  settings.TvWeight,
+                TvWeight = settings.TvWeight,
                 Model = settings.Model,
                 Optimizer = settings.Optimizer,
                 Init = settings.Init,
             };
-                
-            job.TargetName = CreateTargetName(job);
 
-            var json = JsonConvert.SerializeObject (job);
+            if (settings.TargetName != string.Empty)
+            {
+                job.TargetName = settings.TargetName;
+            }
+            else
+            {
+                job.TargetName = CreateTargetName(job);
+            }
+
+            var json = JsonConvert.SerializeObject(job);
 
             queue.SendMessage(json);
 

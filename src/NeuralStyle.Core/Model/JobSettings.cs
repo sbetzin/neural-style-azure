@@ -10,5 +10,6 @@
         public string Model { get; set; } = "vgg19";
         public string Optimizer { get; set; } = "lbfgs";
         public string Init { get; set; } = "content";
+        public string TargetName { get; set; } = string.Empty;
     }
 }

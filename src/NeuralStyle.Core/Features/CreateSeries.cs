@@ -52,12 +52,13 @@ namespace NeuralStyle.Core.Features
                 {
                     Size = 1000,
                     StyleWeight = 1e5,
-                    ContentWeight = Math.Round(min + (step * stepSize), 0),
+                    ContentWeight = Math.Round(max - (step * stepSize), 0),
                     TvWeight = 1,
                     Model = "vgg19",
                     Optimizer = "lbfgs",
                     Iterations = 500,
                     Init = "content",
+                    TargetName = step.ToString(),
                 };
 
                 CreateJobs.CreateNew(container, queue, images[step], singleStyle, settings);

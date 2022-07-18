@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu18.04
+FROM nvidia/cuda:11.0.3-runtime-ubuntu18.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0.0"
 
@@ -24,10 +24,8 @@ RUN git clone https://github.com/fmu2/3d_photo_stylization.git
 
 # Install python libs
 RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=11.0
-RUN conda install -y -c conda-forge tensorboard tensorboardx
 RUN conda install -y -c anaconda scipy pyyaml
-RUN conda install -y -c conda-forge ffmpeg imageio imageio-ffmpeg
-RUN conda install -y -c conda-forge plyfile matplotlib
+RUN conda install -y -c conda-forge tensorboard tensorboardx ffmpeg imageio imageio-ffmpeg plyfile matplotlib
 RUN conda install -y -c open3d-admin open3d
 
 

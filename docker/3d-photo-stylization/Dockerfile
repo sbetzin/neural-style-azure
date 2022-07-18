@@ -27,7 +27,7 @@ RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=11
 RUN conda install -y -c conda-forge tensorboard tensorboardx
 RUN conda install -y -c anaconda scipy pyyaml
 RUN conda install -y -c conda-forge ffmpeg imageio imageio-ffmpeg
-RUN conda install -y -c plyfile matplotlib
+RUN conda install -y -c conda-forge plyfile matplotlib
 RUN conda install -y -c open3d-admin open3d
 
 

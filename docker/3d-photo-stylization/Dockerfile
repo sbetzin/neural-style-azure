@@ -31,9 +31,5 @@ RUN conda install -y -c open3d-admin open3d
 # Needed requirements
 RUN pip install lpips
 
-WORKDIR /3d_photo_stylization/
-# Compile libs
-RUN python setup_render.py build_ext --inplace
-RUN python setup_pointnet2.py build_ext --inplace
 
 

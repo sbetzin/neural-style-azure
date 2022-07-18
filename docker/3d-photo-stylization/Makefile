@@ -3,8 +3,7 @@ IMGNAME=sbetzin/photo-stylization
 IMGTAG=1.0.0
 	
 build:
-	nvidia-docker build -f Dockerfile-1.15.0-gpu-py3 -t $(IMGNAME):$(IMGTAG) .
-	#nvidia-docker push sbetzin/photo-stylization:1.15.0-gpu-py3
+	nvidia-docker build -f Dockerfile -t $(IMGNAME):$(IMGTAG) .
 
 clean:
 	docker rmi $(IMGNAME):$(IMGTAG)

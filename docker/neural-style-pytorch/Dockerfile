@@ -12,7 +12,7 @@ RUN wget --progress=bar:force https://repo.anaconda.com/miniconda/Miniconda2-4.5
 ENV PATH /root/miniconda/bin:$PATH
 
 # Clone Repo
-RUN git clone https://github.com/fmu2/3d_photo_stylization.git
+RUN git clone https://github.com/sbetzin/style-transfer-pytorch
 
 # Install python libs
 RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2

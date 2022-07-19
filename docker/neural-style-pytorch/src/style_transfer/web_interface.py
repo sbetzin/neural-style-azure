@@ -9,7 +9,8 @@ import torch
 import torch.multiprocessing as mp
 from torchvision.transforms import functional as TF
 
-from . import srgb_profile, STIterate
+from srgb_profile import srgb_profile
+from style_transfer import STIterate
 
 
 @dataclass

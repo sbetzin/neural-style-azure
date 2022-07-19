@@ -18,11 +18,7 @@ from tqdm import tqdm
 
 from style_transfer import StyleTransfer
 from web_interface import WebInterface
-
-from pathlib import Path
-srgb_profile = (Path(__file__).resolve().parent / 'sRGB Profile.icc').read_bytes()
-del Path
-
+from srgb_profile import srgb_profile
 
 def prof_to_prof(image, src_prof, dst_prof, **kwargs):
     src_prof = io.BytesIO(src_prof)

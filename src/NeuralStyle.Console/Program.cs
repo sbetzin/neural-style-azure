@@ -39,7 +39,7 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
+            var singlePic = new[] { $@"{inPath}\done\sebastian_jump.jpg" };
             var singleStyle = new[] { $@"{stylePath}\kandinsky_bayerisches_dorf_mit_feld.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
@@ -76,26 +76,12 @@ namespace NeuralStyle.Console
                 $@"{stylePath}\angel_botello_mother_and_child.jpg",
             };
 
-            //var settings = new JobSettings
-            //{
-            //    Size = 1000,
-            //    StyleWeight = 1e6,
-            //    ContentWeight = 1e1,
-            //    TvWeight = 1e0,
-            //    Model = "vgg19",
-            //    Optimizer = "lbfgs",
-            //    Iterations = 500,
-            //    Init = "content",
-            //};
-
-            // Styleweight 20000 scheint die Grenze zu sein, aber der der Loss anfängt
-
             var settings = new JobSettings
             {
                 Size = 1000,
-                StyleWeight = 1e5,
-                ContentWeight = 3e7,
-                TvWeight = 1,
+                StyleWeight = 1e9,
+                ContentWeight = 1e5,
+                TvWeight = 1e1,
                 Model = "vgg19",
                 Optimizer = "lbfgs",
                 Iterations = 500,
@@ -145,7 +131,7 @@ namespace NeuralStyle.Console
 
             //CreateGenerativeArt(container, queue, images);
 
-            //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 

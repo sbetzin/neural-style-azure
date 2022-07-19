@@ -267,5 +267,5 @@ def main():
         json.dump(callback.get_trace(), fp, indent=4)
 
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+main()

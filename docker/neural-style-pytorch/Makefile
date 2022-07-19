@@ -1,5 +1,5 @@
 .PHONY: build rebuild clean start start-two stop restart logs pull console-start console-stop console-logs prune
-IMGNAME=sbetzin/neural-style-transfer
+IMGNAME=sbetzin/neural-style-pytorch
 IMGTAG=1.0.0
 	
 build:
@@ -9,12 +9,12 @@ clean:
 	docker rmi $(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-pytorch --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 
 
 start-two:
-	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
-	nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-pytorch-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-pytorch-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 	
 
 stop:
@@ -31,14 +31,14 @@ prune:
 	docker container prune --force
 	
 console-start:
-	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-transfer-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
+	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name neural-style-pytorch-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
 
 console-stop:
-	nvidia-docker stop $(shell docker ps -q --filter "name=neural-style-transfer-console")
+	nvidia-docker stop $(shell docker ps -q --filter "name=neural-style-pytorch-console")
 	docker container prune --force
 	
 console-logs:
-	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-transfer-console")
+	nvidia-docker logs $(shell docker ps -q --filter "name=neural-style-pytorch-console")
 
 console-restart: console-stop console-start
 

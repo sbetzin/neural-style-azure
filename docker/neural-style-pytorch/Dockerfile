@@ -1,4 +1,5 @@
-FROM nvidia/cuda:11.0.3-devel-ubuntu18.04
+# https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=11.0
+FROM nvidia/cuda:11.0.3-runtime-ubuntu18.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0.0"
 
@@ -15,9 +16,7 @@ RUN git clone https://github.com/fmu2/3d_photo_stylization.git
 
 # Install python libs
 RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2
-RUN conda install -y tqdm=4.46.0
-RUN conda install -y tifffile=2020.10.1
-RUN conda install -y aiohttp=3.7.4 ipython-7.16.1 
+RUN conda install -y tqdm=4.46.0 tifffile=2020.10.1 aiohttp=3.7.4 ipython-7.16.1
 
 
 

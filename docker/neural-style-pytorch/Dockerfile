@@ -16,7 +16,6 @@ RUN conda install -y python=3.6
 RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2
 RUN conda install -y tqdm=4.46.0 tifffile=2020.10.1 aiohttp=3.7.4 ipython=7.16.1
 
-# Clone Repo
-RUN git clone https://github.com/sbetzin/style-transfer-pytorch
+COPY src /home/
 
 

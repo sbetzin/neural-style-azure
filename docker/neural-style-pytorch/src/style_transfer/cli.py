@@ -9,7 +9,6 @@ from pathlib import Path
 import platform
 import sys
 import webbrowser
-
 import numpy as np
 from PIL import Image, ImageCms
 from tifffile import TIFF, TiffWriter
@@ -17,7 +16,12 @@ import torch
 import torch.multiprocessing as mp
 from tqdm import tqdm
 
-from . import srgb_profile, StyleTransfer, WebInterface
+from style_transfer import StyleTransfer
+from web_interface import WebInterface
+
+from pathlib import Path
+srgb_profile = (Path(__file__).resolve().parent / 'sRGB Profile.icc').read_bytes()
+del Path
 
 
 def prof_to_prof(image, src_prof, dst_prof, **kwargs):
@@ -267,5 +271,5 @@ def main():
         json.dump(callback.get_trace(), fp, indent=4)
 
 
-#if __name__ == '__main__':
-main()
+if __name__ == '__main__':
+    main()

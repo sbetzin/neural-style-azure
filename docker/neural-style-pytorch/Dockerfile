@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y nano wget git sudo
 
 # Install miniconda with python 3.6
 # export PATH="~/miniconda/bin:$PATH"
-RUN wget --progress=bar:force https://repo.anaconda.com/miniconda/Miniconda3-4.3.11-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
+RUN wget --progress=bar:force https://repo.anaconda.com/miniconda/Miniconda2-4.3.11-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
 ENV PATH /root/miniconda/bin:$PATH
 
 # Clone Repo

@@ -39,8 +39,8 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\sebastian_jump.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\kandinsky_bayerisches_dorf_mit_feld.jpg", };
+            var singlePic = new[] { $@"{inPath}\done\leon_02.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\anca_stefanescu_pegasus.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
 
@@ -116,7 +116,7 @@ namespace NeuralStyle.Console
             //PostInstaMessage();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*1200px*.jpg", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "sebastian*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -126,12 +126,12 @@ namespace NeuralStyle.Console
             //SortImages.CreateMissingHardlinkgs(outPath);
 
             //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
-            //CreateSeries.FromThumbs(queue, container, thumbsPath, singleStyle);
+            CreateSeries.FromThumbs(queue, container, thumbsPath, bestStyles);
 
 
             //CreateGenerativeArt(container, queue, images);
 
-            CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
+            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 

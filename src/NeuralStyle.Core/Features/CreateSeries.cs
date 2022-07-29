@@ -37,7 +37,7 @@ namespace NeuralStyle.Core.Features
             }
         }
 
-        public static void FromThumbs(QueueClient queue, BlobContainerClient container, string thumbsPath, string[] singleStyle)
+        public static void FromThumbs(QueueClient queue, BlobContainerClient container, string thumbsPath, string[] styles)
         {
             var images = Directory.GetFiles(thumbsPath, "*.jpg", SearchOption.TopDirectoryOnly);
 
@@ -46,22 +46,28 @@ namespace NeuralStyle.Core.Features
             var count = images.Count();
             var stepSize = (max - min) / count;
 
-            for (var step = 0; step < count; step++)
+            foreach (var style in styles)
             {
-                var settings = new JobSettings
+                
+                for (var step = 0; step < count; step++)
                 {
-                    Size = 1000,
-                    StyleWeight = 1e5,
-                    ContentWeight = Math.Round(max - (step * stepSize), 0),
-                    TvWeight = 1,
-                    Model = "vgg19",
-                    Optimizer = "lbfgs",
-                    Iterations = 500,
-                    Init = "content",
-                    TargetName = step.ToString(),
-                };
+                    var styleName = Path.GetFileNameWithoutExtension(style);
 
-                CreateJobs.CreateNew(container, queue, images[step], singleStyle, settings);
+                    var settings = new JobSettings
+                    {
+                        Size = 1000,
+                        StyleWeight = 1e5,
+                        ContentWeight = Math.Round(max - (step * stepSize), 0),
+                        TvWeight = 1,
+                        Model = "vgg19",
+                        Optimizer = "lbfgs",
+                        Iterations = 500,
+                        Init = "content",
+                        TargetName = $"{styleName}_{step:D4}_c#origcolor#.jpg",
+                    };
+
+                    CreateJobs.CreateNew(container, queue, images[step], style, settings);
+                }
             }
         }
     }

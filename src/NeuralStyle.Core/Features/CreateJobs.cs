@@ -36,5 +36,10 @@ namespace NeuralStyle.Core.Features
         {
             CreateNew(container, queue, new[] { image }, styles, settings);
         }
+
+        public static void CreateNew(BlobContainerClient container, QueueClient queue, string image, string style, JobSettings settings)
+        {
+            CreateNew(container, queue, new[] { image }, new [] {style}, settings);
+        }
     }
 }

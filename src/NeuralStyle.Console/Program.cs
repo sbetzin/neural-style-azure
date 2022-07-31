@@ -39,8 +39,8 @@ namespace NeuralStyle.Console
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\done\leon_02.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\anca_stefanescu_pegasus.jpg", };
+            var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\bob_marley.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
 
 
@@ -78,9 +78,9 @@ namespace NeuralStyle.Console
 
             var settings = new JobSettings
             {
-                Size = 1000,
-                StyleWeight = 1e9,
-                ContentWeight = 1e5,
+                Size = 1100,
+                StyleWeight = 1e5,
+                ContentWeight = 3e4,
                 TvWeight = 1e1,
                 Model = "vgg19",
                 Optimizer = "lbfgs",
@@ -116,7 +116,7 @@ namespace NeuralStyle.Console
             //PostInstaMessage();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "sebastian*.jpg", outPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "helen*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");

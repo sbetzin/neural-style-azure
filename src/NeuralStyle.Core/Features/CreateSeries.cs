@@ -57,13 +57,13 @@ namespace NeuralStyle.Core.Features
                     {
                         Size = 1000,
                         StyleWeight = 1e5,
-                        ContentWeight = Math.Round(max - (step * stepSize), 0),
+                        ContentWeight = 3e4,
                         TvWeight = 1,
                         Model = "vgg19",
                         Optimizer = "lbfgs",
                         Iterations = 500,
                         Init = "content",
-                        TargetName = $"{styleName}_{step:D4}_c#origcolor#.jpg",
+                        TargetName = $"{styleName}_c#origcolor#_{step:D4}.jpg",
                     };
 
                     CreateJobs.CreateNew(container, queue, images[step], style, settings);

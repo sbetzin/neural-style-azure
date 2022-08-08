@@ -16,7 +16,7 @@ COPY ["/env/environment.yml", "/env/"]
 RUN chmod 777 /env/
 
 WORKDIR /env/
-RUN conda install --file environment.yml
+RUN conda env create --file environment.yml
 
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting

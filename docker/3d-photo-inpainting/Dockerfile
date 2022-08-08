@@ -5,21 +5,21 @@ LABEL version="1.0.0"
 # https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=11.0
 
 # update basic os
-RUN apt-get update && apt-get install -y nano wget git sudo
+RUN apt-get update && apt-get install -y nano wget git sudo sed
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
 RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
 ENV PATH /root/miniconda/bin:$PATH
 
+# COPY ["/env/environment.yml", "/env/"]
+# RUN chmod 777 /env/
+
+# WORKDIR /env/
+# RUN conda intall --file environment.yml
+
 # https://linuxconfig.org/how-to-install-g-the-c-compiler-on-ubuntu-18-04-bionic-beaver-linux
-RUN pip3 install torch==1.4.0+cu100 torchvision==0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
-RUN pip3 install opencv-python==4.2.0.32
-RUN pip3 install vispy==0.6.4
-RUN pip3 install moviepy==1.0.2
-RUN pip3 install transforms3d==0.3.1
-RUN pip3 install networkx==2.3
-RUN sudo apt install sed
+RUN conda install -y pytorch==1.4.0 torchvision==0.5.0 -c pytorch
 
 
 

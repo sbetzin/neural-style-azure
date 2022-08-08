@@ -28,3 +28,23 @@ RUN conda env update --file environment.yml
 WORKDIR /home/
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting
+
+# Download models
+WORKDIR /home/3d-photo-inpainting
+RUN mkdir checkpoints
+RUN git clone https://github.com/compphoto/BoostingMonocularDepth.git
+RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
+
+WORKDIR /home/3d-photo-inpainting/checkpoints
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/edge-model.pth
+
+WORKDIR /home/3d-photo-inpainting/MiDaS
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model.pt
+
+WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/latest_net_G.pth
+
+WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/BoostingMonocularDepth/midas
+RUN wget https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model-f46da743.pt -O model.pt

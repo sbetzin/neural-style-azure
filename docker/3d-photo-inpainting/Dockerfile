@@ -18,6 +18,7 @@ RUN chmod 777 /env/
 WORKDIR /env/
 RUN conda env update --file environment.yml
 
+WORKDIR /home/
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting
 
@@ -26,7 +27,3 @@ RUN git clone https://github.com/sbetzin/3d-photo-inpainting
 # RUN conda install -y -c anaconda scipy pyyaml
 # RUN conda install -y -c conda-forge tensorboard tensorboardx ffmpeg imageio imageio-ffmpeg plyfile matplotlib
 # RUN conda install -y -c open3d-admin open3d
-
-
-
-

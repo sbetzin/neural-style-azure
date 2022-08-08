@@ -7,6 +7,13 @@ LABEL version="1.0.0"
 # update basic os
 RUN apt-get update && apt-get install -y nano wget git sudo sed
 
+# Install Timezone Silent
+# https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+
+# added needed os basics for 
+RUN apt-get install pkg-config libfontconfig1-dev
+
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
 RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
@@ -21,9 +28,3 @@ RUN conda env update --file environment.yml
 WORKDIR /home/
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting
-
-# Install python libs
-# RUN conda install -y -c pytorch pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=11.0
-# RUN conda install -y -c anaconda scipy pyyaml
-# RUN conda install -y -c conda-forge tensorboard tensorboardx ffmpeg imageio imageio-ffmpeg plyfile matplotlib
-# RUN conda install -y -c open3d-admin open3d

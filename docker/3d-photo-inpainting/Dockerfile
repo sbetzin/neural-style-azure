@@ -12,16 +12,11 @@ RUN apt-get update && apt-get install -y nano wget git sudo sed
 RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
 ENV PATH /root/miniconda/bin:$PATH
 
-# COPY ["/env/environment.yml", "/env/"]
-# RUN chmod 777 /env/
+COPY ["/env/environment.yml", "/env/"]
+RUN chmod 777 /env/
 
-# WORKDIR /env/
-# RUN conda intall --file environment.yml
-
-# https://linuxconfig.org/how-to-install-g-the-c-compiler-on-ubuntu-18-04-bionic-beaver-linux
-RUN conda install -y pytorch==1.4.0 torchvision==0.5.0 -c pytorch
-
-
+WORKDIR /env/
+RUN conda intall --file environment.yml
 
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting

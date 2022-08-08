@@ -2,10 +2,14 @@ name: base
 channels:
   - defaults
   - pytorch
+  - anaconda
+  - conda-forge
 dependencies:
+  - pip
   - pytorch==1.4.0
   - torchvision==0.5.0 
-  - pip
+  - scipy==1.7.3
+  - pyyaml==3.13
   - pip:
     - opencv-python==4.2.0.32
     - vispy==0.6.4

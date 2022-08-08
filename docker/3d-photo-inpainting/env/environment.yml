@@ -5,7 +5,7 @@ channels:
 dependencies:
   - pytorch==1.4.0
   - torchvision==0.5.0 
-  - pip3
+  - pip
   - pip:
     - opencv-python==4.2.0.32
     - vispy==0.6.4

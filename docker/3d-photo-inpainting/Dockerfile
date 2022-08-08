@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y nano wget git sudo sed
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
 # added needed os basics for 
-RUN apt-get install -y pkg-config libfontconfig1-dev
+RUN apt-get install -y pkg-config libfontconfig1-dev libsm6 libxext6 libxrender-dev
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"

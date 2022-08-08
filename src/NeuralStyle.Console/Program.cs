@@ -24,6 +24,7 @@ namespace NeuralStyle.Console
             var stylePath = $@"{images}\style";
             var inPath = $@"{images}\in";
             var inDonePath = $@"{images}\in\done";
+            var inTodoPath = $@"{images}\in\todo";
             var outPath = $@"{images}\out";
             var outScaledPath = $@"{images}\out_scaled";
             var webPath = $@"{images}\web\pages";
@@ -38,6 +39,7 @@ namespace NeuralStyle.Console
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
+            var allInTodo = Directory.GetFiles(inTodoPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\done\helen_gadjilova_04.jpg" };
             var singleStyle = new[] { $@"{stylePath}\bob_marley.jpg", };
@@ -78,7 +80,7 @@ namespace NeuralStyle.Console
 
             var settings = new JobSettings
             {
-                Size = 1100,
+                Size = 1000,
                 StyleWeight = 1e5,
                 ContentWeight = 3e4,
                 TvWeight = 1e1,
@@ -115,7 +117,7 @@ namespace NeuralStyle.Console
 
             //PostInstaMessage();
 
-            //UpdateNames.Ensure_Correct_Filenames(images);
+            UpdateNames.Ensure_Correct_Filenames(images);
             //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "helen*.jpg", outPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
@@ -126,17 +128,17 @@ namespace NeuralStyle.Console
             //SortImages.CreateMissingHardlinkgs(outPath);
 
             //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
-            CreateSeries.FromThumbs(queue, container, thumbsPath, bestStyles);
+            //CreateSeries.FromThumbs(queue, container, thumbsPath, bestStyles);
 
 
             //CreateGenerativeArt(container, queue, images);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, allInTodo, allStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
-            //CreateJobs.CreateNew(container, queue, testPicsForStyleTest, todoStyles, settings);
+            //CreateJobs.CreateNew(container, queue, allInDone, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);
 

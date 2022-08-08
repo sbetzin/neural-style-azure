@@ -46,7 +46,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/latest_net_G.pth
 
-WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/BoostingMonocularDepth/midas
+WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/midas
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model-f46da743.pt -O model.pt
 
 WORKDIR /home/3d-photo-inpainting

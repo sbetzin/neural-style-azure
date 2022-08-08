@@ -24,17 +24,17 @@ logs:
 prune:
 	docker container prune --force
 	
-console-start:
+start-console:
 	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
 
-console-stop:
+stop-console:
 	nvidia-docker stop $(shell docker ps -q --filter "name$=(IMGNAME)-console")
 	docker container prune --force
 	
-console-logs:
+logs-console:
 	nvidia-docker logs $(shell docker ps -q --filter "name=$(IMGNAME)-console")
 
-console-restart: console-stop console-start
+restart-console: console-stop console-start
 
 rebuild: stop build start
 restart: stop start

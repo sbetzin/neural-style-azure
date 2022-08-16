@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Text.RegularExpressions;
+using AngleSharp.Text;
+using FFMpegCore;
 using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Links;
 
@@ -8,17 +11,17 @@ namespace NeuralStyle.Core.Features
 {
     public static class SortImages
     {
-        public static void SortNewImages(string sortImagePath, string searchPattern, string outPath)
+        public static void SortNewImages(string sortImagePath, string searchPattern, string outPath, string videoPath)
         {
             var images = sortImagePath.Get_All_Images(searchPattern, SearchOption.AllDirectories);
 
             foreach (var image in images)
             {
-                SortImage(image, outPath);
+                SortImage(image, outPath, videoPath);
             }
         }
 
-        private static void SortImage(string image, string outPath)
+        private static void SortImage(string image, string outPath, string videoPath)
         {
             Logger.Log($"Sorting {image}");
             var tags = image.GetTags();
@@ -30,6 +33,47 @@ namespace NeuralStyle.Core.Features
                 return;
             }
 
+            if (IsVideoFrame(tags.In))
+            {
+                SortVideoFrame(image, videoPath, tags, fileName);
+            }
+            else
+            {
+                SortStyledImage(image, outPath, tags, fileName);
+            }
+        }
+
+        private static void SortVideoFrame(string image, string videoPath, (string In, string Style) tags, string fileName)
+        {
+            var origColor = GetFrameImageOrigColor(image);
+
+            var targetFile = Path.Combine(videoPath, "out", tags.Style, origColor, fileName);
+
+            targetFile.EnsureDirectoryExists();
+
+            if (File.Exists(targetFile))
+            {
+                File.Delete(targetFile);
+            }
+
+            File.Move(image, targetFile);
+        }
+
+        private static bool IsVideoFrame(string tagsIn)
+        {
+            var match = Regex.Match(tagsIn, @"\d{4}");
+
+            return match.Success;
+        }
+
+        private static string GetFrameImageOrigColor(string image)
+        {
+            var match = Regex.Match(image, @"_(c[01])_");
+
+            return match.Groups[1].Value;
+        }
+        private static void SortStyledImage(string image, string outPath, (string In, string Style) tags, string fileName)
+        {
             var inFile = Path.Combine(outPath, "name", tags.In, fileName);
             var styleFile = Path.Combine(outPath, "style", tags.Style, fileName);
 
@@ -40,6 +84,7 @@ namespace NeuralStyle.Core.Features
             {
                 File.Delete(inFile);
             }
+
             File.Move(image, inFile);
 
             HardLink.Create(inFile, styleFile, true);

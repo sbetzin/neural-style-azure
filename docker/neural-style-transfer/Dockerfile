@@ -1,4 +1,4 @@
-FROM  anibali/pytorch:1.8.1-cuda11.4
+FROM  anibali/pytorch:1.8.1-cuda11.3
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0"
 USER root

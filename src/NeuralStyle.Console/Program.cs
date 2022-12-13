@@ -39,13 +39,14 @@ namespace NeuralStyle.Console
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo");
             var monet = Directory.GetFiles(stylePath, "*monet_jpg");
+            var amashiroStyles = Directory.GetFiles(stylePath, "amashiro*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
             var allInTodo = Directory.GetFiles(inTodoPath, "*.jpg");
 
-            var singlePic = new[] { $@"{inPath}\ana_leon_01.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\tom_fedro_shabby_chic.jpg", };
+            var singlePic = new[] { $@"{inPath}\todo\andreas_preis.jpg" };
+            var singleStyle = new[] { $@"{stylePath}\todo\preis_the_scream.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
             var specificStylesInShare = Directory.GetFiles(sharePath, "ana_leon_01*.jpg").ToList().Select(image=> image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
@@ -121,7 +122,7 @@ namespace NeuralStyle.Console
             //PostInstaMessage();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath, videoPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "*.jpg", outPath, videoPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -136,11 +137,11 @@ namespace NeuralStyle.Console
 
             //CreateGenerativeArt(container, queue, images);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, allStyles, settings);
+            //CreateJobs.CreateNew(container, queue, allInTodo, allStyles, settings);
 
-            //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
+            //CreateJobs.CreateNew(container, queue, allInDone, amashiroStyles, settings);
 
-            //CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings);
+            CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, allInDone, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);

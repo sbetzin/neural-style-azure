@@ -1,4 +1,4 @@
-.PHONY: build rebuild clean start start-two stop restart logs pull console-start console-stop console-logs prune
+.PHONY: build rebuild clean start start-two stop restart logs pull console-start console-stop console-logs prune clear-logs
 IMGNAME=sbetzin/neural-style-transfer
 IMGTAG=1.0.0
 	
@@ -44,3 +44,6 @@ console-restart: console-stop console-start
 
 rebuild: stop build start
 restart: stop start
+
+clear-logs:
+	truncate -s 0 /var/lib/docker/containers/**/*-json.log

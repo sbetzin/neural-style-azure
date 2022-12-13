@@ -1,4 +1,4 @@
-﻿# Docker
+# Docker
 ## Hilfreiche Standard Commands
 ### um alle laufenden Docker anzuzeigen
 ```bash
@@ -31,6 +31,11 @@ sudo make stop ; sudo make ; sudo make start
 ### Run docker console with mapped folder
 ```bash
 sudo nvidia-docker run --rm -it -v /:/images --entrypoint /bin/bash sbetzin/neural-style-tensorflow
+
+### Run console on existing container
+sudo docker exec -it mailserver /bin/bash
+
+
 ```
 ### Append Command Line Args to the entrypoint
 ```bash

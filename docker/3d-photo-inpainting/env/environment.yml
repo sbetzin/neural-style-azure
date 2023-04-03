@@ -7,12 +7,12 @@ channels:
 dependencies:
   - pip
   - pytorch==1.4.0
-  - torchvision==0.5.0 
   - scipy==1.7.3
   - pyyaml==3.13
   - matplotlib==3.2.2
   - scikit-image==0.18.3
   - pip:
+    - torchvision==0.5.0 
     - opencv-python==4.2.0.32
     - vispy==0.6.4
     - moviepy==1.0.2

@@ -13,7 +13,7 @@ clean:
 	docker rmi $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --restart=unless-stopped $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --restart=unless-stopped $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=$(IMGNAME)")
@@ -29,7 +29,7 @@ prune:
 	docker container prune --force
 	
 start-console:
-	nvidia-docker run --rm -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
+	nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop-console:
 	nvidia-docker stop $(shell docker ps -q --filter "name$=(IMGNAME)-console")

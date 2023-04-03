@@ -6,6 +6,9 @@ IMGTAG=1.0.0
 build:
 	nvidia-docker build -f Dockerfile -t $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG) .
 
+build-nocache:
+	nvidia-docker build -f Dockerfile --no-cache -t $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG) .
+
 clean:
 	docker rmi $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 

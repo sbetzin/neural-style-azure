@@ -50,4 +50,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
 
+# Installing EGL 
+RUN  apt-get install -y --no-install-recommends libegl1-mesa libgles2-mesa libx11-xcb1 libegl1-mesa-dev
+
 WORKDIR /home/3d-photo-inpainting

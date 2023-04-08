@@ -56,6 +56,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 #Testimage
 WORKDIR /home
 RUN mkdir -p image
+WORKDIR /home/image
 RUN wget -progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
 
 

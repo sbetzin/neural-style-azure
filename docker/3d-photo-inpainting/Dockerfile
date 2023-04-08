@@ -39,10 +39,6 @@ RUN mkdir checkpoints
 RUN git clone https://github.com/compphoto/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
-WORKDIR /home
-RUN mkdir -p image
-RUN wget -progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
-
 WORKDIR /home/3d-photo-inpainting/checkpoints
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
@@ -56,6 +52,11 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
+
+#Testimage
+WORKDIR /home
+RUN mkdir -p image
+RUN wget -progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
 
 
 WORKDIR /home/3d-photo-inpainting

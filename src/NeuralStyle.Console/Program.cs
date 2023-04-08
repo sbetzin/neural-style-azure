@@ -23,13 +23,14 @@ namespace NeuralStyle.Console
             var webContainer = Factory.ConstructContainer("$web");
 
             var images = @"C:\Data\images";
+            var video = @"C:\Data\Google Drive\nft\video";
             var stylePath = $@"{images}\style";
             var inPath = $@"{images}\in";
+            var videoPath = $@"{images}\video";
             var inDonePath = $@"{images}\in\done";
             var inTodoPath = $@"{images}\in\todo";
-            var inVideoImagesPath = $@"{images}\in\street_woman_01";
+            var inVideoImagesPath = $@"{video}\norwegen_2_swing\in";
             var outPath = $@"{images}\out";
-            var videoPath = $@"{images}\video";
             var outScaledPath = $@"{images}\out_scaled";
             var webPath = $@"{images}\web\pages";
             var sharePath = $@"{images}\share";
@@ -48,7 +49,7 @@ namespace NeuralStyle.Console
             var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\amashiro_01.jpg", };
+            var singleStyle = new[] { $@"{stylePath}\monet_house_zaandam.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
             var specificStylesInShare = Directory.GetFiles(sharePath, "ana_leon_01*.jpg").ToList().Select(image=> image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
@@ -124,7 +125,7 @@ namespace NeuralStyle.Console
             //PostInstaMessage();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "Prag_0*.jpg", outPath, videoPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "frame*.jpg", outPath, videoPath);
 
             //CreateWebpages.CreateAll(webContainer, sharePath, webPath, templateFile);
             //CreateMiningMetaData.CreateTextFile(mintPath, "Girl Playing Chess");
@@ -139,12 +140,12 @@ namespace NeuralStyle.Console
 
             //CreateGenerativeArt(container, queue, images);
 
-            //CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            //CreateJobs.CreateNew(container, queue, inVideoImages, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, amashiroStyles, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
-            CreateJobs.CreateNew(container, queue, inVideoImages, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, allInDone, todoStyles, settings);
 
             //CreateJobs.CreateNew(container, priorityQueue, testPicsForStyleTest, singleStyle, settings);

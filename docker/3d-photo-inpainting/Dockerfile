@@ -40,13 +40,13 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/edge-model.pth
 
-WORKDIR /home/3d-photo-inpainting/MiDaS
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model.pt
-
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/latest_net_G.pth
 
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/midas
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model-f46da743.pt -O model.pt
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model.pt
+
+WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
+RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
 
 WORKDIR /home/3d-photo-inpainting

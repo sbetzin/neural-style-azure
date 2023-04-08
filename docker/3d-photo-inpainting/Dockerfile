@@ -26,6 +26,7 @@ WORKDIR /env/
 RUN conda env update --file environment.yml
 
 WORKDIR /home/
+WORKDIR /home/
 # Clone Repo
 RUN git clone https://github.com/sbetzin/3d-photo-inpainting
 

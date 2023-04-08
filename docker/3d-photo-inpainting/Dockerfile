@@ -14,6 +14,9 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 # added needed os basics for 
 RUN apt-get install -y pkg-config libfontconfig1-dev libsm6 libxext6 libxrender-dev
 
+# Installing EGL 
+RUN  apt-get install -y --no-install-recommends libegl1-mesa libgles2-mesa libx11-xcb1 libegl1-mesa-dev
+
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
 RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
@@ -36,6 +39,10 @@ RUN mkdir checkpoints
 RUN git clone https://github.com/compphoto/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
+WORKDIR /home
+RUN mkdir -p image
+RUN wget -progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
+
 WORKDIR /home/3d-photo-inpainting/checkpoints
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
@@ -50,7 +57,5 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
 
-# Installing EGL 
-RUN  apt-get install -y --no-install-recommends libegl1-mesa libgles2-mesa libx11-xcb1 libegl1-mesa-dev
 
 WORKDIR /home/3d-photo-inpainting

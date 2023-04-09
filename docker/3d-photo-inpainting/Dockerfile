@@ -10,7 +10,7 @@ RUN sudo apt-get install -y nano wget git sudo sed
 
 # Install Timezone Silent
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC sudo apt-get -y install tzdata
 
 # added needed os basics for 
 RUN sudo apt-get install -y pkg-config libfontconfig1-dev libsm6 libxext6 libxrender-dev

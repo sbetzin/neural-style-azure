@@ -51,7 +51,7 @@ namespace NeuralStyle.Console
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
             var singleStyle = new[] { $@"{stylePath}\monet_house_zaandam.jpg", };
             var singleShare = new[] { $@"{sharePath}\norwegen_2-elena_prokopenko_tanz7-1200px_cw_0.01_sw_5_tvw_0.001_tmpw_200_clf_1_iter_500_origcolor_0.jpg" };
-            var specificStylesInShare = Directory.GetFiles(sharePath, "ana_leon_01*.jpg").ToList().Select(image=> image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
+            var specificStylesInShare = Directory.GetFiles(sharePath, "close_up*.jpg").ToList().Select(image=> image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
             var testPicsForStyleTest = new[] {
                 $@"{inPath}\done\helen_gadjilova_01.jpg",
@@ -140,7 +140,7 @@ namespace NeuralStyle.Console
 
             //CreateGenerativeArt(container, queue, images);
 
-            CreateJobs.CreateNew(container, queue, allIn, allStyles, settings);
+            CreateJobs.CreateNew(container, queue, allIn, specificStylesInShare, settings);
             //CreateJobs.CreateNew(container, queue, inVideoImages, singleStyle, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, amashiroStyles, settings);

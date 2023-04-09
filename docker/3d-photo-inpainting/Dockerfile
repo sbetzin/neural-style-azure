@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.2.0-cudnn8-devel-ubuntu20.04
+FROM anibali/pytorch:1.8.1-cuda11.1
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
 LABEL version="1.0.0"
 

@@ -14,7 +14,6 @@ RUN apt-get install -y nano wget curl git sudo libglib2.0-0 libsm6 libxrender1 l
 
 #Install Python and Add python alias for python3
 RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /home/
 # Clone Repo
@@ -45,6 +44,8 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 #RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
 #RUN pip install numpy==1.22.2
 
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.poetry/bin:${PATH}"
 
 
 #Testimage

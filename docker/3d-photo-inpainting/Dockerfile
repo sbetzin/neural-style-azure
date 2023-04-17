@@ -26,27 +26,16 @@ RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
 # Download models -> TODO: Replace with the download script
-WORKDIR /home/3d-photo-inpainting/checkpoints
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/edge-model.pth
+WORKDIR /home/3d-photo-inpainting
+RUN python download.py /home/3d-photo-inpainting/
 
-WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/latest_net_G.pth
-
-WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth/midas
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model.pt
-
-WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
-
-#Install packages
-#RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
-#RUN pip install numpy==1.22.2
-
+# Install poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
+#Install packages
+WORKDIR /home/3d-photo-inpainting/env
+RUN poetry install
 
 #Testimage
 WORKDIR /home

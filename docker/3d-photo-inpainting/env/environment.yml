@@ -6,19 +6,19 @@ channels:
   - conda-forge
 dependencies:
   - pip
-  - pytorch==1.4.0
-  - scipy==1.7.3
-  - pyyaml==3.13
-  - matplotlib==3.2.2
-  - scikit-image==0.18.3
+  - pytorch
+  - scipy
+  - pyyaml
+  - matplotlib
+  - scikit-image
   - pip:
-    - torchvision==0.5.0 
-    - opencv-python==4.2.0.32
-    - vispy==0.6.4
-    - moviepy==1.0.2
-    - transforms3d==0.3.1
-    - networkx==2.3
-    - piexif==1.1.3
+    - torchvision
+    - opencv-python
+    - vispy
+    - moviepy
+    - transforms3d
+    - networkx
+    - piexif
     - azure-storage-queue
     - azure-storage-blob
     - applicationinsights

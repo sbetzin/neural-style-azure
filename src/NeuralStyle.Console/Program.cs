@@ -29,7 +29,7 @@ namespace NeuralStyle.Console
             var videoPath = $@"{images}\video";
             var inDonePath = $@"{images}\in\done";
             var inTodoPath = $@"{images}\in\todo";
-            var inVideoImagesPath = $@"{video}\norwegen_2_swing\in";
+            var inVideoImagesPath = $@"{video}\close_up_01_swing\in";
             var outPath = $@"{images}\out";
             var outScaledPath = $@"{images}\out_scaled";
             var webPath = $@"{images}\web\pages";
@@ -140,8 +140,8 @@ namespace NeuralStyle.Console
 
             //CreateGenerativeArt(container, queue, images);
 
-            CreateJobs.CreateNew(container, queue, allIn, specificStylesInShare, settings);
-            //CreateJobs.CreateNew(container, queue, inVideoImages, singleStyle, settings);
+            //CreateJobs.CreateNew(container, queue, allIn, specificStylesInShare, settings);
+            CreateJobs.CreateNew(container, queue, inVideoImages, specificStylesInShare, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, amashiroStyles, settings);
 

@@ -4,24 +4,21 @@ LABEL version="1.0.1"
 USER root
 
 
+
+# update basic os
+RUN apt-get update && apt-get upgrade -y && apt-get install -y nano wget git sudo libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
+
+#Install Python and Add python alias for python3
+RUN apt-get install python3 pip -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+#Install packages
+RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
+RUN pip install numpy==1.22.2
+
 # Install Timezone Silent
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 
-# update basic os
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y nano wget git sudo
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
-
-RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
-
-
-
-#Install Python
-RUN apt-get install python3 pip -y
-# Add python alias for python3
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
-RUN pip install numpy==1.22.2
+#RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"

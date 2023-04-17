@@ -33,6 +33,10 @@ RUN python download.py /home/3d-photo-inpainting/
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
+# Update git
+WORKDIR /home/3d-photo-inpainting
+RUN git pull
+
 #Install packages
 RUN poetry install
 
@@ -42,8 +46,6 @@ RUN mkdir -p image
 WORKDIR /home/image
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
 
-# Update
-WORKDIR /home/3d-photo-inpainting
-RUN git pull
+
 
 WORKDIR /home/3d-photo-inpainting

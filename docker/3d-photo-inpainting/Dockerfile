@@ -34,7 +34,6 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
 #Install packages
-WORKDIR /home/3d-photo-inpainting/env
 RUN poetry install
 
 #Testimage

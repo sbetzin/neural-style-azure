@@ -15,20 +15,7 @@ RUN apt-get install -y nano wget git sudo libglib2.0-0 libsm6 libxrender1 libxex
 #Install Python and Add python alias for python3
 RUN apt-get install python3 pip -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-#Install packages
-RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
-RUN pip install numpy==1.22.2
-
-# Install miniconda
-# export PATH="~/miniconda/bin:$PATH"
-#RUN wget --progress=bar:force https://repo.continuum.io/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && sh ~/miniconda.sh -b -p /root/miniconda && rm ~/miniconda.sh
-#ENV PATH /root/miniconda/bin:$PATH
-
-#COPY ["/env/environment.yml", "/env/"]
-#RUN chmod 777 /env/
-
-#WORKDIR /env/
-#RUN conda env update --file environment.yml
+RUN wget https://install.python-poetry.org/get-poetry.py && python get-poetry.py --yes && rm get-poetry.py
 
 WORKDIR /home/
 # Clone Repo
@@ -54,6 +41,12 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 
 WORKDIR /home/3d-photo-inpainting/BoostingMonocularDepth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth
+
+#Install packages
+#RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
+#RUN pip install numpy==1.22.2
+
+
 
 #Testimage
 WORKDIR /home

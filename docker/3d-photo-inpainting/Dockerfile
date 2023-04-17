@@ -1,18 +1,18 @@
 FROM nvidia/cudagl:11.1.1-runtime-ubuntu20.04
 LABEL maintainer="Sebastian Betzin, https://github.com/sbetzin"
-LABEL version="1.0.0"
+LABEL version="1.0.1"
 USER root
 
-# https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=11.0
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+# Install Timezone Silent
+# https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 
 # update basic os
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y nano wget git sudo
 RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
 
-# Install Timezone Silent
-# https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+
 
 #Install Python
 RUN apt-get install python3 pip -y

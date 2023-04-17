@@ -13,8 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y nano wget curl git sudo libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
 
 #Install Python and Add python alias for python3
-RUN apt-get install python3 pip -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-RUN python -m ensurepip
+RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /home/

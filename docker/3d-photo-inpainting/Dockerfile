@@ -14,7 +14,7 @@ RUN apt-get install -y nano wget curl git sudo libglib2.0-0 libsm6 libxrender1 l
 
 #Install Python and Add python alias for python3
 RUN apt-get install python3 pip -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-
+RUN python -m ensurepip
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /home/

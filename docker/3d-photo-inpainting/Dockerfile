@@ -6,18 +6,20 @@ USER root
 # https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=11.0
 
 # update basic os
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y nano wget git sudo
+RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
 
 # Install Timezone Silent
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
-# added needed os basics for 
-#RUN apt-get install -y pkg-config libfontconfig1-dev libsm6 libxext6 libxrender-dev
-
-# Installing EGL 
-#RUN apt-get install -y --no-install-recommends libegl1-mesa libgles2-mesa libx11-xcb1 libegl1-mesa-dev
+#Install Python
+RUN apt-get install python3 pip -y
+# Add python alias for python3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+RUN pip install torch scipy pyyaml matplotlib scikit-image torchvision opencv-python vispy moviepy transforms3d networkx piexif azure-storage-queue azure-storage-blob applicationinsights
+RUN pip install numpy==1.22.2
 
 # Install miniconda
 # export PATH="~/miniconda/bin:$PATH"
@@ -32,14 +34,15 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
 WORKDIR /home/
 # Clone Repo
-RUN git clone https://github.com/sbetzin/3d-photo-inpainting
-
-# Download models
+RUN git clone https://github.com/sbetzin/3d-photo-inpainting.git
 WORKDIR /home/3d-photo-inpainting
 RUN mkdir checkpoints
-RUN git clone https://github.com/compphoto/BoostingMonocularDepth.git
+
+# Clone BoostingMonocularDepth Repo
+RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
+# Download models
 WORKDIR /home/3d-photo-inpainting/checkpoints
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
@@ -59,7 +62,5 @@ WORKDIR /home
 RUN mkdir -p image
 WORKDIR /home/image
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
-
-RUN apt-get update && apt-get upgrade -y
 
 WORKDIR /home/3d-photo-inpainting

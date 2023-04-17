@@ -15,7 +15,7 @@ RUN apt-get install -y nano wget git sudo libglib2.0-0 libsm6 libxrender1 libxex
 #Install Python and Add python alias for python3
 RUN apt-get install python3 pip -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-RUN wget https://install.python-poetry.org/get-poetry.py && python get-poetry.py --yes && rm get-poetry.py
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /home/
 # Clone Repo

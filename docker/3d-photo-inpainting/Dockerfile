@@ -25,7 +25,7 @@ RUN mkdir checkpoints
 RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
-# Download models
+# Download models -> TODO: Replace with the download script
 WORKDIR /home/3d-photo-inpainting/checkpoints
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth
 RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth
@@ -45,7 +45,7 @@ RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/mod
 #RUN pip install numpy==1.22.2
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.poetry/bin:${PATH}"
+ENV PATH="/root/.local/bin:${PATH}"
 
 
 #Testimage

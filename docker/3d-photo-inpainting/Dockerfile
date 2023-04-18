@@ -39,6 +39,7 @@ RUN git pull
 
 #Install packages
 RUN poetry install
+RUN source $(poetry env info --path)/bin/activate
 
 #Testimage
 WORKDIR /home

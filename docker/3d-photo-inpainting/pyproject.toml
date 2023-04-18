@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "3d-photo-inpainting"
+version = "0.1.0"
+description = ""
+authors = ["Sebastian Betzin <sebastian@betzin.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+torch = "*"
+scipy = "*"
+pyyaml = "*"
+matplotlib = "*"
+scikit-image = "*"
+torchvision = "*"
+opencv-python = "*"
+vispy = "*"
+moviepy = "*"
+transforms3d = "*"
+networkx = "*"
+piexif = "*"
+azure-storage-queue = "*"
+azure-storage-blob = "*"
+applicationinsights = "*"
+numpy = "==1.22.2"
+
+[tool.poetry.dev-dependencies]

@@ -36,6 +36,7 @@ ENV PATH="/root/.local/bin:${PATH}"
 # Update git
 WORKDIR /home/3d-photo-inpainting
 RUN git pull
+RUN git pull
 
 #Install packages
 RUN poetry install

@@ -2,6 +2,7 @@
 import time
 import json
 import os
+import glob
 import sys
 import os.path
 import logging
@@ -62,8 +63,12 @@ def handle_message(blob_service_client, message):
                
         directory_content = "image"
         directory_result = "video"
+        
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
+        
+        # Delete all existing files. Otherwise the 3d-inpainting would iterate them all
+        clear_directory(directory_content)
         
         content_file = os.path.join(directory_content, content_name)
         result_file =  os.path.join(directory_result, result_name)
@@ -85,6 +90,12 @@ def handle_message(blob_service_client, message):
     except Exception as e:
         logger.exception(e)
 
+def clear_directory(target):  
+    files = glob.glob(".jpg")
+
+    for file in files:
+        os.remove(file)
+        
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
     

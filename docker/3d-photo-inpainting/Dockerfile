@@ -19,7 +19,9 @@ RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --ins
 RUN curl -sSL https://install.python-poetry.org | python3 - 
 ENV PATH="/root/.local/bin:${PATH}"
 
+# Turn off virtual env creation
 RUN poetry config virtualenvs.create false
+
 #Install dependencies
 COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app

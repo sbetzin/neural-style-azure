@@ -21,7 +21,7 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 # Copy sources
 WORKDIR /app
-COPY ["/src/*.py" ,"/app"]
+COPY ["/src/*.py" ,"/app/"]
 RUN mkdir checkpoints
 
 # Clone BoostingMonocularDepth Repo

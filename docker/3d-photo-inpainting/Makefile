@@ -29,7 +29,7 @@ prune:
 	docker container prune --force
 	
 start-console:
-	nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
+	nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) -v ~/depth:/depth -v ~/mesh:/mesh --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop-console:
 	nvidia-docker stop $(shell docker ps -q --filter "name$=(IMGNAME)-console")

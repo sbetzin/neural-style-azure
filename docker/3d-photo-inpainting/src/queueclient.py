@@ -79,8 +79,8 @@ def handle_message(blob_service_client, message):
         download_file(blob_service_client, content_name, content_file)
 
         logger.info("start 3d-inpainting with Content=%s, Result=%s", content_name, result_name)
-        #neural_style_transfer(logger, config)
-
+        command = f'python main.py --config defaul.yml'
+        os.system(command)
  
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)

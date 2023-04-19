@@ -20,8 +20,8 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
 # Copy sources
-WORKDIR /home/3d-photo-inpainting
-COPY ["/src/*.py" ,"/app/"]
+WORKDIR /app
+COPY ["/src/*.py" ,"/app"]
 RUN mkdir checkpoints
 
 # Clone BoostingMonocularDepth Repo
@@ -29,7 +29,7 @@ RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
 # Download models -> TODO: Replace with the download script
-RUN python download.py /home/3d-photo-inpainting/
+RUN python download.py /app/
 
 #Install dependencies
 RUN poetry install

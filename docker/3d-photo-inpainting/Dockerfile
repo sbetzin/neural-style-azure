@@ -15,7 +15,6 @@ RUN apt-get install -y nano wget curl git sudo libglib2.0-0 libsm6 libxrender1 l
 #Install Python and Add python alias for python3
 RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-RUN ls
 # Install poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"

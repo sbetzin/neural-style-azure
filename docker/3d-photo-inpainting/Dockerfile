@@ -22,15 +22,16 @@ ENV PATH="/root/.local/bin:${PATH}"
 #Install dependencies
 COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
-#RUN poetry install
-
-# Copy sources
-#COPY ["/src/*.py" ,"/app/"]
-#RUN mkdir checkpoints
-
-# Clone BoostingMonocularDepth Repo
-#RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
-#RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
+RUN poetry install
 
 # Download models
-#RUN python download_models.py /app/
+COPY ["/src/download_models.py", "/app/"]
+RUN python download_models.py /app/
+
+# Copy sources
+COPY ["/src/*.py" ,"/app/"]
+RUN mkdir checkpoints
+
+# Clone BoostingMonocularDepth Repo
+RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
+RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/

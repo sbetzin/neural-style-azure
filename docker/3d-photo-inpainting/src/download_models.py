@@ -18,12 +18,12 @@ def download_models(model_url_path_list):
 
 def download(project_path):
     urls_and_paths = [
-        ("https://filebox.ece.vt.edu/~jbhuang/project/3DPhoto/model/color-model.pth", f"{project_path}/checkpoints/color-model.pth"),
-        ("https://filebox.ece.vt.edu/~jbhuang/project/3DPhoto/model/depth-model.pth", f"{project_path}/checkpoints/depth-model.pth"),
-        ("https://filebox.ece.vt.edu/~jbhuang/project/3DPhoto/model/edge-model.pth", f"{project_path}/checkpoints/edge-model.pth"),
-        ("https://sfu.ca/~yagiz/CVPR21/latest_net_G.pth", f"{project_path}/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/latest_net_G.pth"),
-        ("https://github.com/AlexeyAB/MiDaS/releases/download/midas_dpt/midas_v21-f6b98070.pt", f"{project_path}/BoostingMonocularDepth/midas/model.pt"),
-        ("https://cloudstor.aarnet.edu.au/plus/s/lTIJF4vrvHCAI31/download", f"{project_path}/BoostingMonocularDepth/res101.pth"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/color-model.pth", f"{project_path}/checkpoints/color-model.pth"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/depth-model.pth", f"{project_path}/checkpoints/depth-model.pth"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/edge-model.pth", f"{project_path}/checkpoints/edge-model.pth"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/latest_net_G.pth", f"{project_path}/BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/latest_net_G.pth"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/model.pt", f"{project_path}/BoostingMonocularDepth/midas/model.pt"),
+        ("https://neuralstylefiles.blob.core.windows.net/models/3d-photo-inpainting/res101.pth", f"{project_path}/BoostingMonocularDepth/res101.pth"),
     ]
 
     download_models(urls_and_paths)

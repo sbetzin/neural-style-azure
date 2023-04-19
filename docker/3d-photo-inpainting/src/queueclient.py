@@ -6,13 +6,10 @@ import sys
 import os.path
 import logging
 import argparse
-import insights
-import exifdump
-import image_tools
+import yaml
 
 from azure.storage.queue import QueueClient
 from azure.storage.blob import BlobServiceClient, BlobClient
-from neural_style_transfer import neural_style_transfer as neural_style_transfer
 from azure.core.exceptions import ResourceExistsError
 
 logging.basicConfig(level=logging.INFO)
@@ -27,8 +24,8 @@ azure_logger.setLevel(logging.ERROR)
 azure_logger = logging.getLogger("azure.core")
 azure_logger.setLevel(logging.ERROR)
 
-insights.enable_logging()
-telemetrie = insights.create_telemetrie_client()
+#insights.enable_logging()
+#telemetrie = insights.create_telemetrie_client()
 
 def ensure_dir(file_path):
     directory = os.path.dirname(file_path)
@@ -58,73 +55,35 @@ def handle_message(blob_service_client, message):
         logger.info("handling new message %s", message.id )
         
         job = json.loads(message.content)
-        telemetrie.track_event ("new image", job)
+        #telemetrie.track_event ("new image", job)
         
-        content_name = job["ContentName"]
-        style_name = job["StyleName"]
-        target_name_origcolor_0 = job["TargetName"].replace("#origcolor#", "0")
-        target_name_origcolor_1 = job["TargetName"].replace("#origcolor#", "1")
+        content_name = job["content_name"]
+        result_name = job["result_name"]
                
-        directory_content = "/app/images/in/"
-        directory_style = "/app/images/style/"
-        directory_out = "/app/images/out/"
+        directory_content = "/image/"
+        directory_result = "/result/"
         os.makedirs(directory_content, exist_ok=True)
-        os.makedirs(directory_style, exist_ok=True)
-        os.makedirs(directory_out, exist_ok=True)
+        os.makedirs(directory_result, exist_ok=True)
         
         content_file = os.path.join(directory_content, content_name)
-        style_file =  os.path.join(directory_style, style_name)
+        result_file =  os.path.join(directory_result, result_name)
 
-        out_file_origcolor_0 = os.path.join(directory_out, target_name_origcolor_0)
-        out_file_origcolor_1 = os.path.join(directory_out, target_name_origcolor_1)
+        update_yaml_file('/config/default.yml', job)
         
-        config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
-        transfer_job_param_to_config(job, config)
-        
-        logger.info("downloading %s and %s", content_file, style_file )
+        logger.info("downloading %s", content_file)
         download_file(blob_service_client, content_name, content_file)
-        download_file(blob_service_client, style_name, style_file)
 
-        logger.info("calculating target shape with max_size=%s", job["Size"])
-        target_shape = image_tools.find_target_size(content_file, job["Size"])
-        config['target_shape'] = target_shape
-        
-        logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
-        neural_style_transfer(logger, config)
+        logger.info("start 3d-inpainting with Content=%s, Result=%s", content_name, result_name)
+        #neural_style_transfer(logger, config)
 
-        logger.info("creating original colors")
-        image_tools.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
-        
+ 
         logger.info("Setting exif data")
-        exifdump.write_exif(out_file_origcolor_0, config)
-        exifdump.write_exif(out_file_origcolor_1, config)
+        #exifdump.write_exif(out_file_origcolor_0, config)
+        #exifdump.write_exif(out_file_origcolor_1, config)
         
-        upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
-        upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
+        upload_file(blob_service_client, result_name, result_file)
     except Exception as e:
         logger.exception(e)
-
-def create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0):
-    config = dict()
-    config['content_images_dir'] = directory_content
-    config['style_images_dir'] = directory_style
-    config['output_img_dir'] = directory_out
-    config['content_img_name'] = content_name
-    config['style_img_name'] = style_name
-    config['output_img_name'] = out_file_origcolor_0
-    config['saving_freq'] = -1
-    return config
-
-def transfer_job_param_to_config(job, config):
-    config["iterations"] = job["Iterations"]
-    config['img_format'] = (4, '.jpg') # saves images in the format: %04d.jpg
-    config['content_weight'] = job["ContentWeight"] 
-    config['style_weight'] = job["StyleWeight"]
-    config['tv_weight'] = job["TvWeight"]
-    config['optimizer'] = job["Optimizer"]
-    config['model'] =  job["Model"]
-    config['init_method'] = job["Init"]
-    config['max_size'] = job["Size"]
 
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
@@ -146,15 +105,12 @@ def upload_file(blob_service_client, target_name, file_name):
     except Exception as e:
         logger.exception(e)
 
-def poll_queue(queue_client, priorityQueue_client, blob_service_client):
+def poll_queue(queue_client, blob_service_client):
     try:
         while True:
-           
-            hadPriorityMessages = CheckQueue(priorityQueue_client, blob_service_client)
-            if not hadPriorityMessages:
-                CheckQueue(queue_client, blob_service_client)
+            CheckQueue(queue_client, blob_service_client)
                 
-            time.sleep(5)
+            time.sleep(10)
     except Exception as e:
         logger.exception(e)
 
@@ -172,8 +128,6 @@ def CheckQueue(queue_client, blob_service_client):
             
             return True
     return False
-        
-
 
 def setup_azure_queue(azure_connection_string, queue_name):
     try:
@@ -191,10 +145,23 @@ def setup_azure_blob(azure_connection_string):
 
     return blob_service_client
 
+def update_yaml_file(yaml_file, new_values):
+    # YAML-Datei einlesen
+    with open(yaml_file, 'r') as file:
+        config = yaml.safe_load(file)
+
+    # Dictionary-Elemente aktualisieren
+    for key, value in new_values.items():
+        config[key] = value
+
+    # YAML-Datei speichern
+    with open(yaml_file, 'w') as file:
+        yaml.safe_dump(config, file)
+        
 def measure_time(start_time):
     generation_time = time.time() - start_time
 
-    telemetrie.track_metric('generation time', generation_time)
+    #telemetrie.track_metric('generation time', generation_time)
     logger.info("took %s seconds" % generation_time)
 
 def parse_args(argv):
@@ -202,7 +169,7 @@ def parse_args(argv):
     desc = "QueueClient for tensorflow implementation of Neural-Style"  
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--queue_name', type=str, default='jobs', help='name of the queue to poll')
+    parser.add_argument('--queue_name', type=str, default='jobs-3d-inpainting', help='name of the queue to poll')
     args = parser.parse_args(argv)
 
     return args
@@ -218,24 +185,21 @@ def main(argv):
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
         
-    queue_name ="test"
-    priority_queue_name = "priority-jobs"
+    queue_name ="jobs-3d-inpainting"
 
     queue_client = setup_azure_queue(azure_connection_string, queue_name)
-    priority_queue_client = setup_azure_queue(azure_connection_string, priority_queue_name)
     blob_service_client = setup_azure_blob(azure_connection_string)
   
     logger.info ("preparing azure resources")
     prepare_queue(queue_client, queue_name)
-    prepare_queue(priority_queue_client, priority_queue_name)
     prepare_blob(blob_service_client, "images")
     prepare_blob(blob_service_client, "results")
 
     logger.info ("ensuring directory exists")
-    ensure_dir("/app/images/")
+    #ensure_dir("/app/images/")
 
     logger.info ("starting to poll jobs queue: %s", queue_name)
-    poll_queue(queue_client, priority_queue_client, blob_service_client)
+    poll_queue(queue_client, blob_service_client)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

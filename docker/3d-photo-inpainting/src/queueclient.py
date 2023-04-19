@@ -59,7 +59,7 @@ def handle_message(blob_service_client, message):
         #telemetrie.track_event ("new image", job)
         
         content_name = job["content_name"]
-               
+
         directory_content = "image"
         directory_result = "video"
         

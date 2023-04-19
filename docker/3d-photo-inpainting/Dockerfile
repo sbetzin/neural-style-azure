@@ -24,6 +24,9 @@ COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
 RUN poetry install
 
+# Clone BoostingMonocularDepth Repo
+RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
+
 # Download models
 COPY ["/src/download_models.py", "/app/"]
 RUN python download_models.py /app/
@@ -32,5 +35,3 @@ RUN python download_models.py /app/
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/MiDaS/*.py" ,"/app/MiDaS/"]
 
-# Clone BoostingMonocularDepth Repo
-RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git

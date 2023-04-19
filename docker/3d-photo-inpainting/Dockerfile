@@ -20,6 +20,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
 # Turn off virtual env creation
+# https://github.com/orgs/python-poetry/discussions/1879
 RUN poetry config virtualenvs.create false
 
 #Install dependencies

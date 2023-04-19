@@ -29,7 +29,7 @@ RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
 # Download models -> TODO: Replace with the download script
-RUN python download.py /app/
+RUN python download_models.py /app/
 
 #Install dependencies
 RUN poetry install

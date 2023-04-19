@@ -30,6 +30,7 @@ RUN python download_models.py /app/
 
 # Copy sources
 COPY ["/src/*.py" ,"/app/"]
+COPY ["/src/MiDaS/*.py" ,"/app/MiDaS/"]
 RUN mkdir checkpoints
 
 # Clone BoostingMonocularDepth Repo

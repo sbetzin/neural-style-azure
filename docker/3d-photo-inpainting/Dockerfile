@@ -39,3 +39,5 @@ RUN python download_models.py /app/
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/MiDaS/*.py" ,"/app/MiDaS/"]
 COPY ["config/default.yml" ,"/app/"]
+
+ENTRYPOINT ["python", "/app/queueclient.py"]

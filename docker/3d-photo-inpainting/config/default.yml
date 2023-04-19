@@ -14,10 +14,10 @@ traj_types: ['double-straight-line', 'double-straight-line', 'circle', 'circle']
 video_postfix: ['dolly-zoom-in', 'zoom-in', 'circle', 'swing']
 specific: ''
 longer_side_len: 1024
-src_folder: ../image
-depth_folder: ../depth
-mesh_folder: ../mesh
-video_folder: ../video
+src_folder: image
+depth_folder: /depth
+mesh_folder: /mesh
+video_folder: video
 load_ply: True
 save_ply: True
 inference_video: True

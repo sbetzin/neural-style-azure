@@ -60,15 +60,15 @@ def handle_message(blob_service_client, message):
         content_name = job["content_name"]
         result_name = job["result_name"]
                
-        directory_content = "/image/"
-        directory_result = "/result/"
+        directory_content = "image"
+        directory_result = "video"
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
         
         content_file = os.path.join(directory_content, content_name)
         result_file =  os.path.join(directory_result, result_name)
 
-        update_yaml_file('/config/default.yml', job)
+        update_yaml_file('config/default.yml', job)
         
         logger.info("downloading %s", content_file)
         download_file(blob_service_client, content_name, content_file)

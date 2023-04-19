@@ -68,7 +68,7 @@ def handle_message(blob_service_client, message):
         content_file = os.path.join(directory_content, content_name)
         result_file =  os.path.join(directory_result, result_name)
 
-        update_yaml_file('config/default.yml', job)
+        update_yaml_file('default.yml', job)
         
         logger.info("downloading %s", content_file)
         download_file(blob_service_client, content_name, content_file)

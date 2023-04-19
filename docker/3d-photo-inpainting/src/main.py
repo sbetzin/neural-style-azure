@@ -132,6 +132,7 @@ def start_3d_inpainting(config):
         border = [int(xx) for xx in [top, down, left, right]]
         
         own_postfix = config.get('result_name').rsplit('.', 1)[0]
+        print(f"own postfix={own_postfix}")
         
         normal_canvas, all_canvas = output_3d_photo(verts.copy(), colors.copy(), faces.copy(), copy.deepcopy(Height), copy.deepcopy(Width), copy.deepcopy(hFov), copy.deepcopy(vFov),
                             copy.deepcopy(sample['tgt_pose']), own_postfix, copy.deepcopy(sample['ref_pose']), copy.deepcopy(config['video_folder']),

@@ -79,7 +79,7 @@ def handle_message(blob_service_client, message):
         download_file(blob_service_client, content_name, content_file)
 
         logger.info("start 3d-inpainting with Content=%s, Result=%s", content_name, result_name)
-        command = f'python main.py --config defaul.yml'
+        command = f'python main.py --config default.yml'
         os.system(command)
  
         logger.info("Setting exif data")

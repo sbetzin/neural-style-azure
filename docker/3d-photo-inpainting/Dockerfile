@@ -20,8 +20,8 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
 #Install dependencies
+COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
-COPY ["/src/*.toml", "/app/"]
 RUN poetry install
 
 # Copy sources

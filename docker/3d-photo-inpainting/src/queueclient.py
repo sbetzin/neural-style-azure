@@ -128,7 +128,7 @@ def poll_queue(queue_client, blob_service_client):
         while True:
             CheckQueue(queue_client, blob_service_client)
                 
-            time.sleep(10)
+            time.sleep(5)
     except Exception as e:
         logger.exception(e)
 

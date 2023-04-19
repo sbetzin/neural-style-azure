@@ -15,10 +15,13 @@ RUN apt-get install -y nano wget curl git sudo libglib2.0-0 libsm6 libxrender1 l
 #Install Python and Add python alias for python3
 RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-WORKDIR /home/
-# Clone Repo
-RUN git clone https://github.com/sbetzin/3d-photo-inpainting.git
+# Install poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Copy sources
 WORKDIR /home/3d-photo-inpainting
+COPY ["/src/*.py" ,"/app/"]
 RUN mkdir checkpoints
 
 # Clone BoostingMonocularDepth Repo
@@ -26,26 +29,7 @@ RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
 # Download models -> TODO: Replace with the download script
-WORKDIR /home/3d-photo-inpainting
 RUN python download.py /home/3d-photo-inpainting/
 
-# Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:${PATH}"
-
-# Update git
-WORKDIR /home/3d-photo-inpainting
-RUN git pull
-
-#Install packages
+#Install dependencies
 RUN poetry install
-
-#Testimage
-WORKDIR /home
-RUN mkdir -p image
-WORKDIR /home/image
-RUN wget --progress=bar:force https://neuralstylefiles.blob.core.windows.net/images/close_up_01.jpg
-
-
-
-WORKDIR /home/3d-photo-inpainting

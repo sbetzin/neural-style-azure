@@ -195,9 +195,6 @@ def main(argv):
     prepare_blob(blob_service_client, "images")
     prepare_blob(blob_service_client, "results")
 
-    logger.info ("ensuring directory exists")
-    #ensure_dir("/app/images/")
-
     logger.info ("starting to poll jobs queue: %s", queue_name)
     poll_queue(queue_client, blob_service_client)
 

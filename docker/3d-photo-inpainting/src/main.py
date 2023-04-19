@@ -131,11 +131,8 @@ def start_3d_inpainting(config):
         down, right = top + config['output_h'], left + config['output_w']
         border = [int(xx) for xx in [top, down, left, right]]
         
-        own_postfix = config.get('result_name').rsplit('.', 1)[0]
-        print(f"own postfix={own_postfix}")
-        
         normal_canvas, all_canvas = output_3d_photo(verts.copy(), colors.copy(), faces.copy(), copy.deepcopy(Height), copy.deepcopy(Width), copy.deepcopy(hFov), copy.deepcopy(vFov),
-                            copy.deepcopy(sample['tgt_pose']), own_postfix, copy.deepcopy(sample['ref_pose']), copy.deepcopy(config['video_folder']),
+                            copy.deepcopy(sample['tgt_pose']), sample['video_postfix'], copy.deepcopy(sample['ref_pose']), copy.deepcopy(config['video_folder']),
                             image.copy(), copy.deepcopy(sample['int_mtx']), config, image,
                             videos_poses, video_basename, config.get('original_h'), config.get('original_w'), border=border, depth=depth, normal_canvas=normal_canvas, all_canvas=all_canvas,
                             mean_loc_depth=mean_loc_depth)

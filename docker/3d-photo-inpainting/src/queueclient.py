@@ -59,7 +59,6 @@ def handle_message(blob_service_client, message):
         #telemetrie.track_event ("new image", job)
         
         content_name = job["content_name"]
-        result_name = job["result_name"]
                
         directory_content = "image"
         directory_result = "video"
@@ -71,31 +70,39 @@ def handle_message(blob_service_client, message):
         clear_directory(directory_content)
         
         content_file = os.path.join(directory_content, content_name)
-        result_file =  os.path.join(directory_result, result_name)
 
         update_yaml_file('default.yml', job)
         
         logger.info("downloading %s", content_file)
         download_file(blob_service_client, content_name, content_file)
 
-        logger.info("start 3d-inpainting with Content=%s, Result=%s", content_name, result_name)
+        logger.info("start 3d-inpainting with Content=%s", content_name)
         command = f'python main.py --config default.yml'
         os.system(command)
  
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)
-        #exifdump.write_exif(out_file_origcolor_1, config)
         
-        upload_file(blob_service_client, result_name, result_file)
+        upload_videos(blob_service_client, directory_result)        
     except Exception as e:
         logger.exception(e)
 
-def clear_directory(target):  
-    files = glob.glob(".jpg")
+def clear_directory(target_path):
+    files = glob.glob(os.path.join(target_path, "*.jpg"))
 
     for file in files:
         os.remove(file)
-        
+
+def upload_videos(blob_service_client, directory_result):
+    files = glob.glob(os.path.join(directory_result, "*.mp4"))
+    
+    for file in files:
+        target_name = os.path.basename(file)
+        print(f"Uploading {file}")
+        upload_file(blob_service_client, target_name, file)
+        os.remove(file)
+    
+     
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
     

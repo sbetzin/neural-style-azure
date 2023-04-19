@@ -13,7 +13,7 @@ clean:
 	docker rmi $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 start:
-	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) --restart=unless-stopped $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) -v ~/depth:/depth -v ~/mesh:/mesh  --restart=unless-stopped $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop:
 	nvidia-docker stop $(shell docker ps -q --filter "name=$(IMGNAME)")

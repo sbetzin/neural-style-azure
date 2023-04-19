@@ -19,8 +19,12 @@ RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --ins
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:${PATH}"
 
-# Copy sources
+#Install dependencies
 WORKDIR /app
+COPY ["/src/*.toml", "/app/"]
+RUN poetry install
+
+# Copy sources
 COPY ["/src/*.py" ,"/app/"]
 RUN mkdir checkpoints
 
@@ -28,8 +32,5 @@ RUN mkdir checkpoints
 RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
 RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/
 
-# Download models -> TODO: Replace with the download script
+# Download models
 RUN python download_models.py /app/
-
-#Install dependencies
-RUN poetry install

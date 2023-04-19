@@ -45,7 +45,7 @@ def start_3d_inpainting(config):
     for idx in tqdm(range(len(sample_list))):
         depth = None
         sample = sample_list[idx]
-        print(f"Current Iamge={sample['src_pair_name']}")
+        print(f"Current Image={sample['src_pair_name']}")
         mesh_fi = os.path.join(config['mesh_folder'], sample['src_pair_name'] +'.ply')
         image = imageio.imread(sample['ref_img_fi'])
         depth_file_exists = os.path.exists(sample['depth_fi'])

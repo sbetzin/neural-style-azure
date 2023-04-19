@@ -31,8 +31,6 @@ RUN python download_models.py /app/
 # Copy sources
 COPY ["/src/*.py" ,"/app/"]
 COPY ["/src/MiDaS/*.py" ,"/app/MiDaS/"]
-RUN mkdir checkpoints
 
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/sbetzin/BoostingMonocularDepth.git
-RUN mkdir -p BoostingMonocularDepth/pix2pix/checkpoints/mergemodel/

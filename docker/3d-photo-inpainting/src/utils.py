@@ -57,7 +57,7 @@ def path_planning(num_frames, x, y, z, path_type=''):
         xs, ys, zs = np.array(xs), np.array(ys), np.array(zs)
     elif path_type == 'spline':
         # define the corner points of the spline trajectory
-        corner_points = np.array([[-x, -y, -z], [-x/2, -y/2, -z/2],[0, 0, 0], [-x/2, -y/2, -z/2], [-x, -y, -z]])
+        corner_points = np.array([[-x, -y, 0], [-x/2, -y/2, z/2],[0, 0, z], [x/2, y/2, z/2], [x, y, 0]])
         corner_t = np.linspace(0, 1, len(corner_points))
 
         # interpolate the corner points with a cubic spline

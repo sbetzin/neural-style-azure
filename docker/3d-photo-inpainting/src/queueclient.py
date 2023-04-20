@@ -86,7 +86,8 @@ def handle_message(blob_service_client, message):
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)
         
-        upload_videos(blob_service_client, directory_result)        
+        upload_videos(blob_service_client, directory_result)    
+        upload_depth(blob_service_client, directory_depth, replace_file_extension(content_name, '.png'))    
     except Exception as e:
         logger.exception(e)
 
@@ -131,9 +132,14 @@ def upload_videos(blob_service_client, directory_result):
     for file in files:
         target_name = os.path.basename(file)
         print(f"Uploading {file}")
-        upload_file(blob_service_client, target_name, file)
+        upload_file(blob_service_client,"results", target_name, file)
         os.remove(file)
+
+def upload_depth(blob_service_client, directory_depth, depth_file_name):
+    print(f"Uploading {depth_file_name}")
+    depth_file = os.join(directory_depth, depth_file_name)
     
+    upload_file(blob_service_client, "results", depth_file_name, depth_file)
      
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
@@ -141,12 +147,12 @@ def download_file(blob_service_client, source_name, source_file):
     with open(source_file, "wb") as download_file:
         download_file.write(blob_client.download_blob().readall())
 
-def upload_file(blob_service_client, target_name, file_name):
+def upload_file(blob_service_client, container, target_name, file_name):
     try:
         if os.path.exists(file_name):
             logger.info ("uploading file %s", file_name)
             
-            blob_client = blob_service_client.get_blob_client(container="results", blob=target_name)
+            blob_client = blob_service_client.get_blob_client(container=container, blob=target_name)
             with open(file_name, "rb") as data:
                 blob_client.upload_blob(data, overwrite=True)
 

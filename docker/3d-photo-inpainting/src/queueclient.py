@@ -65,16 +65,14 @@ def handle_message(blob_service_client, message):
         directory_result = "video"
         directory_mesh ="/mesh"
         
-        
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
+        
+        content_file = os.path.join(directory_content, content_name)
         
         # Delete all existing images. Otherwise the 3d-inpainting would iterate them all
         clear_directory(directory_content)
         handle_mesh_deletion(directory_mesh, content_name, recreate_depth_mesh)
-        
-        content_file = os.path.join(directory_content, content_name)
-
         update_yaml_file('default.yml', job)
         
         logger.info("downloading %s", content_file)

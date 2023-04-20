@@ -63,7 +63,8 @@ def handle_message(blob_service_client, message):
 
         directory_content = "image"
         directory_result = "video"
-        directory_mesh ="/mesh"
+        directory_mesh = "/mesh"
+        directory_depth = "/depth"
         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
@@ -72,7 +73,7 @@ def handle_message(blob_service_client, message):
         
         # Delete all existing images. Otherwise the 3d-inpainting would iterate them all
         clear_directory(directory_content)
-        handle_mesh_deletion(directory_mesh, content_name, recreate_depth_mesh)
+        handle_mesh_deletion(directory_depth, directory_mesh, content_name, recreate_depth_mesh)
         update_yaml_file('default.yml', job)
         
         logger.info("downloading %s", content_file)
@@ -89,16 +90,26 @@ def handle_message(blob_service_client, message):
     except Exception as e:
         logger.exception(e)
 
-def handle_mesh_deletion(mesh_path, content_name, recreate_depth_mesh):
-    if recreate_depth_mesh:
-        # Split the filename into name and extension
-        mesh_file_name = replace_file_extension(content_name, '.ply')
-        mesh_file = os.path.join(mesh_path, mesh_file_name)
+def handle_mesh_deletion(directory_depth, directory_mesh, content_name, recreate_depth_mesh):
+    if not recreate_depth_mesh:
+        return
+    
+    # Split the filename into name and extension
+    mesh_file_name = replace_file_extension(content_name, '.ply')
+    mesh_file = os.path.join(directory_mesh, mesh_file_name)
+    
+    if os.path.exists(mesh_file):
+        print(f"removing mesh file: {mesh_file_name}")
+        os.remove(mesh_file)
         
-        if os.path.exists(mesh_file):
-            print(f"removing depth file: {mesh_file_name}")
-            os.remove(mesh_file)
+    depth_file_name = replace_file_extension(content_name, '.png')
+    depth_file = os.path.join(directory_depth, depth_file_name)
+    
+    if os.path.exists(depth_file):
+        print(f"removing depth file: {mesh_file_name}")
+        os.remove(mesh_file)
         
+    
 def replace_file_extension(target_file, new_extension):
     # Split the filename into name and extension
     file_root, _ = os.path.splitext(target_file)

@@ -139,7 +139,7 @@ def upload_depth(blob_service_client, directory_depth, depth_file_name):
     print(f"Uploading {depth_file_name}")
     depth_file = os.join(directory_depth, depth_file_name)
     
-    upload_file(blob_service_client, "results", depth_file_name, depth_file)
+    upload_file(blob_service_client, "depth", depth_file_name, depth_file)
      
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)

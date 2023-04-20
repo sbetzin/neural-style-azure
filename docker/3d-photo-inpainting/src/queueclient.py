@@ -142,7 +142,7 @@ def upload_videos(blob_service_client, directory_result):
 def upload_depth(blob_service_client, directory_depth, depth_file_name, depth_mode):
     print(f"Uploading {depth_file_name}")
     depth_file = os.path.join(directory_depth, depth_file_name)
-    container_file = "{depth_mode}/{depth_file_name}"
+    container_file = f"{depth_mode}/{depth_file_name}"
     
     upload_file(blob_service_client, "depth", container_file, depth_file)
      

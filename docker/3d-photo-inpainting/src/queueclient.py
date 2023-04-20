@@ -95,7 +95,8 @@ def handle_mesh_deletion(mesh_path, content_name, recreate_depth_mesh):
         mesh_file_name = replace_file_extension(content_name, '.ply')
         mesh_file = os.path.join(mesh_path, mesh_file_name)
         
-        if os.exists(mesh_file):
+        if os.path.exists(mesh_file):
+            print(f"removing depth file: {mesh_file_name}")
             os.remove(mesh_file)
         
 def replace_file_extension(target_file, new_extension):

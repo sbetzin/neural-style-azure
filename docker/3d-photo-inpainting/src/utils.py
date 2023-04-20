@@ -26,6 +26,18 @@ import time
 from scipy.interpolate import interp1d
 from collections import namedtuple
 
+def path_planning_custom(num_frames, coordinates, kind):
+    corner_points = np.array(coordinates)
+    corner_t = np.linspace(0, 1, len(corner_points))
+    
+    t = np.linspace(0, 1, num_frames)
+    cs = interp1d(corner_t, corner_points, axis=0, kind=kind)
+    spline = cs(t)
+    
+    xs, ys, zs = [xx.squeeze() for xx in np.split(spline, 3, 1)]
+
+    return xs, ys, zs
+
 def path_planning(num_frames, x, y, z, path_type=''):
     if path_type == 'straight-line':
         corner_points = np.array([[0, 0, 0], [(0 + x) * 0.5, (0 + y) * 0.5, (0 + z) * 0.5], [x, y, z]])
@@ -56,11 +68,9 @@ def path_planning(num_frames, x, y, z, path_type=''):
             zs += [np.cos(bs_shift_val * np.pi/2.) * 1 * z]
         xs, ys, zs = np.array(xs), np.array(ys), np.array(zs)
     elif path_type == 'spline':
-        # define the corner points of the spline trajectory
         corner_points = np.array([[-x, -y, 0], [-x/2, -y/2, z/2],[0, 0, z], [x/2, y/2, z/2], [x, y, 0]])
         corner_t = np.linspace(0, 1, len(corner_points))
 
-        # interpolate the corner points with a cubic spline
         t = np.linspace(0, 1, num_frames)
         cs = interp1d(corner_t, corner_points, axis=0, kind='cubic')
         spline = cs(t)
@@ -863,8 +873,11 @@ def get_MiDaS_samples(image_folder, depth_folder, config, specific=None, aft_cer
     tgts_poses = []
     for traj_idx in range(len(config['traj_types'])):
         tgt_poses = []
-        sx, sy, sz = path_planning(config['num_frames'], config['x_shift_range'][traj_idx], config['y_shift_range'][traj_idx],
-                                   config['z_shift_range'][traj_idx], path_type=config['traj_types'][traj_idx])
+        
+        # Replaced with own path planning
+        #sx, sy, sz = path_planning(config['num_frames'], config['x_shift_range'][traj_idx], config['y_shift_range'][traj_idx], config['z_shift_range'][traj_idx], path_type=config['traj_types'][traj_idx])
+        sx, sy, sz = path_planning_custom(config['num_frames'], config['coordinates'], config['interpolation_kind'])
+        
         for xx, yy, zz in zip(sx, sy, sz):
             tgt_poses.append(generic_pose * 1.)
             tgt_poses[-1][:3, -1] = np.array([xx, yy, zz])

@@ -16,7 +16,7 @@ import time
 import copy
 import torch
 import os
-from utils import path_planning, open_small_mask, clean_far_edge, refine_depth_around_edge
+from utils import open_small_mask, clean_far_edge, refine_depth_around_edge
 from utils import refine_color_around_edge, filter_irrelevant_edge_new, require_depth_edge, clean_far_edge_new
 from utils import create_placeholder, refresh_node, find_largest_rect
 from mesh_tools import get_depth_from_maps, get_map_from_ccs, get_edge_from_nodes, get_depth_from_nodes, get_rgb_from_nodes, crop_maps_by_size, convert2tensor, recursive_add_edge, update_info, filter_edge, relabel_node, depth_inpainting

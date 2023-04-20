@@ -83,7 +83,7 @@ def start_3d_inpainting(config):
             model = None
             torch.cuda.empty_cache()
             print("start Running 3D_Photo ...")
-            print(f"Loading edge model at {time.time()}")
+            print(f"creating edge model at {time.time()}")
             depth_edge_model = Inpaint_Edge_Net(init_weights=True)
             depth_edge_weight = torch.load(config['depth_edge_model_ckpt'],
                                         map_location=torch.device(device))

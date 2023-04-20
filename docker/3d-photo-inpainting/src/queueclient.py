@@ -137,7 +137,7 @@ def upload_videos(blob_service_client, directory_result):
 
 def upload_depth(blob_service_client, directory_depth, depth_file_name):
     print(f"Uploading {depth_file_name}")
-    depth_file = os.join(directory_depth, depth_file_name)
+    depth_file = os.path.join(directory_depth, depth_file_name)
     
     upload_file(blob_service_client, "depth", depth_file_name, depth_file)
      

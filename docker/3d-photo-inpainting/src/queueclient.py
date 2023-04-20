@@ -60,12 +60,16 @@ def handle_message(blob_service_client, message):
         
         content_name = job["content_name"]
         recreate_depth_mesh = job["recreate_depth_mesh"]
-
+        depth_mode = job["depth_mode"]
+        
         directory_content = "image"
         directory_result = "video"
-        directory_mesh = "/mesh"
-        directory_depth = "/depth"
+        directory_mesh = f"/mesh/{depth_mode}"
+        directory_depth = f"/depth/{depth_mode}"
         
+        job["mesh_folder"] = directory_mesh
+        job["depth_folder"] = directory_depth
+         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
         
@@ -135,11 +139,12 @@ def upload_videos(blob_service_client, directory_result):
         upload_file(blob_service_client,"results", target_name, file)
         os.remove(file)
 
-def upload_depth(blob_service_client, directory_depth, depth_file_name):
+def upload_depth(blob_service_client, directory_depth, depth_file_name, depth_mode):
     print(f"Uploading {depth_file_name}")
     depth_file = os.path.join(directory_depth, depth_file_name)
+    container_file = "{depth_mode}/{depth_file_name}"
     
-    upload_file(blob_service_client, "depth", depth_file_name, depth_file)
+    upload_file(blob_service_client, "depth", container_file, depth_file)
      
 def download_file(blob_service_client, source_name, source_file):
     blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)

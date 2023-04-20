@@ -107,7 +107,7 @@ def handle_mesh_deletion(directory_depth, directory_mesh, content_name, recreate
     
     if os.path.exists(depth_file):
         print(f"removing depth file: {mesh_file_name}")
-        os.remove(mesh_file)
+        os.remove(depth_file)
         
     
 def replace_file_extension(target_file, new_extension):

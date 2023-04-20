@@ -59,15 +59,19 @@ def handle_message(blob_service_client, message):
         #telemetrie.track_event ("new image", job)
         
         content_name = job["content_name"]
+        recreate_depth_mesh = job["recreate_depth_mesh"]
 
         directory_content = "image"
         directory_result = "video"
+        directory_mesh ="/mesh"
+        
         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_result, exist_ok=True)
         
-        # Delete all existing files. Otherwise the 3d-inpainting would iterate them all
+        # Delete all existing images. Otherwise the 3d-inpainting would iterate them all
         clear_directory(directory_content)
+        handle_mesh_deletion(directory_mesh, content_name, recreate_depth_mesh)
         
         content_file = os.path.join(directory_content, content_name)
 
@@ -87,6 +91,24 @@ def handle_message(blob_service_client, message):
     except Exception as e:
         logger.exception(e)
 
+def handle_mesh_deletion(mesh_path, content_name, recreate_depth_mesh):
+    if recreate_depth_mesh:
+        # Split the filename into name and extension
+        mesh_file_name = replace_file_extension(content_name, '.ply')
+        mesh_file = os.path.join(mesh_path, mesh_file_name)
+        
+        if os.exists(mesh_file):
+            os.remove(mesh_file)
+        
+def replace_file_extension(target_file, new_extension):
+    # Split the filename into name and extension
+    file_root, _ = os.path.splitext(target_file)
+
+    # Join the root with the new extension
+    new_filename = file_root + new_extension
+    
+    return new_filename
+ 
 def clear_directory(target_path):
     files = glob.glob(os.path.join(target_path, "*.jpg"))
 

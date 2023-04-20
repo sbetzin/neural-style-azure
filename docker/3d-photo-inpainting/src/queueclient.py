@@ -91,7 +91,7 @@ def handle_message(blob_service_client, message):
         #exifdump.write_exif(out_file_origcolor_0, config)
         
         upload_videos(blob_service_client, directory_result)    
-        upload_depth(blob_service_client, directory_depth, replace_file_extension(content_name, '.png'))    
+        upload_depth(blob_service_client, directory_depth, replace_file_extension(content_name, '.png'), depth_mode)    
     except Exception as e:
         logger.exception(e)
 

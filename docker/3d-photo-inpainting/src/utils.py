@@ -26,8 +26,12 @@ import time
 from scipy.interpolate import interp1d
 from collections import namedtuple
 
+def invert_coordinates(coordinates):
+    inverted_coordinates = -1 * coordinates
+    return inverted_coordinates
+
 def path_planning_custom(num_frames, coordinates, kind):
-    corner_points = np.array(coordinates)
+    corner_points = invert_coordinates(np.array(coordinates))
     corner_t = np.linspace(0, 1, len(corner_points))
     
     t = np.linspace(0, 1, num_frames)

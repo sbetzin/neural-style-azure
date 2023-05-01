@@ -16,8 +16,8 @@ RUN apt-get install -y nano wget curl git sudo
 #RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 - 
-ENV PATH="/root/.local/bin:${PATH}"
+#RUN curl -sSL https://install.python-poetry.org | python3 - 
+#ENV PATH="/root/.local/bin:${PATH}"
 
 # Turn off virtual env creation
 # https://github.com/orgs/python-poetry/discussions/1879

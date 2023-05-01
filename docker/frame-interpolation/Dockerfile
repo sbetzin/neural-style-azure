@@ -17,7 +17,7 @@ ENV PATH="~/.local/bin:${PATH}"
 
 # Turn off virtual env creation
 # https://github.com/orgs/python-poetry/discussions/1879
-#RUN poetry config virtualenvs.create false
+RUN ~/.local/bin/poetry config virtualenvs.create false
 
 #Install dependencies
 #COPY ["/src/pyproject.toml", "/app/"]

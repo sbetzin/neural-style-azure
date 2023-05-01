@@ -10,7 +10,6 @@ RUN apt-get update && apt-get upgrade -y
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y nano wget curl git sudo
-RUN apt-get update && apt-get upgrade -y 
 
 #Install Python and Add python alias for python3
 #RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1

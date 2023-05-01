@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "frame-interpolation"
+version = "0.1.0"
+description = ""
+authors = ["Sebastian Betzin <sebastian@betzin.com>"]
+
+[tool.poetry.dependencies]
+mediapy = "==1.0.3"
+gdown = "*"
+tensorflow= = "=2.8.0"
+
+piexif = "*"
+azure-storage-queue = "*"
+azure-storage-blob = "*"
+applicationinsights = "*"
+numpy = "*"
+
+[tool.poetry.dev-dependencies]

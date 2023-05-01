@@ -14,10 +14,10 @@ namespace NeuralStyle.Core.Cloud
     {
         public static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings)
         {
-            var jobs = sourceFiles.Product(styleFiles).ToList();
+            var jobs = styleFiles.Product(sourceFiles).ToList();
 
             Logger.Log($"Creating {jobs.Count} jobs");
-            foreach (var (sourceFile, styleFile) in jobs)
+            foreach (var (styleFile, sourceFile) in jobs)
             {
                 queue.CreateJob(sourceFile, styleFile, settings);
             }

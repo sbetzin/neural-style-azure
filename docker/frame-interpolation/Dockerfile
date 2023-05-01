@@ -21,12 +21,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 # Turn off virtual env creation
 # https://github.com/orgs/python-poetry/discussions/1879
-RUN poetry config virtualenvs.create false
+#RUN poetry config virtualenvs.create false
 
 #Install dependencies
-COPY ["/src/pyproject.toml", "/app/"]
-WORKDIR /app
-RUN poetry install
+#COPY ["/src/pyproject.toml", "/app/"]
+#WORKDIR /app
+#RUN poetry install
 
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/google-research/frame-interpolation

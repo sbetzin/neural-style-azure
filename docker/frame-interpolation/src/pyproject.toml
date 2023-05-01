@@ -9,7 +9,6 @@ python = "^3.8"
 mediapy = "==1.0.3"
 gdown = "*"
 tensorflow = "==2.8.0"
-
 piexif = "*"
 azure-storage-queue = "*"
 azure-storage-blob = "*"

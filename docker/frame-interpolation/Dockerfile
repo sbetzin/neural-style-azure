@@ -11,9 +11,6 @@ RUN apt-get update && apt-get upgrade -y
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y nano wget curl git sudo
 
-#Install Python and Add python alias for python3
-#RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-
 # Install poetry
 RUN curl -sSL https://install.python-poetry.org | python3 - 
 ENV PATH="~/.local/bin:${PATH}"
@@ -23,9 +20,9 @@ ENV PATH="~/.local/bin:${PATH}"
 RUN poetry config virtualenvs.create false
 
 #Install dependencies
-#COPY ["/src/pyproject.toml", "/app/"]
-#WORKDIR /app
-#RUN poetry install
+COPY ["/src/pyproject.toml", "/app/"]
+WORKDIR /app
+RUN poetry install
 
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/google-research/frame-interpolation

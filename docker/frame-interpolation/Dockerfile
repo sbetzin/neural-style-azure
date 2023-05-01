@@ -22,7 +22,7 @@ RUN ~/.local/bin/poetry config virtualenvs.create false
 #Install dependencies
 COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
-RUN poetry install
+RUN ~/.local/bin/poetry install
 
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/google-research/frame-interpolation

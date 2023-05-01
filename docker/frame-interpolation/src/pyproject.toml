@@ -7,12 +7,28 @@ authors = ["Sebastian Betzin <sebastian@betzin.com>"]
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
 mediapy = "==1.0.3"
-gdown = "*"
-tensorflow = "==2.8.0"
+gdown = "==4.5.4"
+tensorflow = "==2.6.2"
+tensorflow-datasets = "==4.4.0"
+tensorflow-addons = "==0.15.0"
+
+absl-py = "==0.12.0"
+gin-config = "==0.5.0"
+parameterized = "==0.8.1"
+scikit-image = "==0.19.1"
+apache-beam = "==2.34.0"
+google-cloud-bigquery-storage = "==1.1.0"
+natsort = "==8.1.0"
+tqdm= "==4.64.1"
+
 piexif = "*"
 azure-storage-queue = "*"
 azure-storage-blob = "*"
 applicationinsights = "*"
 numpy = "*"
+
+
+
+
 
 [tool.poetry.dev-dependencies]

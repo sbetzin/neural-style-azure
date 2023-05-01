@@ -5,7 +5,7 @@ description = ""
 authors = ["Sebastian Betzin <sebastian@betzin.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "">=3.8,<3.12"
 mediapy = "==1.0.3"
 gdown = "*"
 tensorflow = "==2.8.0"

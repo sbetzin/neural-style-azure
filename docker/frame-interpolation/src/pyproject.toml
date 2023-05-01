@@ -7,7 +7,7 @@ authors = ["Sebastian Betzin <sebastian@betzin.com>"]
 [tool.poetry.dependencies]
 mediapy = "==1.0.3"
 gdown = "*"
-tensorflow= = "=2.8.0"
+tensorflow = "==2.8.0"
 
 piexif = "*"
 azure-storage-queue = "*"

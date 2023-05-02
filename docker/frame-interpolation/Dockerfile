@@ -9,7 +9,7 @@ RUN apt-get update && apt-get upgrade -y
 # Install Timezone Silent
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
-RUN apt-get install -y nano wget curl git sudo ffmpeg libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
+RUN apt-get install -y nano wget curl git sudo ffmpeg cog unzip libglib2.0-0 libsm6 libxrender1 libxext6 fontconfig
 
 #Install Python and Add python alias for python3
 RUN apt-get install python3.8 pip python3.8-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -22,7 +22,6 @@ ENV PATH="~/.local/bin:${PATH}"
 # https://github.com/orgs/python-poetry/discussions/1879
 RUN ~/.local/bin/poetry config virtualenvs.create false
 
-RUN apt-get install -y unzip
 RUN wget -O /tmp/models.zip https://neuralstylefiles.blob.core.windows.net/models/frame-interpolation/pretrained_models-20230501T220609Z-001.zip
 RUN unzip /tmp/models.zip -d /
 RUN rm /tmp/models.zip

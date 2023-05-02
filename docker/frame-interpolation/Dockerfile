@@ -33,7 +33,7 @@ WORKDIR /app
 RUN ~/.local/bin/poetry install
 
 # Clone BoostingMonocularDepth Repo
-RUN git clone https://github.com/google-research/frame-interpolation
+RUN git clone https://github.com/sbetzin/frame-interpolation
 
 # Download models
 #COPY ["/src/download_models.py", "/app/"]

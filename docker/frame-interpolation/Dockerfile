@@ -36,8 +36,6 @@ RUN mkdir -p /intermediate
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/sbetzin/frame-interpolation
 
-
-
 # Copy sources
 COPY ["/src/*.py" ,"/app/"]
 

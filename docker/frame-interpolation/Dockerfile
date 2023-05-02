@@ -22,6 +22,12 @@ ENV PATH="~/.local/bin:${PATH}"
 # https://github.com/orgs/python-poetry/discussions/1879
 RUN ~/.local/bin/poetry config virtualenvs.create false
 
+RUN apt-get install -y unzip
+RUN mkdir -p /pretrained_models
+RUN wget -O /tmp/models.zip https://neuralstylefiles.blob.core.windows.net/models/frame-interpolation/pretrained_models-20230501T220609Z-001.zip
+RUN unzip /tmp/models.zip -d /pretrained_models
+RUN rm /tmp/models.zip
+
 #Install dependencies
 COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app

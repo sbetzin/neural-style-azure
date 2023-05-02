@@ -23,6 +23,6 @@ azure-storage-queue = "*"
 azure-storage-blob = "*"
 applicationinsights = "*"
 
-cog = "*"
+cog = "==0.6.1"
 
 [tool.poetry.dev-dependencies]

@@ -31,12 +31,12 @@ COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
 RUN ~/.local/bin/poetry install
 
+RUN mkdir -p /intermediate
+
 # Clone BoostingMonocularDepth Repo
 RUN git clone https://github.com/sbetzin/frame-interpolation
 
-# Download models
-#COPY ["/src/download_models.py", "/app/"]
-#RUN python download_models.py /app/
+
 
 # Copy sources
 COPY ["/src/*.py" ,"/app/"]

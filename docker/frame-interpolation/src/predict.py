@@ -66,6 +66,8 @@ class Predictor(BasePredictor):
         print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
         intermediate_path = f'{target_path}/intermediate'
+        os.makedirs(intermediate_path,exist_ok=True)
+        
         base_path = '/nft/video'
 
         self.clear_path(intermediate_path)

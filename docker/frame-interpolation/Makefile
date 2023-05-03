@@ -1,4 +1,4 @@
-.PHONY: all build build-nocache rebuild clean start stop restart logs pull console-start console-stop console-logs prune
+.PHONY: all build build-nocache rebuild clean start stop restart logs pull console-start console-stop console-logs prune start-cog
 IMGAUTHOR=sbetzin
 IMGNAME=frame-interpolation
 IMGTAG=1.0.0

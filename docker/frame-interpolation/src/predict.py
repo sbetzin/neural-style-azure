@@ -1,5 +1,4 @@
 from cog import BasePredictor, Path, Input
-import torch
 
 class Predictor(BasePredictor):
     def setup(self):

@@ -60,12 +60,20 @@ class Predictor(BasePredictor):
         ffmpeg_path = util.get_ffmpeg_path()
         media.set_ffmpeg(ffmpeg_path)
         media.write_video(video_file, frames, fps=fps)
+            
+    def predict(self,
+            target_path: str = Input(description="Path to the input images"),
+            fps: int = Input(description="Frames per second" , default=30),
+            times_to_interpolate: int = Input(description="Number of times to interpolate" , default=4),
+            block_height: int = Input(description="Block height" , default=1),
+            block_width: int = Input(description="Block width" , default=1),
+    ) -> ConcatenateIterator[str]:
         
-    def predict_all(self, target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int) -> ConcatenateIterator[str]:
+        gpus = tf.config.list_physical_devices('GPU')
+        print("GPUs Available: ", len(gpus))
+
         intermediate_path = f'{target_path}/intermediate'
         os.makedirs(intermediate_path,exist_ok=True)
-        
-        base_path = '/nft/video'
 
         self.clear_path(intermediate_path)
 
@@ -84,20 +92,5 @@ class Predictor(BasePredictor):
         if len(intermediate_videos):
             target_video_file = f'{target_path}/out.mp4'
             self.concatenate_videos(intermediate_videos, intermediate_path, target_video_file)
-            
-    def predict(self,
-            target_path: str = Input(description="Path to the input images"),
-            fps: int = Input(description="Frames per second" , default=30),
-            times_to_interpolate: int = Input(description="Number of times to interpolate" , default=4),
-            block_height: int = Input(description="Block height" , default=1),
-            block_width: int = Input(description="Block width" , default=1),
-    ) -> ConcatenateIterator[str]:
         
-        gpus = tf.config.list_physical_devices('GPU')
-        print("GPUs Available: ", len(gpus))
-
-        yield self.predict_all(target_path, fps, times_to_interpolate, block_height, block_width)
-        
-    
-    
     

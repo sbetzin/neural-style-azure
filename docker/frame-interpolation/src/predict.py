@@ -1,4 +1,4 @@
-from cog import BasePredictor, Input, ConcatenateIterator
+from cog import BasePredictor, Input
 from eval import interpolator as interpolator_lib
 from eval import util
 import os
@@ -8,6 +8,7 @@ import numpy as np
 import tensorflow as tf
 import mediapy as media
 from PIL import Image
+from typing import Iterator
 
 class Predictor(BasePredictor):
     def setup(self):
@@ -67,7 +68,7 @@ class Predictor(BasePredictor):
             times_to_interpolate: int = Input(description="Number of times to interpolate" , default=4),
             block_height: int = Input(description="Block height" , default=1),
             block_width: int = Input(description="Block width" , default=1),
-    ) -> ConcatenateIterator[str]:
+    ) -> Iterator[str]:
         
         gpus = tf.config.list_physical_devices('GPU')
         print("GPUs Available: ", len(gpus))

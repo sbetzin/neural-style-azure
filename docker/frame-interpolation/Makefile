@@ -29,7 +29,7 @@ prune:
 	docker container prune --force
 	
 start-console:
-	nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) -v /root/OneDrive/_nft:/nft --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
+	nvidia-docker run -d --rm --gpus '"device=1"' -it -e AzureStorageConnectionString -e AzureStorageQueueName --name $(IMGNAME) -v /root/OneDrive/_nft:/nft --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 start-cog:
 	git pull

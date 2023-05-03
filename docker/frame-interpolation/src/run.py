@@ -22,6 +22,8 @@ def get_files(path: str, extensions) -> list:
     return sorted(image_files)
 
 def concatenate_videos(mp4_files: list, target_video_file: str):
+    intermediate_path = "/intermediate"
+     
     file_name = f"{intermediate_path}/filelist.txt";
     # Erstelle eine temporäre Textdatei, die die Liste der MP4-Dateien enthält
     with open(file_name, "w") as file:

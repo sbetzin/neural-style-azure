@@ -1,5 +1,15 @@
 from cog import BasePredictor, Path, Input
 from eval import interpolator as interpolator_lib
+from eval import util
+import os
+import glob
+from pathlib import Path
+import numpy as np
+import tensorflow as tf
+import mediapy as media
+from PIL import Image
+
+
 
 class Predictor(BasePredictor):
     def setup(self):
@@ -13,8 +23,8 @@ class Predictor(BasePredictor):
             block_width: int = Input(description="Block width" , default=1),
     ) -> str:
         
-        interpolator = interpolator_lib.Interpolator("/pretrained_models/film_net/Style/saved_model", None, [block_height, block_width])
-
+        print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+         
         # ... post-processing ...
         return "Done"
     

@@ -2,7 +2,6 @@ import os
 import glob
 from pathlib import Path
 import numpy as np
-import tempfile
 import tensorflow as tf
 import mediapy as media
 from PIL import Image

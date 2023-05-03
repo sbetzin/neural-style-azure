@@ -27,6 +27,7 @@ class Predictor(BasePredictor):
         print("GPUs Available: ", len(gpus))
         print("logical GPUs Available: ", len(tf.config.list_logical_devices('GPU')))
         
+        print("Disable one GPU")
         tf.debugging.set_log_device_placement(True)
         tf.config.set_visible_devices(gpus[0], 'GPU')
         

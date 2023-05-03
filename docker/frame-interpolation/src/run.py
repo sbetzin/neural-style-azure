@@ -84,7 +84,7 @@ def main(target_path: str, fps: int, times_to_interpolate: int, block_height: in
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process video parameters.')
-    parser.add_argument('target_file', type=str, help='Path to the input images')
+    parser.add_argument('target_path', type=str, help='Path to the input images')
     parser.add_argument('fps', type=int, default=30, help='Frames per second')
     parser.add_argument('times_to_interpolate', default=4, type=int, help='Number of times to interpolate')
     parser.add_argument('block_height', type=int, default=1, help='Block height')
@@ -92,4 +92,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    main(args.target_file, args.fps, args.times_to_interpolate, args.block_height, args.block_width)
+    main(args.target_path, args.fps, args.times_to_interpolate, args.block_height, args.block_width)

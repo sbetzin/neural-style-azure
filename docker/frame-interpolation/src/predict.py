@@ -73,7 +73,7 @@ class Predictor(BasePredictor):
         gpus = tf.config.list_physical_devices('GPU')
         print("GPUs Available: ", len(gpus))
 
-        intermediate_path = f'{target_path}/intermediate'
+        intermediate_path = f'/intermediate'
         os.makedirs(intermediate_path,exist_ok=True)
 
         self.clear_path(intermediate_path)

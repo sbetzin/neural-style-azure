@@ -61,9 +61,7 @@ class Predictor(BasePredictor):
         media.set_ffmpeg(ffmpeg_path)
         media.write_video(video_file, frames, fps=fps)
         
-    def predict_all(self, target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int):
-        print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-
+    def predict_all(self, target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int) -> ConcatenateIterator[str]:
         intermediate_path = f'{target_path}/intermediate'
         os.makedirs(intermediate_path,exist_ok=True)
         
@@ -98,9 +96,8 @@ class Predictor(BasePredictor):
         gpus = tf.config.list_physical_devices('GPU')
         print("GPUs Available: ", len(gpus))
 
-        self.predict_all(target_path, fps, times_to_interpolate, block_height, block_width)
+        yield self.predict_all(target_path, fps, times_to_interpolate, block_height, block_width)
         
-        return "Done"
     
     
     

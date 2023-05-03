@@ -8,6 +8,7 @@ import mediapy as media
 from PIL import Image
 from eval import interpolator as interpolator_lib
 from eval import util
+import argparse
 
 def clear_path(path: str):
     mp4_files = glob.glob(os.path.join(path, "*.mp4"))
@@ -57,25 +58,38 @@ def predict_one(frame1, frame2, video_file, fps, times_to_interpolate, block_hei
     ffmpeg_path = util.get_ffmpeg_path()
     media.set_ffmpeg(ffmpeg_path)
     media.write_video(video_file, frames, fps=fps)
+    
+def main(target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int):
+    print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
+    intermediate_path = '/intermediate'
+    base_path = '/nft/video'
 
-print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+    clear_path(intermediate_path)
 
-intermediate_path = '/intermediate'
-base_path = '/nft/video'
+    input_files = get_files(target_path, ['.jpg'])
+    print (f'Found {len(input_files)} input files')
 
-clear_path(intermediate_path)
+    frame_sets = list(zip(input_files[:-1], input_files[1:]))
 
-input_files = get_files(base_path, ['.jpg'])
-print (f'Found {len(input_files)} input files')
+    for index, (frame1, frame2) in enumerate(frame_sets):
+        predict_one (frame1, frame2, f'{intermediate_path}/out_{index}.mp4',fps, times_to_interpolate, block_height, block_width)
 
-frame_sets = list(zip(input_files[:-1], input_files[1:]))
+    intermediate_videos = get_files(intermediate_path, ['.mp4'])
+    print (f'Found {len(intermediate_videos)} input files')
 
-for index, (frame1, frame2) in enumerate(frame_sets):
-    predict_one (frame1, frame2, f'{intermediate_path}/out_{index}.mp4',30, 4, 2, 2)
+    if len(intermediate_videos):
+        concatenate_videos(intermediate_videos, f'{target_path}/out.mp4')
+    
 
-intermediate_videos = get_files(intermediate_path, ['.mp4'])
-print (f'Found {len(intermediate_videos)} input files')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Process video parameters.')
+    parser.add_argument('target_file', type=str, help='Path to the input images')
+    parser.add_argument('fps', type=int, default=30, help='Frames per second')
+    parser.add_argument('times_to_interpolate', default=4, type=int, help='Number of times to interpolate')
+    parser.add_argument('block_height', type=int, default=1, help='Block height')
+    parser.add_argument('block_width', type=int, default=1, help='Block width')
 
-if len(intermediate_videos):
-    concatenate_videos(intermediate_videos, f'{base_path}/out.mp4')
+    args = parser.parse_args()
+
+    main(args.target_file, args.fps, args.times_to_interpolate, args.block_height, args.block_width)

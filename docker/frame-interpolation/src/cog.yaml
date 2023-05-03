@@ -5,6 +5,10 @@ build:
   system_packages:
     - "libgl1-mesa-glx"
     - "libglib2.0-0"
+    - "software-properties-common"
+    - "ffmpeg"
+    - "curl"
+    - "unzip"
   python_packages:
     - "ipython==7.30.1"
     - "tensorflow-gpu==2.8.0"
@@ -14,9 +18,11 @@ build:
     - "parameterized==0.8.1"
     - "mediapy==1.0.3"
     - "scikit-image==0.19.1"
-    - "apache-beam==2.34.0"
+    - "apache-beam==*"
   run:
-    - apt-get update && apt-get install -y software-properties-common
-    - apt-get install ffmpeg -y
+    - wget -O /tmp/models.zip https://neuralstylefiles.blob.core.windows.net/models/frame-interpolation/pretrained_models-20230501T220609Z-001.zip
+    - unzip /tmp/models.zip -d /
+    - rm /tmp/models.zip
+    - mkdir -p /intermediate
 
 predict: "predict.py:Predictor"

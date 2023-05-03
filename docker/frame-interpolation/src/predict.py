@@ -56,6 +56,10 @@ class Predictor(BasePredictor):
         input_frames = [str(frame1), str(frame2)]
 
         frames = list(util.interpolate_recursively_from_files(input_frames, times_to_interpolate, interpolator))
+        
+        ## Experimental:
+        frames.pop(-1)
+        
         print(f'saving {video_file}')
 
         ffmpeg_path = util.get_ffmpeg_path()

@@ -25,9 +25,7 @@ class Predictor(BasePredictor):
 
         return sorted(image_files)
 
-    def concatenate_videos(self, mp4_files: list, target_video_file: str):
-        intermediate_path = "/intermediate"
-        
+    def concatenate_videos(self, mp4_files: list,intermediate_path:str, target_video_file: str):
         file_name = f"{intermediate_path}/filelist.txt";
         # Erstelle eine temporäre Textdatei, die die Liste der MP4-Dateien enthält
         with open(file_name, "w") as file:
@@ -67,7 +65,7 @@ class Predictor(BasePredictor):
     def predict_all(self, target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int):
         print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-        intermediate_path = '/intermediate'
+        intermediate_path = f'{target_path}/intermediate'
         base_path = '/nft/video'
 
         self.clear_path(intermediate_path)
@@ -84,7 +82,8 @@ class Predictor(BasePredictor):
         print (f'Found {len(intermediate_videos)} input files')
 
         if len(intermediate_videos):
-            self.concatenate_videos(intermediate_videos, f'{target_path}/out.mp4')
+            target_video_file = f'{target_path}/out.mp4'
+            self.concatenate_videos(intermediate_videos, intermediate_path, target_video_file)
             
     def predict(self,
             target_path: str = Input(description="Path to the input images"),

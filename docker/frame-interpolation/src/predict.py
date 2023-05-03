@@ -8,6 +8,6 @@ class Predictor(BasePredictor):
     def predict(self,
             #image: Path = Input(description="Image to enlarge"),
             scale: float = Input(description="Factor to scale image by", default=1.5)
-    ) -> Path:
+    ) -> str:
         # ... post-processing ...
         return "Done"

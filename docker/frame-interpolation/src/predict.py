@@ -23,8 +23,16 @@ class Predictor(BasePredictor):
             block_width: int = Input(description="Block width" , default=1),
     ) -> str:
         
-        print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-         
+        gpus = tf.config.list_physical_devices('GPU')
+        print("GPUs Available: ", len(gpus))
+        print("logical GPUs Available: ", len(tf.config.list_logical_devices('GPU')))
+        
+        tf.debugging.set_log_device_placement(True)
+        tf.config.set_visible_devices(gpus[0], 'GPU')
+        
+        gpus = tf.config.list_physical_devices('GPU')
+        print("GPUs Available: ", len(gpus))
+        
         # ... post-processing ...
         return "Done"
     

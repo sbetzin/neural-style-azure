@@ -22,6 +22,7 @@ ENV PATH="~/.local/bin:${PATH}"
 # https://github.com/orgs/python-poetry/discussions/1879
 RUN ~/.local/bin/poetry config virtualenvs.create false
 
+# Download models
 RUN wget -O /tmp/models.zip https://neuralstylefiles.blob.core.windows.net/models/frame-interpolation/pretrained_models-20230501T220609Z-001.zip
 RUN unzip /tmp/models.zip -d /
 RUN rm /tmp/models.zip
@@ -31,12 +32,10 @@ COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
 RUN ~/.local/bin/poetry install
 
+#Create Intermediate directory for the intermediate videos
 RUN mkdir -p /intermediate
 
-# Clone BoostingMonocularDepth Repo
-RUN git clone https://github.com/sbetzin/frame-interpolation
+# Copy sources. They are filtered only to .py and .yaml in the .dockerignore file
+COPY . .
 
-# Copy sources
-COPY ["/src/*.py" ,"/app/"]
-
-#ENTRYPOINT ["python", "/app/queueclient.py"]
+ENTRYPOINT ["python", "/app/run.py"]

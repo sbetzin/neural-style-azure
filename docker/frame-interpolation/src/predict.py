@@ -1,4 +1,4 @@
-from cog import BasePredictor, Path, Input
+from cog import BasePredictor, Input, ConcatenateIterator
 from eval import interpolator as interpolator_lib
 from eval import util
 import os
@@ -77,7 +77,7 @@ class Predictor(BasePredictor):
         frame_sets = list(zip(input_files[:-1], input_files[1:]))
 
         for index, (frame1, frame2) in enumerate(frame_sets):
-            print (f"Working on {frame1}, {frame2}")
+            yield f"Working on {frame1}, {frame2}"
             self.predict_one (frame1, frame2, f'{intermediate_path}/out_{index:04d}.mp4',fps, times_to_interpolate, block_height, block_width)
 
         intermediate_videos = self.get_files(intermediate_path, ['.mp4'])
@@ -93,7 +93,7 @@ class Predictor(BasePredictor):
             times_to_interpolate: int = Input(description="Number of times to interpolate" , default=4),
             block_height: int = Input(description="Block height" , default=1),
             block_width: int = Input(description="Block width" , default=1),
-    ) -> str:
+    ) -> ConcatenateIterator[str]:
         
         gpus = tf.config.list_physical_devices('GPU')
         print("GPUs Available: ", len(gpus))

@@ -41,8 +41,7 @@ class Predictor(BasePredictor):
         os.system(command)
 
         # Lösche die temporäre Textdatei
-        #os.remove(file_name)
-
+        os.remove(file_name)
 
     def predict_one(self, frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
         interpolator = interpolator_lib.Interpolator("/pretrained_models/film_net/Style/saved_model", None, [block_height, block_width])
@@ -79,7 +78,7 @@ class Predictor(BasePredictor):
 
         for index, (frame1, frame2) in enumerate(frame_sets):
             print (f"Working on {frame1}, {frame2}")
-            self.predict_one (frame1, frame2, f'{intermediate_path}/out_{index}.mp4',fps, times_to_interpolate, block_height, block_width)
+            self.predict_one (frame1, frame2, f'{intermediate_path}/out_{index:04d}.mp4',fps, times_to_interpolate, block_height, block_width)
 
         intermediate_videos = self.get_files(intermediate_path, ['.mp4'])
         print (f'Found {len(intermediate_videos)} input files')

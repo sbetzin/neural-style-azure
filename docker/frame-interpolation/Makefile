@@ -33,7 +33,7 @@ start-console:
 
 start-cog:
 	git pull
-	sudo make cog build
+	sudo bash -c "cd src && cog build -t test"
 	sudo nvidia-docker run --rm --gpus '"device=1"' -it --name "test" -v /root/OneDrive/_nft:/nft -p 5000:5000 test 
 
 stop-console:

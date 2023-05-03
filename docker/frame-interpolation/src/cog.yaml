@@ -18,7 +18,7 @@ build:
     - "parameterized==0.8.1"
     - "mediapy==1.0.3"
     - "scikit-image==0.19.1"
-    - "apache-beam==*"
+    - "apache-beam"
   run:
     - wget -O /tmp/models.zip https://neuralstylefiles.blob.core.windows.net/models/frame-interpolation/pretrained_models-20230501T220609Z-001.zip
     - unzip /tmp/models.zip -d /

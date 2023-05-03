@@ -21,9 +21,9 @@ class Predictor(BasePredictor):
 
     def get_files(self, path: str, extensions) -> list:
         all_files = os.listdir(path)
-        image_files = [os.path.join(path, file) for file in all_files if os.path.splitext(file)[1].lower() in extensions]
+        files = [os.path.join(path, file) for file in all_files if os.path.splitext(file)[1].lower() in extensions]
 
-        return sorted(image_files)
+        return sorted(files)
 
     def concatenate_videos(self, mp4_files: list,intermediate_path:str, target_video_file: str):
         file_name = f"{intermediate_path}/filelist.txt";
@@ -41,7 +41,7 @@ class Predictor(BasePredictor):
         os.system(command)
 
         # Lösche die temporäre Textdatei
-        os.remove(file_name)
+        #os.remove(file_name)
 
 
     def predict_one(self, frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
@@ -78,6 +78,7 @@ class Predictor(BasePredictor):
         frame_sets = list(zip(input_files[:-1], input_files[1:]))
 
         for index, (frame1, frame2) in enumerate(frame_sets):
+            print (f"Working on {frame1}, {frame2}")
             self.predict_one (frame1, frame2, f'{intermediate_path}/out_{index}.mp4',fps, times_to_interpolate, block_height, block_width)
 
         intermediate_videos = self.get_files(intermediate_path, ['.mp4'])

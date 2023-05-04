@@ -83,11 +83,11 @@ def CheckQueue(queue_client):
         for message in message_batch:
             start_time = time.time()
 
+            # In diesem Fall löschen wir die Message gleich, da die Ausführung sehr lange läuft. Wenn ein Fehler geworfen wird, dann muss sie neu eingestellt werden
+            queue_client.delete_message(message)
             handle_message(message)
             measure_time(start_time)
 
-            queue_client.delete_message(message)
-            
             return True
     return False
 

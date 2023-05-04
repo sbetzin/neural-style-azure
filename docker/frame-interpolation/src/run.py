@@ -9,21 +9,19 @@ from eval import interpolator as interpolator_lib
 from eval import util
 import argparse
 
-def clear_path(path: str):
+def clear_path(self, path: str):
     mp4_files = glob.glob(os.path.join(path, "*.mp4"))
     for file in mp4_files:
         print(f'   removing {file}')
         os.remove(file)
 
-def get_files(path: str, extensions) -> list:
+def get_files(self, path: str, extensions) -> list:
     all_files = os.listdir(path)
-    image_files = [os.path.join(path, file) for file in all_files if os.path.splitext(file)[1].lower() in extensions]
+    files = [os.path.join(path, file) for file in all_files if os.path.splitext(file)[1].lower() in extensions]
 
-    return sorted(image_files)
+    return sorted(files)
 
-def concatenate_videos(mp4_files: list, target_video_file: str):
-    intermediate_path = "/intermediate"
-     
+def concatenate_videos(self, mp4_files: list,intermediate_path:str, target_video_file: str):
     file_name = f"{intermediate_path}/filelist.txt";
     # Erstelle eine temporäre Textdatei, die die Liste der MP4-Dateien enthält
     with open(file_name, "w") as file:
@@ -41,8 +39,7 @@ def concatenate_videos(mp4_files: list, target_video_file: str):
     # Lösche die temporäre Textdatei
     os.remove(file_name)
 
-
-def predict_one(frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
+def predict_one(self, frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
     interpolator = interpolator_lib.Interpolator("/pretrained_models/film_net/Style/saved_model", None, [block_height, block_width])
 
     # make sure 2 images are the same size
@@ -50,37 +47,47 @@ def predict_one(frame1, frame2, video_file, fps, times_to_interpolate, block_hei
     img2 = Image.open(str(frame2))
 
     assert img1.size == img2.size, "Images must be same size"
- 
+
     input_frames = [str(frame1), str(frame2)]
 
     frames = list(util.interpolate_recursively_from_files(input_frames, times_to_interpolate, interpolator))
+    
+    ## Experimental:
+    frames.pop(-1)
+    
     print(f'saving {video_file}')
 
     ffmpeg_path = util.get_ffmpeg_path()
     media.set_ffmpeg(ffmpeg_path)
     media.write_video(video_file, frames, fps=fps)
     
-def main(target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int):
-    print("GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+def main(target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int, loop: bool):
+    gpus = tf.config.list_physical_devices('GPU')
+    print("GPUs Available: ", len(gpus))
 
-    intermediate_path = '/intermediate'
-    base_path = '/nft/video'
+    intermediate_path = f'/intermediate'
+    os.makedirs(intermediate_path,exist_ok=True)
 
     clear_path(intermediate_path)
 
     input_files = get_files(target_path, ['.jpg'])
     print (f'Found {len(input_files)} input files')
+    
+    if loop:
+        input_files.append(input_files[0])
 
     frame_sets = list(zip(input_files[:-1], input_files[1:]))
 
     for index, (frame1, frame2) in enumerate(frame_sets):
-        predict_one (frame1, frame2, f'{intermediate_path}/out_{index}.mp4',fps, times_to_interpolate, block_height, block_width)
+        print(f"Working on {frame1}, {frame2}")
+        predict_one (frame1, frame2, f'{intermediate_path}/out_{index:04d}.mp4',fps, times_to_interpolate, block_height, block_width)
 
     intermediate_videos = get_files(intermediate_path, ['.mp4'])
     print (f'Found {len(intermediate_videos)} input files')
 
     if len(intermediate_videos):
-        concatenate_videos(intermediate_videos, f'{target_path}/out.mp4')
+        target_video_file = f'{target_path}/out.mp4'
+        concatenate_videos(intermediate_videos, intermediate_path, target_video_file)
     
 
 if __name__ == "__main__":
@@ -90,7 +97,8 @@ if __name__ == "__main__":
     parser.add_argument('times_to_interpolate', default=4, type=int, help='Number of times to interpolate')
     parser.add_argument('block_height', type=int, default=1, help='Block height')
     parser.add_argument('block_width', type=int, default=1, help='Block width')
+    parser.add_argument('loop', type=bool, default=True, help='loop to the first frame')
 
     args = parser.parse_args()
 
-    main(args.target_path, args.fps, args.times_to_interpolate, args.block_height, args.block_width)
+    main(args.target_path, args.fps, args.times_to_interpolate, args.block_height, args.block_width, args.loop)

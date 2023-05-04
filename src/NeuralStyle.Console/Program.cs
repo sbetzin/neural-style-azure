@@ -45,8 +45,7 @@ namespace NeuralStyle.Console
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
-            var allInTodo = Directory.GetFiles(inTodoPath, "*.jpg");
-            var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
+            //var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
             var singleStyle = new[] { $@"{stylePath}\eugene_ivanov_2224.jpg", };

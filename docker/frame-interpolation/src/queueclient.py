@@ -57,9 +57,10 @@ def handle_message(message):
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
 
-        logger.info("Output des Skripts:\n", stdout.decode("utf-8"))
+        logger.info(f"Output des Skripts:\n{stdout.decode('utf-8')}")
         if stderr:
-            logger.error("Fehlermeldungen:\n", stderr.decode("utf-8"))
+            logger.error(f"Fehlermeldungen:\n{stderr.decode('utf-8')}")
+
  
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)

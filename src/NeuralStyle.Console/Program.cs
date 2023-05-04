@@ -13,6 +13,8 @@ namespace NeuralStyle.Console
 
             Logger.Log("");
             Logger.Log("Done");
+
+            System.Console.ReadKey();
         }
     }
 }

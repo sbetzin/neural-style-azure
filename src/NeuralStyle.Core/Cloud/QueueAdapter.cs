@@ -68,7 +68,7 @@ namespace NeuralStyle.Core.Cloud
             var json = JsonConvert.SerializeObject(job);
 
             queue.SendMessage(json);
-            Logger.Log("Added job");
+            Logger.Log("   added job");
         }
 
         private static QueueClient EnsureThatExists(this QueueClient queue)

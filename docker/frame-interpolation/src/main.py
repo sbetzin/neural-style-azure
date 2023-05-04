@@ -93,7 +93,7 @@ def main(target_path: str, out_name: str, fps: int, times_to_interpolate: int, b
     print (f'Found {len(intermediate_videos)} input files')
 
     if len(intermediate_videos):
-        target_video_file = f'{target_path}/{out_name}}.mp4'
+        target_video_file = f'{target_path}/{out_name}.mp4'
         concatenate_videos(intermediate_videos, intermediate_path, target_video_file)
     
 

@@ -68,7 +68,7 @@ def predict_one(frame1, frame2, video_file, fps, times_to_interpolate, block_hei
     media.set_ffmpeg(ffmpeg_path)
     media.write_video(video_file, frames, fps=fps)
     
-def main(target_path: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int, loop: bool):
+def main(target_path: str, out_name: str, fps: int, times_to_interpolate: int, block_height: int, block_width: int, loop: bool):
     gpus = tf.config.list_physical_devices('GPU')
     print("GPUs Available: ", len(gpus))
 
@@ -93,7 +93,7 @@ def main(target_path: str, fps: int, times_to_interpolate: int, block_height: in
     print (f'Found {len(intermediate_videos)} input files')
 
     if len(intermediate_videos):
-        target_video_file = f'{target_path}/out.mp4'
+        target_video_file = f'{target_path}/{out_name}}.mp4'
         concatenate_videos(intermediate_videos, intermediate_path, target_video_file)
     
 
@@ -105,7 +105,8 @@ if __name__ == "__main__":
     parser.add_argument('--block_height', type=int, required=False, default=1, help='Block height')
     parser.add_argument('--block_width', type=int, required=False, default=1, help='Block width')
     parser.add_argument('--loop', type=bool, required=False, default=True, help='loop to the first frame')
+    parser.add_argument('--out_name', type=str, required=False, default="out.mp4")
 
     args = parser.parse_args()
 
-    main(args.target_path, args.fps, args.times_to_interpolate, args.block_height, args.block_width, args.loop)
+    main(args.target_path, args.out_name, args.fps, args.times_to_interpolate, args.block_height, args.block_width, args.loop)

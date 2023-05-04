@@ -8,8 +8,8 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            //NeuralStyleTransfer.Start();
-            FrameInterpolation.Start();
+            NeuralStyleTransfer.Start();
+            //FrameInterpolation.Start();
 
             Logger.Log("");
             Logger.Log("Done");

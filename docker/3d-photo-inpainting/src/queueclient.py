@@ -226,8 +226,7 @@ def measure_time(start_time):
     logger.info("took %s seconds" % generation_time)
 
 def parse_args(argv):
-
-    desc = "QueueClient for tensorflow implementation of Neural-Style"  
+    desc = "QueueClient for tensorflow implementation 3d-photo-inpainting"  
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--queue_name', type=str, default='jobs-3d-inpainting', help='name of the queue to poll')

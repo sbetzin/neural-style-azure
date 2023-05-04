@@ -17,7 +17,8 @@ namespace NeuralStyle.Console
                 {"times_to_interpolate", 4},
                 {"block_height",2},
                 {"block_width",2},
-                {"loop", true}
+                {"loop", true},
+                {"out_name" ,"out.mp4"}
             };
 
             //CreateOneInterpolation(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out\elena_prokopenko_tanz7_enhanced_mask_add_one");
@@ -50,7 +51,12 @@ namespace NeuralStyle.Console
             var basePath = @"C:\Users\gensb\OneDrive\_nft\video\";
             var unixPath = $@"/nft/video/{videoPath.FindRelativeUnixPath(basePath)}";
 
+            var folderName = new DirectoryInfo(videoPath).Name;
+            var timesToInterpolate = settings["times_to_interpolate"];
+            var outName = $"{folderName}_{timesToInterpolate}.mp4";
+
             settings["target_path"] = unixPath;
+            settings["out_name"] = outName;
             
             frameInterpolationQueue.CreateJob(settings);
         }

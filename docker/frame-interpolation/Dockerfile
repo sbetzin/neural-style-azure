@@ -38,4 +38,4 @@ RUN mkdir -p /intermediate
 # Copy sources. They are filtered only to .py and .yaml in the .dockerignore file
 COPY src/ .
 
-ENTRYPOINT ["python", "/app/run.py"]
+ENTRYPOINT ["python", "/app/queueclient.py"]

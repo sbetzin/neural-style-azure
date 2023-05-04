@@ -13,17 +13,17 @@ start:
 	sudo nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString --name $(IMGNAME) -v /root/OneDrive/_nft:/nft --restart=unless-stopped $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop:
-	sudo nvidia-docker stop $(shell docker ps -q --filter "name=$(IMGNAME)")
+	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "name=$(IMGNAME)")
 	sudo nvidia-docker container prune --force
 
 logs:
-	sudo nvidia-docker logs $(shell docker ps -q --filter "name=$(IMGNAME)")
+	sudo nvidia-docker logs $(shell sudo docker ps -q --filter "name=$(IMGNAME)")
 	
 start-console:
 	sudo nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString --name $(IMGNAME) -v /root/OneDrive/_nft:/nft --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)
 
 stop-console:
-	sudo nvidia-docker stop $(shell docker ps -q --filter "name$=(IMGNAME)-console")
+	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "name$=(IMGNAME)-console")
 	sudo docker container prune --force
 
 git-pull:

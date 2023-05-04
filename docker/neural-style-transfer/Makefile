@@ -13,17 +13,17 @@ start-two:
 	nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString --name neural-style-transfer-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 	
 stop:
-	nvidia-docker stop $(shell docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)")
+	nvidia-docker stop $(shell sudo docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)")
 	docker container prune --force
 
 logs:
-	nvidia-docker logs $(shell docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)") -f
+	nvidia-docker logs $(shell sudo docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)") -f
 
 start-console:
 	nvidia-docker run --rm -it -e AzureStorageConnectionString --name neural-style-transfer-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
 
 stop-console:
-	sudo nvidia-docker stop $(shell docker ps -q --filter "name$=(IMGNAME)-console")
+	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "name$=(IMGNAME)-console")
 	sudo docker container prune --force
 
 git-pull:

@@ -92,12 +92,12 @@ def main(target_path: str, fps: int, times_to_interpolate: int, block_height: in
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process video parameters.')
-    parser.add_argument('target_path', type=str, help='Path to the input images')
-    parser.add_argument('fps', type=int, required=False, default=30, help='Frames per second')
-    parser.add_argument('times_to_interpolate', required=False, default=4, type=int, help='Number of times to interpolate')
-    parser.add_argument('block_height', type=int, required=False, default=1, help='Block height')
-    parser.add_argument('block_width', type=int, required=False, default=1, help='Block width')
-    parser.add_argument('loop', type=bool, required=False, default=True, help='loop to the first frame')
+    parser.add_argument('--target_path', type=str, help='Path to the input images')
+    parser.add_argument('--fps', type=int, required=False, default=30, help='Frames per second')
+    parser.add_argument('--times_to_interpolate', required=False, default=4, type=int, help='Number of times to interpolate')
+    parser.add_argument('--block_height', type=int, required=False, default=1, help='Block height')
+    parser.add_argument('--block_width', type=int, required=False, default=1, help='Block width')
+    parser.add_argument('--loop', type=bool, required=False, default=True, help='loop to the first frame')
 
     args = parser.parse_args()
 

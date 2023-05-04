@@ -21,7 +21,7 @@ namespace NeuralStyle.Core.Features
             container.UploadImages(allIn);
             container.UploadImages(allStyles);
 
-            missing.ForEach(pair => queue.CreateJob(pair.In, pair.Style, settings));
+            missing.ForEach(pair => queue.CreateNeuralStyleTransferJob(pair.In, pair.Style, settings));
         }
 
         public static void CreateNew(BlobContainerClient container, QueueClient queue, string[] images, string[] styles, JobSettings settings)

@@ -19,7 +19,7 @@ namespace NeuralStyle.Core.Cloud
             Logger.Log($"Creating {jobs.Count} jobs");
             foreach (var (styleFile, sourceFile) in jobs)
             {
-                queue.CreateJob(sourceFile, styleFile, settings);
+                queue.CreateNeuralStyleTransferJob(sourceFile, styleFile, settings);
             }
         }
 
@@ -30,10 +30,10 @@ namespace NeuralStyle.Core.Cloud
             return queueClient;
         }
 
-        public static void CreateJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings)
+        public static void CreateNeuralStyleTransferJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings)
         {
 
-            var job = new Job
+            var job = new NeuralStyleTransferJob
             {
                 ContentName = Path.GetFileName(sourceFile),
                 StyleName = Path.GetFileName(styleFile),
@@ -63,6 +63,14 @@ namespace NeuralStyle.Core.Cloud
             Logger.Log($"   added job for image {sourceFile} with style {styleFile}");
         }
 
+        public static void CreateJob(this QueueClient queue, Dictionary<string, object> job)
+        {
+            var json = JsonConvert.SerializeObject(job);
+
+            queue.SendMessage(json);
+            Logger.Log("Added job");
+        }
+
         private static QueueClient EnsureThatExists(this QueueClient queue)
         {
             if (!queue.ExistsAsync().Result)
@@ -73,11 +81,11 @@ namespace NeuralStyle.Core.Cloud
             return queue;
         }
 
-        private static string CreateTargetName(Job job)
+        private static string CreateTargetName(NeuralStyleTransferJob neuralStyleTransferJob)
         {
-            var prefix = Path.GetFileNameWithoutExtension(job.ContentName).BuildPrefix(Path.GetFileNameWithoutExtension(job.StyleName));
+            var prefix = Path.GetFileNameWithoutExtension(neuralStyleTransferJob.ContentName).BuildPrefix(Path.GetFileNameWithoutExtension(neuralStyleTransferJob.StyleName));
 
-            FormattableString name = $"{prefix}{job.Size}px_cw_{job.ContentWeight:G}_sw_{job.StyleWeight:G}_tv_{job.TvWeight}_model_{job.Model}_opt_{job.Optimizer}_origcolor_#origcolor#.jpg";
+            FormattableString name = $"{prefix}{neuralStyleTransferJob.Size}px_cw_{neuralStyleTransferJob.ContentWeight:G}_sw_{neuralStyleTransferJob.StyleWeight:G}_tv_{neuralStyleTransferJob.TvWeight}_model_{neuralStyleTransferJob.Model}_opt_{neuralStyleTransferJob.Optimizer}_origcolor_#origcolor#.jpg";
 
             return name.ToString(new CultureInfo("en-US"));
         }

@@ -2,7 +2,7 @@
 
 namespace NeuralStyle.Core.Model
 {
-    public class Job
+    public class NeuralStyleTransferJob
     {
         public string ContentName { get; set; }
         public string StyleName { get; set; }

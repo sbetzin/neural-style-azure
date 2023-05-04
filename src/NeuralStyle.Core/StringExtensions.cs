@@ -37,5 +37,16 @@ namespace NeuralStyle.Core
 
             return $"{parts[0]}.jpg";
         }
+
+        public static string FindRelativeUnixPath(this string fullPath, string basePath)
+        {
+            var baseUri = new Uri(basePath, UriKind.Absolute);
+            var targetUri = new Uri(fullPath , UriKind.Absolute);
+
+            var relativeUri = baseUri.MakeRelativeUri(targetUri);
+            var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+           return relativePath;
+        }
     }
 }

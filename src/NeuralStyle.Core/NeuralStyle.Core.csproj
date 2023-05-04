@@ -67,7 +67,7 @@
     <Compile Include="Instagram\InstagramAdapter.cs" />
     <Compile Include="Links\HardLink.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Model\Job.cs" />
+    <Compile Include="Model\NeuralStyleTransferJob.cs" />
     <Compile Include="Model\JobSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cloud\QueueAdapter.cs" />

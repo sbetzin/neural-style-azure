@@ -9,19 +9,19 @@ from eval import interpolator as interpolator_lib
 from eval import util
 import argparse
 
-def clear_path(self, path: str):
+def clear_path(path: str):
     mp4_files = glob.glob(os.path.join(path, "*.mp4"))
     for file in mp4_files:
         print(f'   removing {file}')
         os.remove(file)
 
-def get_files(self, path: str, extensions) -> list:
+def get_files(path: str, extensions) -> list:
     all_files = os.listdir(path)
     files = [os.path.join(path, file) for file in all_files if os.path.splitext(file)[1].lower() in extensions]
 
     return sorted(files)
 
-def concatenate_videos(self, mp4_files: list,intermediate_path:str, target_video_file: str):
+def concatenate_videos(mp4_files: list,intermediate_path:str, target_video_file: str):
     file_name = f"{intermediate_path}/filelist.txt";
     # Erstelle eine temporäre Textdatei, die die Liste der MP4-Dateien enthält
     with open(file_name, "w") as file:
@@ -39,7 +39,7 @@ def concatenate_videos(self, mp4_files: list,intermediate_path:str, target_video
     # Lösche die temporäre Textdatei
     os.remove(file_name)
 
-def predict_one(self, frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
+def predict_one(frame1, frame2, video_file, fps, times_to_interpolate, block_height, block_width):
     interpolator = interpolator_lib.Interpolator("/pretrained_models/film_net/Style/saved_model", None, [block_height, block_width])
 
     # make sure 2 images are the same size

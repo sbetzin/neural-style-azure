@@ -1,4 +1,11 @@
 import os
+
+# 0: Alle Meldungen werden angezeigt (Standardverhalten)
+# 1: Nur Warnungen und Fehlermeldungen werden angezeigt
+# 2: Nur Fehlermeldungen werden angezeigt
+# 3: Keine Meldungen werden angezeigt
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import glob
 from pathlib import Path
 import numpy as np

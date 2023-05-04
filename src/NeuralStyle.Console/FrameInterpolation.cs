@@ -7,7 +7,6 @@ namespace NeuralStyle.Console
 {
     public class FrameInterpolation
     {
-
         public static void Start()
         {
             var settings = new Dictionary<string, object>

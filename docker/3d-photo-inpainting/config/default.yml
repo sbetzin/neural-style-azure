@@ -21,7 +21,7 @@ traj_types: ['double-straight-line']
 video_postfix: ['dolly-zoom-in']
 specific: ''
 longer_side_len: 1024
-src_folder: /nft/in
+src_folder: /image
 depth_folder: /depth
 mesh_folder: /mesh
 video_folder: /nft/video/_in

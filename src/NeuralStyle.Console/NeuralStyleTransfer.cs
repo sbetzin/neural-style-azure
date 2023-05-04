@@ -22,7 +22,6 @@ namespace NeuralStyle.Console
             var stylePath = $@"{images}\style";
             var inPath = $@"{images}\in";
             var videoPath = $@"{images}\video";
-            var inDonePath = $@"{images}\in\done";
             var inTodoPath = $@"{images}\in\todo";
             var inVideoImagesPath = $@"{video}\norwegen-19_move\in";
             var outPath = $@"{images}\out";
@@ -33,7 +32,6 @@ namespace NeuralStyle.Console
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var allInDone = Directory.GetFiles(inDonePath, "*.jpg");
             var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };

@@ -51,6 +51,7 @@ def handle_message(message):
         mesh_folder = f"/mesh/{depth_mode}"
         depth_folder = f"/depth/{depth_mode}"
         
+        job["src_folder"] = local_image_folder
         job["mesh_folder"] = mesh_folder
         job["depth_folder"] = depth_folder
         job["video_folder"] = video_folder

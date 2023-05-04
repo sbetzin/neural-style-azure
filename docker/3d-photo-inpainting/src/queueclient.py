@@ -47,7 +47,7 @@ def handle_message(message):
         
         image_folder = "/nft/in"
         local_image_folder = "/image"
-        video_folder = "/nft/video"
+        video_folder = "/nft/video/_in"
         mesh_folder = f"/mesh/{depth_mode}"
         depth_folder = f"/depth/{depth_mode}"
         

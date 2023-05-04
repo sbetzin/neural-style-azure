@@ -40,7 +40,7 @@ def concatenate_videos(mp4_files: list,intermediate_path:str, target_video_file:
     media.set_ffmpeg(ffmpeg_path)
 
     # Führe den Befehl aus, um die Videos zusammenzufügen
-    command = f"{ffmpeg_path} -y -f concat -safe 0 -i {file_name} -c copy {target_video_file}"
+    command = f"{ffmpeg_path} -y -f concat -safe 0 -i {file_name} -c copy -loglevel error {target_video_file}"
     os.system(command)
 
     # Lösche die temporäre Textdatei

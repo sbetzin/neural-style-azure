@@ -50,7 +50,7 @@ def handle_message(message):
                
         directory_content = "/app/images/in/"
         directory_style = "/app/images/style/"
-        directory_out = "/nft/out/"
+        directory_out = "/nft/out/result/"
         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_style, exist_ok=True)

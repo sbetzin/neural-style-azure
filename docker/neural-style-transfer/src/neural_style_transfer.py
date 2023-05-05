@@ -113,8 +113,8 @@ def neural_style_transfer(logger, config):
             total_loss, content_loss, style_loss, tv_loss = build_loss(neural_net, optimizing_img, target_representations, content_feature_maps_index_name[0], style_feature_maps_indices_names[0], config)
             if total_loss.requires_grad:
                 total_loss.backward()
-            with torch.no_grad():
-                logger.info(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
+            #with torch.no_grad():
+                # logger.info(f'L-BFGS | iteration: {cnt:03}, total loss={total_loss.item():12.4f}, content_loss={config["content_weight"] * content_loss.item():12.4f}, style loss={config["style_weight"] * style_loss.item():12.4f}, tv loss={config["tv_weight"] * tv_loss.item():12.4f}')
                 # utils.save_and_maybe_display(optimizing_img, dump_path, config, cnt, iterations, should_display=False)
 
             cnt += 1

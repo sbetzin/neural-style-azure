@@ -11,18 +11,21 @@ RUN apt-get update && apt-get upgrade -y
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y nano wget curl git sudo 
 
+#Install Python and Add python alias for python3
+RUN apt-get install python3.10 pip python3.10-venv -y && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
 # Install poetry
-#RUN curl -sSL https://install.python-poetry.org | python3 - 
-#ENV PATH="~/.local/bin:${PATH}"
+RUN curl -sSL https://install.python-poetry.org | python3 - 
+ENV PATH="~/.local/bin:${PATH}"
 
 # Turn off virtual env creation
 # https://github.com/orgs/python-poetry/discussions/1879
-#RUN ~/.local/bin/poetry config virtualenvs.create false
+RUN ~/.local/bin/poetry config virtualenvs.create false
 
 #Install dependencies
-#COPY ["/src/pyproject.toml", "/app/"]
+COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
-#RUN ~/.local/bin/poetry install
+RUN ~/.local/bin/poetry install
 
 # Copy sources. They are filtered only to .py and .yaml in the .dockerignore file
 COPY src/ .

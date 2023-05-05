@@ -17,7 +17,7 @@ WORKDIR /env/
 COPY ["/env/environment.yml", "/env/"]
 RUN chmod 777 /env/
 
-USER user
+#USER user
 RUN conda env update
 
 

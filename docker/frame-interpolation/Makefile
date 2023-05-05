@@ -17,7 +17,7 @@ stop:
 	sudo nvidia-docker container prune --force
 
 logs:
-	sudo nvidia-docker logs $(shell sudo docker ps -q --filter "name=$(IMGNAME)")
+	sudo nvidia-docker logs $(shell sudo docker ps -q --filter "name=$(IMGNAME)") -f
 	
 start-console:
 	sudo nvidia-docker run --rm --gpus '"device=1"' -it -e AzureStorageConnectionString --name $(IMGNAME) -v /root/OneDrive/_nft:/nft --entrypoint /bin/bash $(IMGAUTHOR)/$(IMGNAME):$(IMGTAG)

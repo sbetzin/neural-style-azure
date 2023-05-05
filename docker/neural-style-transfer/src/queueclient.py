@@ -15,7 +15,11 @@ from azure.storage.queue import QueueClient
 from neural_style_transfer import neural_style_transfer as neural_style_transfer
 from azure.core.exceptions import ResourceExistsError
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 logger = logging.getLogger("queueclient")
 logger.setLevel(logging.INFO)
 

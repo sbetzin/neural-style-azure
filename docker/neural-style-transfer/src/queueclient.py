@@ -9,9 +9,9 @@ import argparse
 import insights
 import exifdump
 import image_tools
+import shutil
 
 from azure.storage.queue import QueueClient
-from azure.storage.blob import BlobServiceClient, BlobClient
 from neural_style_transfer import neural_style_transfer as neural_style_transfer
 from azure.core.exceptions import ResourceExistsError
 
@@ -19,21 +19,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("queueclient")
 logger.setLevel(logging.INFO)
 
-# Only show error messages for the azure storage. otherwise the console is spammed with debug messages
-azure_logger = logging.getLogger("azure.storage")
-azure_logger.setLevel(logging.ERROR)
-
 # Only show error messages for the azure core. otherwise the console is spammed with debug messages
 azure_logger = logging.getLogger("azure.core")
 azure_logger.setLevel(logging.ERROR)
 
 insights.enable_logging()
 telemetrie = insights.create_telemetrie_client()
-
-def ensure_dir(file_path):
-    directory = os.path.dirname(file_path)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
 
 def prepare_queue(queue_client, queue_name):
     try:
@@ -44,15 +35,7 @@ def prepare_queue(queue_client, queue_name):
     except Exception as e:
         logger.exception(e)
 
-def prepare_blob(blob_service_client, container_name):
-    try:
-        blob_service_client.create_container(container_name)
-    except ResourceExistsError:
-        logger.info("Container already exists.")
-    except Exception as e:
-        logger.exception(e)
-
-def handle_message(blob_service_client, message):
+def handle_message(message):
     try:
         logger.info("--------------------------------------------------------------------------------------------------")
         logger.info("handling new message %s", message.id )
@@ -67,13 +50,13 @@ def handle_message(blob_service_client, message):
                
         directory_content = "/app/images/in/"
         directory_style = "/app/images/style/"
-        directory_out = "/app/images/out/"
+        directory_out = "/nft/out/"
+        
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_style, exist_ok=True)
-        os.makedirs(directory_out, exist_ok=True)
         
-        content_file = os.path.join(directory_content, content_name)
-        style_file =  os.path.join(directory_style, style_name)
+        local_content_file = os.path.join(directory_content, content_name)
+        local_style_file =  os.path.join(directory_style, style_name)
 
         out_file_origcolor_0 = os.path.join(directory_out, target_name_origcolor_0)
         out_file_origcolor_1 = os.path.join(directory_out, target_name_origcolor_1)
@@ -81,26 +64,26 @@ def handle_message(blob_service_client, message):
         config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)
         
-        logger.info("downloading %s and %s", content_file, style_file )
+        logger.info("downloading %s and %s", local_content_file, local_style_file )
+        content_file = find_image_file('/nft/in', content_name)
+        style_file = find_image_file('/nft/style', style_name)
         
-        
+        shutil.copyfile(content_file, local_content_file)
+        shutil.copyfile(style_file, local_style_file)
         
         logger.info("calculating target shape with max_size=%s", job["Size"])
-        target_shape = image_tools.find_target_size(content_file, job["Size"])
+        target_shape = image_tools.find_target_size(local_content_file, job["Size"])
         config['target_shape'] = target_shape
         
         logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
         neural_style_transfer(logger, config)
 
         logger.info("creating original colors")
-        image_tools.create_image_with_original_colors(content_file, out_file_origcolor_0, out_file_origcolor_1)
+        image_tools.create_image_with_original_colors(local_content_file, out_file_origcolor_0, out_file_origcolor_1)
         
         logger.info("Setting exif data")
         exifdump.write_exif(out_file_origcolor_0, config)
         exifdump.write_exif(out_file_origcolor_1, config)
-        
-        upload_file(blob_service_client, target_name_origcolor_0, out_file_origcolor_0)
-        upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.exception(e)
 
@@ -155,26 +138,23 @@ def upload_file(blob_service_client, target_name, file_name):
     except Exception as e:
         logger.exception(e)
 
-def poll_queue(queue_client, priorityQueue_client, blob_service_client):
+def poll_queue(queue_client):
     try:
         while True:
-           
-            hadPriorityMessages = CheckQueue(priorityQueue_client, blob_service_client)
-            if not hadPriorityMessages:
-                CheckQueue(queue_client, blob_service_client)
+            CheckQueue(queue_client)
                 
             time.sleep(5)
     except Exception as e:
         logger.exception(e)
 
-def CheckQueue(queue_client, blob_service_client):
+def CheckQueue(queue_client):
     messages = queue_client.receive_messages(messages_per_page=1, visibility_timeout=30*60)
 
     for message_batch in messages.by_page():
         for message in message_batch:
             start_time = time.time()
 
-            handle_message(blob_service_client, message)
+            handle_message(message)
             measure_time(start_time)
 
             queue_client.delete_message(message)
@@ -182,8 +162,6 @@ def CheckQueue(queue_client, blob_service_client):
             return True
     return False
         
-
-
 def setup_azure_queue(azure_connection_string, queue_name):
     try:
         queue_client = QueueClient.from_connection_string(conn_str=azure_connection_string, queue_name=queue_name)
@@ -191,14 +169,6 @@ def setup_azure_queue(azure_connection_string, queue_name):
         logger.exception(e)
 
     return queue_client
-
-def setup_azure_blob(azure_connection_string):
-    try:
-        blob_service_client = BlobServiceClient.from_connection_string(azure_connection_string)
-    except Exception as e:
-        logger.exception(e)
-
-    return blob_service_client
 
 def measure_time(start_time):
     generation_time = time.time() - start_time
@@ -228,23 +198,13 @@ def main(argv):
         args.queue_name = os.getenv("AzureStorageQueueName")
         
     queue_name ="test"
-    priority_queue_name = "priority-jobs"
-
     queue_client = setup_azure_queue(azure_connection_string, queue_name)
-    priority_queue_client = setup_azure_queue(azure_connection_string, priority_queue_name)
-    blob_service_client = setup_azure_blob(azure_connection_string)
   
     logger.info ("preparing azure resources")
     prepare_queue(queue_client, queue_name)
-    prepare_queue(priority_queue_client, priority_queue_name)
-    prepare_blob(blob_service_client, "images")
-    prepare_blob(blob_service_client, "results")
-
-    logger.info ("ensuring directory exists")
-    ensure_dir("/app/images/")
 
     logger.info ("starting to poll jobs queue: %s", queue_name)
-    poll_queue(queue_client, priority_queue_client, blob_service_client)
+    poll_queue(queue_client)
 
 if __name__ == '__main__':
   main(sys.argv[1:])

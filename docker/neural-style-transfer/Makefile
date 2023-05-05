@@ -6,11 +6,11 @@ build:
 	sudo nvidia-docker build -f Dockerfile -t $(IMGNAME):$(IMGTAG) .
 
 start:
-	sudo nvidia-docker run -d -e AzureStorageConnectionString --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	sudo nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name neural-style-transfer --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 
 start-two:
-	sudo nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString --name neural-style-transfer-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
-	sudo nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString --name neural-style-transfer-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	sudo nvidia-docker run -d --gpus '"device=1"' -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name neural-style-transfer-1 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	sudo nvidia-docker run -d --gpus '"device=2"' -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name neural-style-transfer-2 --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 	
 stop:
 	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)")
@@ -20,7 +20,7 @@ logs:
 	sudo nvidia-docker logs $(shell sudo docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)") -f
 
 start-console:
-	sudo nvidia-docker run --rm -it -e AzureStorageConnectionString --name neural-style-transfer-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
+	sudo nvidia-docker run --rm -it --gpus '"device=2"' -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name neural-style-transfer-console --entrypoint /bin/bash $(IMGNAME):$(IMGTAG)
 
 stop-console:
 	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "name$=(IMGNAME)-console")

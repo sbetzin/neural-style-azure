@@ -8,9 +8,10 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            NeuralStyleTransfer.Start();
+            //NeuralStyleTransfer.Start();
             //FrameInterpolation.Start();
             //_3dPhotoInpainting.Start();
+            MaskTransfer.Start();
 
             Logger.Log("");
             Logger.Log("Done");

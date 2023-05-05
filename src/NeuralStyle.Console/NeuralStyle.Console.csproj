@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="3dPhotoInpainting.cs" />
     <Compile Include="FrameInterpolation.cs" />
+    <Compile Include="MaskTransfer.cs" />
     <Compile Include="NeuralStyleTransfer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

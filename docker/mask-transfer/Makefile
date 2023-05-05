@@ -1,6 +1,6 @@
 .PHONY: build rebuild start start-two stop restart logs start-console stop-console test
 NAME=mask-transfer
-IMGNAME=sbetzin/mask-transfer
+IMGNAME=sbetzin/$(NAME)
 IMGTAG=1.0.0
 
 test:

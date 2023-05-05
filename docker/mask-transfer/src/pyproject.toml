@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "mask-transfer"
+version = "0.1.0"
+description = ""
+authors = ["Sebastian Betzin <sebastian@betzin.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "*"
+opencv-python = "*"
+azure-storage-queue = "*"
+applicationinsights = "*"
+
+[tool.poetry.dev-dependencies]

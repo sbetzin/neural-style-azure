@@ -4,9 +4,9 @@ import itertools
 import numpy as np
 
 def change_path(target_path, image_path):
-  file_name_with_ext = os.path.basename(image_path)
+    file_name_with_ext = os.path.basename(image_path)
 
-  return os.path.join(target_path, file_name_with_ext)
+    return os.path.join(target_path, file_name_with_ext)
 
 def get_subfolders(video_path, folder_name, filter=None):
     target_dir = os.path.join(video_path, folder_name)
@@ -15,7 +15,6 @@ def get_subfolders(video_path, folder_name, filter=None):
     else:
         subfolders = [os.path.split(f.path)[1] for f in os.scandir(target_dir) if f.is_dir()]
     return subfolders
-
 
 def load_mask(mask_path, shape):
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
@@ -48,21 +47,10 @@ def load_image(image_path, shape):
 
     return image
 
-# def mask_content(content, generated, mask):
-#     result = np.zeros_like(generated)
-#     result[..., :] = generated[..., :]
-#     for i in range(generated.shape[0]):
-#         for j in range(generated.shape[1]):
-#             if mask[i, j] == 0.:
-#                 result[i, j, :] = content[i, j, :]
-
-#     return result
-
 def mask_content(content, generated, mask):
     result = np.copy(generated)
     result[mask == 0] = content[mask == 0]
     return result
-
 
 def generate_paths(base_path, video_name, mask_name, style_name):
     in_path = os.path.join (base_path, video_name, "in")
@@ -72,39 +60,44 @@ def generate_paths(base_path, video_name, mask_name, style_name):
     
     return in_path, mask_path, style_path, out_path
 
-def generate_masked_style_files(base_path, video_name, mask_name, style_name):
-  in_path, mask_path, style_path, out_path = generate_paths(base_path, video_name, mask_name, style_name)
-  print(f'   mask_path={mask_path}, style_path={style_path}, out_path={out_path}')
+def generate_masked_style_files(base_path, video_name, mask_name, style_name, force_generation=True):
+    in_path, mask_path, style_path, out_path = generate_paths(base_path, video_name, mask_name, style_name)
+    print(f'   mask_path={mask_path}, style_path={style_path}, out_path={out_path}')
 
-  os.makedirs(out_path, exist_ok=True)
+    os.makedirs(out_path, exist_ok=True)
 
-  style_files = get_images(style_path)
-  image_files = get_images(in_path)
-  mask_files = get_images(mask_path)
-  out_files= get_images(out_path)
+    style_files = get_images(style_path)
+    image_files = get_images(in_path)
+    mask_files = get_images(mask_path)
+    out_files= get_images(out_path)
 
-  print (f'   {style_name}={len(style_files)}, image_files={len(image_files)}, {mask_name}={len(mask_files)}, out_files={len(out_files)}')
+    print (f'   {style_name}={len(style_files)}, image_files={len(image_files)}, {mask_name}={len(mask_files)}, out_files={len(out_files)}')
 
-  # Überprüfen, ob alle Listen die gleiche Anzahl an Dateien enthalten und weniger outfiles sind
-  if len(style_files) == len(image_files) == len(mask_files) != len(out_files):
-      # Die Listen gemeinsam durchiterieren
-      for style_file, image_file, mask_file in zip(style_files, image_files, mask_files):
-          print (f"      Working on {style_file}")
-          
-          style = cv2.imread(style_file)
-          mask = load_mask(mask_file, style.shape)
-          image = load_image(image_file, style.shape)
+    # Beenden, wenn alle Listen nicht die gleiche Anzahl an Dateien enthalten
+    if not (len(style_files) == len(image_files) == len(mask_files)):
+        return
+  
+    # Beende, wenn entwender force_generation=false oder aber die Out_files schon die gleiche Anzahl an Dateien wie die Style Files besitzt
+    if len(style_files) == len(out_files) and not(force_generation):
+        return
+    
+    for style_file, image_file, mask_file in zip(style_files, image_files, mask_files):
+        print (f"      Working on {style_file}")
+        
+        style = cv2.imread(style_file)
+        mask = load_mask(mask_file, style.shape)
+        image = load_image(image_file, style.shape)
 
-          masked_style = mask_content(image, style, mask)
-          masked_style_file = change_path(out_path, image_file)
+        masked_style = mask_content(image, style, mask)
+        masked_style_file = change_path(out_path, image_file)
 
-          cv2.imwrite(masked_style_file, masked_style)
-
+        cv2.imwrite(masked_style_file, masked_style)
 
 
 #base_path = "/nft/video"
 
 video_name = 'norwegen-19_move'
+force_generation = True
 base_path = "C:\\Users\\gensb\\OneDrive\\_nft\\video"
 video_path = os.path.join(base_path, video_name)
 
@@ -113,4 +106,4 @@ style_names = get_subfolders(video_path, "styles", "enhanced")
 
 for mask_name, style_name in itertools.product(mask_names, style_names):
     print (f"starting for mask={mask_name}, style={style_name}")
-    generate_masked_style_files(base_path, video_name, mask_name, style_name)
+    generate_masked_style_files(base_path, video_name, mask_name, style_name, force_generation)

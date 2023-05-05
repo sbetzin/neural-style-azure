@@ -4,7 +4,7 @@ IMGNAME=sbetzin/$(NAME)
 IMGTAG=1.0.0
 
 test:
-	echo $(NAME)
+	echo $(IMGNAME)
 build:
 	sudo nvidia-docker build -f Dockerfile -t $(IMGNAME):$(IMGTAG) .
 

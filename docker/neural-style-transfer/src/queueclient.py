@@ -82,9 +82,9 @@ def handle_message(blob_service_client, message):
         transfer_job_param_to_config(job, config)
         
         logger.info("downloading %s and %s", content_file, style_file )
-        download_file(blob_service_client, content_name, content_file)
-        download_file(blob_service_client, style_name, style_file)
-
+        
+        
+        
         logger.info("calculating target shape with max_size=%s", job["Size"])
         target_shape = image_tools.find_target_size(content_file, job["Size"])
         config['target_shape'] = target_shape
@@ -103,6 +103,15 @@ def handle_message(blob_service_client, message):
         upload_file(blob_service_client, target_name_origcolor_1, out_file_origcolor_1)
     except Exception as e:
         logger.exception(e)
+
+def find_image_file(folder_path, content_name):
+    for root, _, files in os.walk(folder_path):
+        for file in files:
+            if file.lower().endswith(".jpg") and file == content_name:
+                return os.path.join(root, file)
+
+    return None
+
 
 def create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0):
     config = dict()

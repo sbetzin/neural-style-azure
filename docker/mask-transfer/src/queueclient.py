@@ -2,7 +2,6 @@
 import time
 import json
 import os
-import glob
 import sys
 import os.path
 import logging
@@ -44,9 +43,9 @@ def handle_message(message):
         job = json.loads(message.content)
         #telemetrie.track_event ("new image", job)
         
-        target_path = job["target_path"]
+        video_name = job["video_name"]
         
-        logger.info(f"start frame-interpolation in path {target_path}")
+        logger.info(f"start mask-transfer in path {video_name}")
         command = "python /app/main.py"
 
         for key, value in job.items():
@@ -61,9 +60,6 @@ def handle_message(message):
         if stderr:
             logger.error(f"Fehlermeldungen:\n{stderr.decode('utf-8')}")
 
- 
-        logger.info("Setting exif data")
-        #exifdump.write_exif(out_file_origcolor_0, config)
     except Exception as e:
         logger.exception(e)
  
@@ -84,11 +80,10 @@ def CheckQueue(queue_client):
         for message in message_batch:
             start_time = time.time()
 
-            # In diesem Fall löschen wir die Message gleich, da die Ausführung sehr lange läuft. Wenn ein Fehler geworfen wird, dann muss sie neu eingestellt werden
-            queue_client.delete_message(message)
             handle_message(message)
             measure_time(start_time)
 
+            queue_client.delete_message(message)
             return True
     return False
 
@@ -127,7 +122,7 @@ def main(argv):
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
         
-    queue_name ="jobs-frame-interpolation"
+    queue_name ="jobs-mask-transfer"
     queue_client = setup_azure_queue(azure_connection_string, queue_name)
 
     logger.info ("preparing azure resources")

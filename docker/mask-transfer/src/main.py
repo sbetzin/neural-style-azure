@@ -2,6 +2,7 @@ import cv2
 import os
 import itertools
 import numpy as np
+import argparse
 
 def change_path(target_path, image_path):
     file_name_with_ext = os.path.basename(image_path)
@@ -93,15 +94,22 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
 
         cv2.imwrite(masked_style_file, masked_style)
 
+def main(video_name, force_generation):
+    base_path = "/nft/video"
+    video_path = os.path.join(base_path, video_name)
 
-video_name = 'norwegen-19_move'
-force_generation = False
-base_path = "/nft/video"
-video_path = os.path.join(base_path, video_name)
+    mask_names = get_subfolders(video_path, "masks")
+    style_names = get_subfolders(video_path, "styles", "enhanced")
 
-mask_names = get_subfolders(video_path, "masks")
-style_names = get_subfolders(video_path, "styles", "enhanced")
+    for mask_name, style_name in itertools.product(mask_names, style_names):
+        print (f"starting for mask={mask_name}, style={style_name}")
+        generate_masked_style_files(base_path, video_name, mask_name, style_name, force_generation)
 
-for mask_name, style_name in itertools.product(mask_names, style_names):
-    print (f"starting for mask={mask_name}, style={style_name}")
-    generate_masked_style_files(base_path, video_name, mask_name, style_name, force_generation)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Process mask parameters.')
+    parser.add_argument('--video_name', required=True, type=str, help='the video name in the video folder')
+    parser.add_argument('--force_generation', type=bool, required=False, default=True, help='force the masked image generation even if they exists')
+
+    args = parser.parse_args()
+
+    main(args.video_name, args.force_generation)

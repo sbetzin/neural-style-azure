@@ -83,15 +83,15 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
         return
     
     for style_file, image_file, mask_file in zip(style_files, image_files, mask_files):
-        print (f"      Working on {style_file}")
+        masked_style_file = change_path(out_path, image_file)
+        print (f"      Working on {masked_style_file}")
         
         style = cv2.imread(style_file)
         mask = load_mask(mask_file, style.shape)
         image = load_image(image_file, style.shape)
 
         masked_style = mask_content(image, style, mask)
-        masked_style_file = change_path(out_path, image_file)
-
+        
         cv2.imwrite(masked_style_file, masked_style)
 
 def main(video_name, force_generation):

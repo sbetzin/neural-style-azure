@@ -49,6 +49,9 @@ def handle_message(message):
         command = "python /app/main.py"
 
         for key, value in job.items():
+            if value == False:
+                continue
+            
             command += f" --{key}={value}"
 
         logger.info(f'Starting command={command}')

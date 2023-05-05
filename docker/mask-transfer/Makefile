@@ -9,7 +9,7 @@ build:
 	sudo nvidia-docker build -f Dockerfile -t $(IMGNAME):$(IMGTAG) .
 
 start:
-	sudo nvidia-docker run -d -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name >$(NAME) --restart=unless-stopped $(IMGNAME):$(IMGTAG)
+	sudo nvidia-docker run -d -e AzureStorageConnectionString -v /root/OneDrive/_nft:/nft --name $(NAME) --restart=unless-stopped $(IMGNAME):$(IMGTAG)
 
 stop:
 	sudo nvidia-docker stop $(shell sudo docker ps -q --filter "ancestor=$(IMGNAME):$(IMGTAG)")

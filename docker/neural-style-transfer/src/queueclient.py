@@ -64,9 +64,9 @@ def handle_message(message):
         config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)
         
-        logger.info("downloading %s and %s", local_content_file, local_style_file )
         content_file = find_image_file('/nft/in', content_name)
         style_file = find_image_file('/nft/style', style_name)
+        logger.info(f"found{content_file} and {style_file}" )
         
         shutil.copyfile(content_file, local_content_file)
         shutil.copyfile(style_file, local_style_file)

@@ -98,7 +98,7 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
 
 video_name = 'norwegen-19_move'
 force_generation = False
-base_path = "C:\\Users\\gensb\\OneDrive\\_nft\\video"
+base_path = "/_nft/video"
 video_path = os.path.join(base_path, video_name)
 
 mask_names = get_subfolders(video_path, "masks")

@@ -94,8 +94,6 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
         cv2.imwrite(masked_style_file, masked_style)
 
 
-#base_path = "/nft/video"
-
 video_name = 'norwegen-19_move'
 force_generation = False
 base_path = "/nft/video"

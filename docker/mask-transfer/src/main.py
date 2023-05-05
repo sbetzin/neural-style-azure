@@ -95,6 +95,7 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
         cv2.imwrite(masked_style_file, masked_style)
 
 def main(video_name, force_generation):
+    print(f"Scanning {video_name} with force_generation={force_generation}")
     base_path = "/nft/video"
     video_path = os.path.join(base_path, video_name)
 
@@ -108,7 +109,7 @@ def main(video_name, force_generation):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process mask parameters.')
     parser.add_argument('--video_name', required=True, type=str, help='the video name in the video folder')
-    parser.add_argument('--force_generation', type=bool, required=False, default=True, help='force the masked image generation even if they exists')
+    parser.add_argument('--force_generation', type=bool, required=False, default=False, help='force the masked image generation even if they exists')
 
     args = parser.parse_args()
 

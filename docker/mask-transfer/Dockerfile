@@ -12,19 +12,19 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y nano wget curl git sudo 
 
 # Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 - 
-ENV PATH="~/.local/bin:${PATH}"
+#RUN curl -sSL https://install.python-poetry.org | python3 - 
+#ENV PATH="~/.local/bin:${PATH}"
 
 # Turn off virtual env creation
 # https://github.com/orgs/python-poetry/discussions/1879
-RUN ~/.local/bin/poetry config virtualenvs.create false
+#RUN ~/.local/bin/poetry config virtualenvs.create false
 
 #Install dependencies
-COPY ["/src/pyproject.toml", "/app/"]
+#COPY ["/src/pyproject.toml", "/app/"]
 WORKDIR /app
-RUN ~/.local/bin/poetry install
+#RUN ~/.local/bin/poetry install
 
 # Copy sources. They are filtered only to .py and .yaml in the .dockerignore file
 COPY src/ .
 
-ENTRYPOINT ["python", "/app/queueclient.py"]
+#ENTRYPOINT ["python", "/app/queueclient.py"]

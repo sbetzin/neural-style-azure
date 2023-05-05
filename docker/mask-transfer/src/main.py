@@ -71,7 +71,7 @@ def generate_masked_style_files(base_path, video_name, mask_name, style_name, fo
     mask_files = get_images(mask_path)
     out_files= get_images(out_path)
 
-    print (f'   {style_name}={len(style_files)}, image_files={len(image_files)}, {mask_name}={len(mask_files)}, out_files={len(out_files)}')
+    #print (f'   {style_name}={len(style_files)}, image_files={len(image_files)}, {mask_name}={len(mask_files)}, out_files={len(out_files)}')
 
     # Beenden, wenn alle Listen nicht die gleiche Anzahl an Dateien enthalten
     if not (len(style_files) == len(image_files) == len(mask_files)):

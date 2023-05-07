@@ -59,7 +59,7 @@ def handle_message(message):
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         for line in process.stdout:
-            print(line.strip())
+            logger.info(line.strip())
 
         _, stderr = process.communicate()
 

@@ -27,15 +27,15 @@ namespace NeuralStyle.Console
             var outPath = $@"{images}\out";
             var sharePath = $@"{images}\share";
 
-            var allStyles = Directory.GetFiles(stylePath, "*.jpg");
+            var singleStyle = new[] { $@"{stylePath}\crow_ayahuasca_2.jpg", };
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo", "*.jpg");
+            var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
             var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
-            var singleStyle = new[] { $@"{stylePath}\eugene_ivanov_2224.jpg", };
             var specificStylesInShare = Directory.GetFiles(sharePath, "norwegen-19*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
             specificStylesInShare = specificStylesInShare.Where(File.Exists).ToArray();
@@ -75,7 +75,7 @@ namespace NeuralStyle.Console
 
             //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
 
-            CreateJobs.CreateNew(container, queue, allIn, specificStyles, settings);
+            CreateJobs.CreateNew(container, queue, allIn, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, inVideoImages, specificStylesInShare, settings);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);

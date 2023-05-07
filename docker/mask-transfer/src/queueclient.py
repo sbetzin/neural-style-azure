@@ -56,10 +56,13 @@ def handle_message(message):
 
         logger.info(f'Starting command={command}')
 
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
+        with subprocess.Popen(["python", command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) as process:
+            for line in process.stdout:
+                print(line.strip())
+   
+        stderr = process.communicate()
 
-        logger.info(f"Output des Skripts:\n{stdout.decode('utf-8')}")
+        # logger.info(f"Output des Skripts:\n{stdout.decode('utf-8')}")
         if stderr:
             logger.error(f"Fehlermeldungen:\n{stderr.decode('utf-8')}")
 

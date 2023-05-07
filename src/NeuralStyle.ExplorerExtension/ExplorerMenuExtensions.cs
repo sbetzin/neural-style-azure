@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NeuralStyle.Core;
+using NeuralStyle.Core.Folders;
 using SharpShell.Attributes;
 using SharpShell.Diagnostics;
 using SharpShell.SharpContextMenu;
@@ -10,12 +11,21 @@ using SharpShell.SharpContextMenu;
 namespace NeuralStyle.ExplorerExtension
 {
     [ComVisible(true)]
-    [COMServerAssociation(AssociationType.ClassOfExtension, ".jpg")]
+    [COMServerAssociation(AssociationType.Directory, ".jpg")]
     public class ExplorerMenuExtensions : SharpContextMenu
     {
         protected override bool CanShowMenu()
         {
-            return true;
+            if (SelectedItemPaths.Count() > 1)
+            {
+                return false;
+            }
+
+            var path = SelectedItemPaths.First();
+
+            var isInFolder = FolderCheck.IsInFolder(path, @"C:\Users\gensb\OneDrive\_nft\video");
+
+            return isInFolder;
         }
 
         protected override ContextMenuStrip CreateMenu()
@@ -24,15 +34,13 @@ namespace NeuralStyle.ExplorerExtension
 
             var itemCountLines = new ToolStripMenuItem
             {
-                Text = "Erstelle Webpage"
+                Text = "Create Masked Images"
             };
 
             itemCountLines.Click += OnEnlargeImage;
 
-            //  Add the item to the context menu.
             menu.Items.Add(itemCountLines);
 
-            //  Return the menu.
             return menu;
         }
 

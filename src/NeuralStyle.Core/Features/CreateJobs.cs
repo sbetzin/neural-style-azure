@@ -26,8 +26,8 @@ namespace NeuralStyle.Core.Features
 
         public static void CreateNew(BlobContainerClient container, QueueClient queue, string[] images, string[] styles, JobSettings settings)
         {
-            container.UploadImages(images);
-            container.UploadImages(styles);
+            //container.UploadImages(images);
+            //container.UploadImages(styles);
 
             queue.CreateJobs(images, styles, settings);
         }

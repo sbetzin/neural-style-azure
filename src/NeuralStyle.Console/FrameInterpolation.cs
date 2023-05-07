@@ -22,7 +22,7 @@ namespace NeuralStyle.Console
 
             //CreateOneInterpolation(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out\elena_prokopenko_tanz7_enhanced_mask_add_one");
 
-            CreateInterpolationsForOutPath(settings, @"C:\Users\gensb\OneDrive\_nft\video\street_woman_01_move_01\out\");
+            CreateInterpolationsForOutPath(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out");
 
         }
 

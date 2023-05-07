@@ -46,29 +46,31 @@ def handle_message(message):
         video_name = job["video_name"]
         
         logger.info(f"start mask-transfer in path {video_name}")
-        command = ["python", "/app/main.py"]
-
-        for key, value in job.items():
-            if value == False:
-                continue
-
-            command.append(f"--{key}={value}")
-
-        logger.info(f'Starting command: {" ".join(command)}')
-
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-
-        for line in process.stdout:
-            logger.info(line.strip())
-
-        _, stderr = process.communicate()
-
-        if stderr:
-            logger.error(f"Fehlermeldungen:\n{stderr}")
+        RunPython("/app/main.py", job)
 
     except Exception as e:
         logger.exception(e)
  
+def RunPython(command, job):
+    command = ["python", command]
+
+    for key, value in job.items():
+        if value == False:
+            continue
+
+        command.append(f"--{key}={value}")
+
+    logger.info(f'Starting command: {" ".join(command)}')
+
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    for line in process.stdout:
+        print(line.strip())
+
+    _, stderr = process.communicate()
+
+    if stderr:
+        logger.error(f"Fehlermeldungen:\n{stderr}")
 
 def poll_queue(queue_client):
     try:

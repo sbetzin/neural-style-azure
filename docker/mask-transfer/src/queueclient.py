@@ -46,25 +46,25 @@ def handle_message(message):
         video_name = job["video_name"]
         
         logger.info(f"start mask-transfer in path {video_name}")
-        command = "python /app/main.py"
+        command = ["python", "/app/main.py"]
 
         for key, value in job.items():
             if value == False:
                 continue
-            
-            command += f" --{key}={value}"
 
-        logger.info(f'Starting command={command}')
+            command.append(f"--{key}={value}")
 
-        with subprocess.Popen(["python", command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) as process:
-            for line in process.stdout:
-                print(line.strip())
-   
-        stderr = process.communicate()
+        logger.info(f'Starting command: {" ".join(command)}')
 
-        # logger.info(f"Output des Skripts:\n{stdout.decode('utf-8')}")
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        for line in process.stdout:
+            print(line.strip())
+
+        _, stderr = process.communicate()
+
         if stderr:
-            logger.error(f"Fehlermeldungen:\n{stderr.decode('utf-8')}")
+            logger.error(f"Fehlermeldungen:\n{stderr}")
 
     except Exception as e:
         logger.exception(e)

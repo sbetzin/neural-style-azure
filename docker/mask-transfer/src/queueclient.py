@@ -7,6 +7,7 @@ import os.path
 import logging
 import argparse
 import subprocess
+import threading
 
 from azure.storage.queue import QueueClient
 from azure.core.exceptions import ResourceExistsError
@@ -46,31 +47,42 @@ def handle_message(message):
         video_name = job["video_name"]
         
         logger.info(f"start mask-transfer in path {video_name}")
-        RunPython("/app/main.py", job)
+        command_line = create_commandline_from_job("/app/main.py", job)
+        run_python(command_line)
 
     except Exception as e:
         logger.exception(e)
  
-def RunPython(command, job):
-    command = ["python", command]
+def read_stdout(process):
+    for line in process.stdout:
+        print(line.strip())
+
+def create_commandline_from_job(command, job):
+    command_line = ["python", command]
 
     for key, value in job.items():
         if value == False:
             continue
 
-        command.append(f"--{key}={value}")
+        command_line.append(f"--{key}={value}")
+    
+    return command_line
 
-    logger.info(f'Starting command: {" ".join(command)}')
+def run_python(command_line):
+    logger.info(f'Starting command: {" ".join(command_line)}')
 
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    for line in process.stdout:
-        print(line.strip())
+    stdout_thread = threading.Thread(target=read_stdout, args=(process,))
+    stdout_thread.start()
 
     _, stderr = process.communicate()
+    stdout_thread.join()
 
     if stderr:
         logger.error(f"Fehlermeldungen:\n{stderr}")
+ 
+
 
 def poll_queue(queue_client):
     try:

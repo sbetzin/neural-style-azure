@@ -9,7 +9,8 @@ import logging
 import argparse
 import yaml
 import shutil
-
+import subprocess
+import threading
 from azure.storage.queue import QueueClient
 from azure.core.exceptions import ResourceExistsError
 
@@ -76,14 +77,36 @@ def handle_message(message):
         shutil.copyfile(content_file, local_content_file)
 
         logger.info(f"start 3d-inpainting with Content={content_name}")
-        command = f'python main.py --config default.yml'
-        os.system(command)
+        command_line = ["python", "/app/main.py"]
+        command_line.append(f"--config default.yml")
+
+        run_python(command_line)
  
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)
     except Exception as e:
         logger.exception(e)
 
+def read_stdout(process):
+    for line in process.stdout:
+        print(line.strip())
+
+
+def run_python(command_line):
+    logger.info(f'Starting command: {" ".join(command_line)}')
+
+    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    stdout_thread = threading.Thread(target=read_stdout, args=(process,))
+    stdout_thread.start()
+
+    _, stderr = process.communicate()
+    stdout_thread.join()
+
+    if stderr:
+        logger.error(f"Fehlermeldungen:\n{stderr}")
+ 
+        
 def find_image_file(folder_path, content_name):
     for root, _, files in os.walk(folder_path):
         for file in files:

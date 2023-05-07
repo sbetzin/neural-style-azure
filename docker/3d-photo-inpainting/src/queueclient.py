@@ -89,7 +89,7 @@ def handle_message(message):
 
 def read_stdout(process):
     for line in process.stdout:
-        print(line.strip())
+        logger.info(line.strip())
 
 
 def run_python(command_line):

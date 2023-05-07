@@ -58,7 +58,7 @@ def handle_message(message):
 
 def read_stdout(process):
     for line in process.stdout:
-        print(line.strip())
+        logger.info(line.strip())
 
 
 def create_commandline_from_job(command, job):

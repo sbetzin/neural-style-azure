@@ -47,25 +47,25 @@ def handle_message(message):
         target_path = job["target_path"]
         
         logger.info(f"start frame-interpolation in path {target_path}")
-        command = "python /app/main.py"
+        command = ["python", "/app/main.py"]
 
         for key, value in job.items():
             if value == False:
                 continue
-            
-            command += f" --{key}={value}"
 
-        logger.info(f'Starting command={command}')
+            command.append(f"--{key}={value}")
+
+        logger.info(f'Starting command: {" ".join(command)}')
 
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         for line in process.stdout:
-            logger.info(line.strip())
+            print(line.strip())
 
-        _, stderr = process.communicate()
+        stdout, stderr = process.communicate()
+
         if stderr:
-            logger.error(f"Fehlermeldungen:\n{stderr.decode('utf-8')}")
-
+            logger.error(f"Fehlermeldungen:\n{stderr}")
  
         logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)

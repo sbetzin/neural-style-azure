@@ -16,5 +16,6 @@ namespace NeuralStyle.Core.Model
         public string Optimizer { get; set; } = "lbfgs";
         public string Init { get; set; } = "content";
         public string InPath { get; set; }
+        public string OutPath { get; set; }
     }
 }

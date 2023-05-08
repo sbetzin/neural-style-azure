@@ -18,7 +18,6 @@ namespace NeuralStyle.Console
             //MaskTransfer.Start();
             //FolderCheck.IsInFolder(@"C:\Users\gensb\OneDrive\_nft\video2\norwegen-19_move", @"C:\Users\gensb\OneDrive\_nft\video");
 
-
             Logger.Log("");
             Logger.Log("Done");
 

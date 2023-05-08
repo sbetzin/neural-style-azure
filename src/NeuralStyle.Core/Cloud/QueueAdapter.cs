@@ -12,14 +12,14 @@ namespace NeuralStyle.Core.Cloud
 {
     public static class QueueAdapter
     {
-        public static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings, string basePath)
+        public static void CreateJobs(this QueueClient queue, IEnumerable<string> sourceFiles, IEnumerable<string> styleFiles, JobSettings settings, string basePath, string outPath)
         {
             var jobs = styleFiles.Product(sourceFiles).ToList();
 
             Logger.Log($"Creating {jobs.Count} jobs");
             foreach (var (styleFile, sourceFile) in jobs)
             {
-                queue.CreateNeuralStyleTransferJob(sourceFile, styleFile, settings, basePath);
+                queue.CreateNeuralStyleTransferJob(sourceFile, styleFile, settings, basePath, outPath);
             }
         }
 
@@ -30,14 +30,16 @@ namespace NeuralStyle.Core.Cloud
             return queueClient;
         }
 
-        public static void CreateNeuralStyleTransferJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings, string basePath)
+        public static void CreateNeuralStyleTransferJob(this QueueClient queue, string sourceFile, string styleFile, JobSettings settings, string basePath, string outPath)
         {
             var sourcePath = Path.GetDirectoryName( sourceFile);
-            var relativePath = sourcePath.FindRelativeUnixPath(basePath);
+            var relativeSourcePath = sourcePath.FindRelativeUnixPath(basePath);
+            var relativeOutPath = outPath.FindRelativeUnixPath(basePath);
 
             var job = new NeuralStyleTransferJob
             {
-                InPath = relativePath,
+                InPath = relativeSourcePath,
+                OutPath = relativeOutPath,
                 ContentName = Path.GetFileName(sourceFile),
                 StyleName = Path.GetFileName(styleFile),
                 Iterations = settings.Iterations,

@@ -55,7 +55,7 @@ def handle_message(message):
         directory_in = os.path.join("/nft", job["InPath"])        
         directory_content = "/app/images/in/"
         directory_style = "/app/images/style/"
-        directory_out = "/nft/out/result/"
+        directory_out = os.path.join("/nft", job["OutPath"])
         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_style, exist_ok=True)
@@ -72,7 +72,7 @@ def handle_message(message):
         logger.info(f"searching content={content_name} in folder={directory_in}")
         content_file = find_image_file(directory_in, content_name)
         style_file = find_image_file('/nft/style', style_name)
-        logger.info(f"found content_file={content_file} and style_file={style_file}" )
+        logger.info(f"found content_file={content_file} and style_file={style_file} to out_path={directory_out}" )
         
         shutil.copyfile(content_file, local_content_file)
         shutil.copyfile(style_file, local_style_file)
@@ -81,7 +81,7 @@ def handle_message(message):
         target_shape = image_tools.find_target_size(local_content_file, job["Size"])
         config['target_shape'] = target_shape
         
-        logger.info("start style transfer with Source=%s, Style=%s, Target=%s", content_name, style_name, out_file_origcolor_0)
+        logger.info(f"start style transfer with Source={content_name}, Style={style_name}, Target={out_file_origcolor_0}")
         neural_style_transfer(logger, config)
 
         logger.info("creating original colors")

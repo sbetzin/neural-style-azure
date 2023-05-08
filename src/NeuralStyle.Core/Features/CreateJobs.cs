@@ -17,25 +17,25 @@ namespace NeuralStyle.Core.Features
             Logger.Log($"Found {missing.Count} missing combinations");
 
 
-            missing.ForEach(pair => queue.CreateNeuralStyleTransferJob(pair.In, pair.Style, settings, basePath));
+            missing.ForEach(pair => queue.CreateNeuralStyleTransferJob(pair.In, pair.Style, settings, basePath, outPath));
         }
 
-        public static void CreateNew(QueueClient queue, string[] images, string[] styles, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string[] images, string[] styles, JobSettings settings, string basePath, string outPath)
         {
             //container.UploadImages(images);
             //container.UploadImages(styles);
 
-            queue.CreateJobs(images, styles, settings, basePath);
+            queue.CreateJobs(images, styles, settings, basePath, outPath);
         }
 
-        public static void CreateNew(QueueClient queue, string image, string[] styles, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string image, string[] styles, JobSettings settings, string basePath,string outPath)
         {
-            CreateNew(queue, new[] { image }, styles, settings, basePath);
+            CreateNew(queue, new[] { image }, styles, settings, basePath, outPath);
         }
 
-        public static void CreateNew(QueueClient queue, string image, string style, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string image, string style, JobSettings settings, string basePath, string outPath)
         {
-            CreateNew(queue, new[] { image }, new[] { style }, settings,basePath);
+            CreateNew(queue, new[] { image }, new[] { style }, settings,basePath, outPath);
         }
     }
 }

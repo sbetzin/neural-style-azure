@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
@@ -20,10 +21,11 @@ namespace NeuralStyle.Console
             var video = @"C:\Users\gensb\OneDrive\_nft\video";
             var stylePath = $@"{images}\style";
             var inPath = $@"{images}\in";
-            var videoPath = $@"{images}\video";
+            var videoPath = $@"{basePath}\video";
             var inTodoPath = $@"{images}\in\todo";
-            var inVideoImagesPath = $@"{video}\lofoten_reine_slide\in";
+            var videoName = $@"lofoten_reine_slide";
             var outPath = $@"{images}\out";
+            var resultPath = $@"{outPath}\result";
             var sharePath = $@"{images}\share";
 
             var singleStyle = new[] { $@"{stylePath}\crow_ayahuasca_2.jpg", };
@@ -32,7 +34,7 @@ namespace NeuralStyle.Console
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
+            var inVideoImages = Directory.GetFiles($@"{videoPath}\{videoName}\in", "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
             var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
@@ -75,7 +77,14 @@ namespace NeuralStyle.Console
             //CreateSeries.Fixed(singlePic, singleStyle);
 
             //CreateJobs.CreateNew(queue, allIn, singleStyle, settings);
-            CreateJobs.CreateNew(queue, inVideoImages, specificStylesInShare, settings, basePath);
+
+            foreach (var style in specificStylesInShare)
+            {
+                var styleName = Path.GetFileName(style).Split(new[] { "." }, StringSplitOptions.None)[0];
+                CreateJobs.CreateNew(queue, inVideoImages, new[] { style }, settings, basePath, $@"{videoPath}\out\{styleName}");
+            }
+
+
 
             //CreateJobs.CreateNew(queue, allInDone, singleStyle, settings);
             //CreateJobs.CreateNew(queue, allInDone, todoStyles, settings);

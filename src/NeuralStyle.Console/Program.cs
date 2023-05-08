@@ -14,8 +14,8 @@ namespace NeuralStyle.Console
 
             //NeuralStyleTransfer.Start();
             //FrameInterpolation.Start();
-            //_3dPhotoInpainting.Start();
-            MaskTransfer.Start();
+            _3dPhotoInpainting.Start();
+            //MaskTransfer.Start();
             //FolderCheck.IsInFolder(@"C:\Users\gensb\OneDrive\_nft\video2\norwegen-19_move", @"C:\Users\gensb\OneDrive\_nft\video");
 
 

@@ -78,7 +78,7 @@ def handle_message(message):
 
         logger.info(f"start 3d-inpainting with Content={content_name}")
         command_line = ["python", "/app/main.py"]
-        command_line.append(f"--config default.yml")
+        command_line.append(f"--config=default.yml")
 
         run_python(command_line)
  

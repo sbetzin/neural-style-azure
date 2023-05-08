@@ -11,20 +11,16 @@ namespace NeuralStyle.Core.Features
 {
     public static class CreateJobs
     {
-        public static void CreateMissing(BlobContainerClient container, QueueClient queue, string inPath, string stylePath, string outPath, JobSettings settings, string basePath)
+        public static void CreateMissing(QueueClient queue, string inPath, string stylePath, string outPath, JobSettings settings, string basePath)
         {
-            var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var missing = FindMissingCombinations.Run(inPath, stylePath, outPath);
             Logger.Log($"Found {missing.Count} missing combinations");
 
-            container.UploadImages(allIn);
-            container.UploadImages(allStyles);
 
             missing.ForEach(pair => queue.CreateNeuralStyleTransferJob(pair.In, pair.Style, settings, basePath));
         }
 
-        public static void CreateNew(BlobContainerClient container, QueueClient queue, string[] images, string[] styles, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string[] images, string[] styles, JobSettings settings, string basePath)
         {
             //container.UploadImages(images);
             //container.UploadImages(styles);
@@ -32,14 +28,14 @@ namespace NeuralStyle.Core.Features
             queue.CreateJobs(images, styles, settings, basePath);
         }
 
-        public static void CreateNew(BlobContainerClient container, QueueClient queue, string image, string[] styles, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string image, string[] styles, JobSettings settings, string basePath)
         {
-            CreateNew(container, queue, new[] { image }, styles, settings, basePath);
+            CreateNew(queue, new[] { image }, styles, settings, basePath);
         }
 
-        public static void CreateNew(BlobContainerClient container, QueueClient queue, string image, string style, JobSettings settings, string basePath)
+        public static void CreateNew(QueueClient queue, string image, string style, JobSettings settings, string basePath)
         {
-            CreateNew(container, queue, new[] { image }, new[] { style }, settings,basePath);
+            CreateNew(queue, new[] { image }, new[] { style }, settings,basePath);
         }
     }
 }

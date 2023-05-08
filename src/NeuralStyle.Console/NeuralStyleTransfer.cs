@@ -11,10 +11,8 @@ namespace NeuralStyle.Console
     {
         public static void Start()
         {
-            var queue = Factory.ConstructQueue("test");
-            var priorityQueue = Factory.ConstructQueue("priority-jobs");
-
-            var container = Factory.ConstructContainer("images");
+            var queue = Factory.ConstructQueue("jobs-stylize");
+            //var container = Factory.ConstructContainer("images");
             //var webContainer = Factory.ConstructContainer("$web");
 
             var images = @"C:\Data\images";
@@ -71,16 +69,16 @@ namespace NeuralStyle.Console
             //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "frame*.jpg", outPath, videoPath);
 
 
-            //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
+            //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
+            //CreateSeries.Fixed(singlePic, singleStyle);
 
-            //CreateJobs.CreateNew(container, queue, allIn, singleStyle, settings);
-            CreateJobs.CreateNew(container, queue, inVideoImages, specificStylesInShare, settings, basePath);
+            //CreateJobs.CreateNew(queue, allIn, singleStyle, settings);
+            CreateJobs.CreateNew(queue, inVideoImages, specificStylesInShare, settings, basePath);
 
-            //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
-            //CreateJobs.CreateNew(container, queue, allInDone, todoStyles, settings);
+            //CreateJobs.CreateNew(queue, allInDone, singleStyle, settings);
+            //CreateJobs.CreateNew(queue, allInDone, todoStyles, settings);
 
         }
     }

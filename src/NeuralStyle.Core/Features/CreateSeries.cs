@@ -12,7 +12,7 @@ namespace NeuralStyle.Core.Features
 {
     public static class CreateSeries
     {
-        public static void Fixed(QueueClient queue, BlobContainerClient container, string[] singlePic, string[] singleStyle, string basePath)
+        public static void Fixed(QueueClient queue, string[] singlePic, string[] singleStyle, string basePath)
         {
             var min = 3e8;
             var max = 3e9;
@@ -33,11 +33,11 @@ namespace NeuralStyle.Core.Features
                     Init = "content",
                 };
 
-                CreateJobs.CreateNew(container, queue, singlePic, singleStyle, settings, basePath);
+                CreateJobs.CreateNew(queue, singlePic, singleStyle, settings, basePath);
             }
         }
 
-        public static void FromThumbs(QueueClient queue, BlobContainerClient container, string thumbsPath, string[] styles, string basePath)
+        public static void FromThumbs(QueueClient queue, string thumbsPath, string[] styles, string basePath)
         {
             var images = Directory.GetFiles(thumbsPath, "*.jpg", SearchOption.TopDirectoryOnly);
 
@@ -66,7 +66,7 @@ namespace NeuralStyle.Core.Features
                         TargetName = $"{styleName}_c#origcolor#_{step:D4}.jpg",
                     };
 
-                    CreateJobs.CreateNew(container, queue, images[step], style, settings, basePath);
+                    CreateJobs.CreateNew(queue, images[step], style, settings, basePath);
                 }
             }
         }

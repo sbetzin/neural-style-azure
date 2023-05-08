@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace NeuralStyle.Core
 {
@@ -40,6 +41,10 @@ namespace NeuralStyle.Core
 
         public static string FindRelativeUnixPath(this string fullPath, string basePath)
         {
+            if (!basePath.EndsWith("/"))
+            {
+                basePath = $@"{basePath}\";
+            }
             var baseUri = new Uri(basePath, UriKind.Absolute);
             var targetUri = new Uri(fullPath , UriKind.Absolute);
 

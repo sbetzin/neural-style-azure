@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Azure.Storage.Queues;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Features;
 using NeuralStyle.Core.Imaging;
@@ -13,20 +14,15 @@ namespace NeuralStyle.Console
         public static void Start()
         {
             var queue = Factory.ConstructQueue("jobs-stylize");
-            //var container = Factory.ConstructContainer("images");
-            //var webContainer = Factory.ConstructContainer("$web");
 
-            var images = @"C:\Data\images";
-            var basePath = @"C:\Users\gensb\OneDrive\_nft\";
-            var video = @"C:\Users\gensb\OneDrive\_nft\video";
-            var stylePath = $@"{images}\style";
-            var inPath = $@"{images}\in";
+            var basePath = @"C:\Users\gensb\OneDrive\_nft";
+            var stylePath = $@"{basePath}\style";
+            var inPath = $@"{basePath}\in";
             var videoPath = $@"{basePath}\video";
-            var inTodoPath = $@"{images}\in\todo";
-            var videoName = $@"lofoten_reine_slide";
-            var outPath = $@"{images}\out";
+            var sharePath = $@"{basePath}\share";
+
+            var outPath = $@"{basePath}\out";
             var resultPath = $@"{outPath}\result";
-            var sharePath = $@"{images}\share";
 
             var singleStyle = new[] { $@"{stylePath}\crow_ayahuasca_2.jpg", };
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo", "*.jpg");
@@ -34,13 +30,40 @@ namespace NeuralStyle.Console
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
 
             var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var inVideoImages = Directory.GetFiles($@"{videoPath}\{videoName}\in", "*.jpg");
-
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
-            var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
-            specificStylesInShare = specificStylesInShare.Where(File.Exists).ToArray();
+            var settings = GetDefaultSettings();
 
+            //UpdateNames.Ensure_Correct_Filenames(images);
+            SortImages.SortNewImages(resultPath, "*.jpg", outPath);
+
+            var videoName = $@"lofoten_reine_slide";
+            var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().Where(File.Exists).ToArray();
+
+            CreateVideoFrames(queue, settings, specificStylesInShare,  basePath, videoPath, videoName);
+
+            //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
+            //SortImages.CreateMissingHardlinkgs(outPath);
+
+            //CreateJobs.CreateNew(queue, allIn, singleStyle, settings);
+            //CreateJobs.CreateNew(queue, allInDone, singleStyle, settings);
+            //CreateJobs.CreateNew(queue, allInDone, todoStyles, settings);
+
+        }
+
+        private static void CreateVideoFrames(QueueClient queue, JobSettings settings, string[] styles, string basePath, string videoPath, string videoName)
+        {
+            var inVideoImages = Directory.GetFiles($@"{videoPath}\{videoName}\in", "*.jpg");
+           
+            foreach (var style in styles)
+            {
+                var styleName = Path.GetFileName(style).Split(new[] { "." }, StringSplitOptions.None)[0];
+                CreateJobs.CreateNew(queue, inVideoImages, new[] { style }, settings, basePath, $@"{videoPath}\{videoName}\out\{styleName}");
+            }
+        }
+
+        private static JobSettings GetDefaultSettings()
+        {
             var settings = new JobSettings
             {
                 Size = 1000,
@@ -65,30 +88,7 @@ namespace NeuralStyle.Console
             //Iterations = 500,
             //Init = "content",
             //};
-
-
-            //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "frame*.jpg", outPath, videoPath);
-
-
-            //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
-            //SortImages.CreateMissingHardlinkgs(outPath);
-
-            //CreateSeries.Fixed(singlePic, singleStyle);
-
-            //CreateJobs.CreateNew(queue, allIn, singleStyle, settings);
-
-            foreach (var style in specificStylesInShare)
-            {
-                var styleName = Path.GetFileName(style).Split(new[] { "." }, StringSplitOptions.None)[0];
-                CreateJobs.CreateNew(queue, inVideoImages, new[] { style }, settings, basePath, $@"{videoPath}\out\{videoName}\{styleName}");
-            }
-
-
-
-            //CreateJobs.CreateNew(queue, allInDone, singleStyle, settings);
-            //CreateJobs.CreateNew(queue, allInDone, todoStyles, settings);
-
+            return settings;
         }
     }
 }

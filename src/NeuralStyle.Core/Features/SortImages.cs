@@ -11,17 +11,17 @@ namespace NeuralStyle.Core.Features
 {
     public static class SortImages
     {
-        public static void SortNewImages(string sortImagePath, string searchPattern, string outPath, string videoPath)
+        public static void SortNewImages(string sortImagePath, string searchPattern, string outPath)
         {
             var images = sortImagePath.Get_All_Images(searchPattern, SearchOption.AllDirectories);
 
             foreach (var image in images)
             {
-                SortImage(image, outPath, videoPath);
+                SortImage(image, outPath);
             }
         }
 
-        private static void SortImage(string image, string outPath, string videoPath)
+        private static void SortImage(string image, string outPath)
         {
             Logger.Log($"Sorting {image}");
             var tags = image.GetTags();
@@ -33,37 +33,7 @@ namespace NeuralStyle.Core.Features
                 return;
             }
 
-            if (IsVideoFrame(tags.In))
-            {
-                SortVideoFrame(image, videoPath, tags, fileName);
-            }
-            else
-            {
-                SortStyledImage(image, outPath, tags, fileName);
-            }
-        }
-
-        private static void SortVideoFrame(string image, string videoPath, (string In, string Style) tags, string fileName)
-        {
-            var origColor = GetFrameImageOrigColor(image);
-
-            var targetFile = Path.Combine(videoPath, "out", tags.Style, origColor, fileName);
-
-            targetFile.EnsureDirectoryExists();
-
-            if (File.Exists(targetFile))
-            {
-                File.Delete(targetFile);
-            }
-
-            File.Move(image, targetFile);
-        }
-
-        private static bool IsVideoFrame(string tagsIn)
-        {
-            var match = Regex.Match(tagsIn, @"\d{4}");
-
-            return match.Success;
+            SortStyledImage(image, outPath, tags, fileName);
         }
 
         private static string GetFrameImageOrigColor(string image)
@@ -72,6 +42,7 @@ namespace NeuralStyle.Core.Features
 
             return match.Groups[1].Value;
         }
+
         private static void SortStyledImage(string image, string outPath, (string In, string Style) tags, string fileName)
         {
             var inFile = Path.Combine(outPath, "name", tags.In, fileName);
@@ -89,8 +60,7 @@ namespace NeuralStyle.Core.Features
 
             HardLink.Create(inFile, styleFile, true);
         }
-
-
+        
         public static void CreateMissingHardlinkgs(string outPath)
         {
             var namePath = Path.Combine(outPath, "name");

@@ -97,7 +97,6 @@ def find_image_file(folder_path, content_name):
     for root, _, files in os.walk(folder_path):
         logger.info(f"walking {folder_path}. Found {len(files)} files")
         for file in files:
-            logger.info(file)
             if file.lower().endswith(".jpg") and file == content_name:
                 return os.path.join(root, file)
 
@@ -125,26 +124,6 @@ def transfer_job_param_to_config(job, config):
     config['model'] =  job["Model"]
     config['init_method'] = job["Init"]
     config['max_size'] = job["Size"]
-
-def download_file(blob_service_client, source_name, source_file):
-    blob_client = blob_service_client.get_blob_client(container="images", blob=source_name)
-    
-    with open(source_file, "wb") as download_file:
-        download_file.write(blob_client.download_blob().readall())
-
-def upload_file(blob_service_client, target_name, file_name):
-    try:
-        if os.path.exists(file_name):
-            logger.info ("uploading file %s", file_name)
-            
-            blob_client = blob_service_client.get_blob_client(container="results", blob=target_name)
-            with open(file_name, "rb") as data:
-                blob_client.upload_blob(data, overwrite=True)
-
-        else:
-            logger.info("file %s does not exit", file_name)
-    except Exception as e:
-        logger.exception(e)
 
 def poll_queue(queue_client):
     try:

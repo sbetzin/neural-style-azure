@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Azure.Storage.Blobs;
-using Azure.Storage.Queues;
+﻿using Azure.Storage.Queues;
 using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Model;
 
@@ -22,9 +17,6 @@ namespace NeuralStyle.Core.Features
 
         public static void CreateNew(QueueClient queue, string[] images, string[] styles, JobSettings settings, string basePath, string outPath)
         {
-            //container.UploadImages(images);
-            //container.UploadImages(styles);
-
             queue.CreateJobs(images, styles, settings, basePath, outPath);
         }
 

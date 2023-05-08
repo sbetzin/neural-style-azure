@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Azure.Storage;
 using Azure.Storage.Queues;
 using NeuralStyle.Core.Model;
 using Newtonsoft.Json;

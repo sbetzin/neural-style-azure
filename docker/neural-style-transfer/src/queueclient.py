@@ -97,6 +97,7 @@ def find_image_file(folder_path, content_name):
     for root, _, files in os.walk(folder_path):
         logger.info(f"walking {len(files)}")
         for file in files:
+            logger.info(file)
             if file.lower().endswith(".jpg") and file == content_name:
                 return os.path.join(root, file)
 

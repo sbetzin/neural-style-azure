@@ -52,7 +52,7 @@ def handle_message(message):
         target_name_origcolor_0 = job["TargetName"].replace("#origcolor#", "0")
         target_name_origcolor_1 = job["TargetName"].replace("#origcolor#", "1")
  
-        directory_in = os.path.join("/nft/in", job["InPath"])        
+        directory_in = os.path.join("/nft", job["InPath"])        
         directory_content = "/app/images/in/"
         directory_style = "/app/images/style/"
         directory_out = "/nft/out/result/"

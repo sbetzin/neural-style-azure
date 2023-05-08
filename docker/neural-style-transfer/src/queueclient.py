@@ -187,7 +187,7 @@ def parse_args(argv):
     desc = "QueueClient for tensorflow implementation of Neural-Style"  
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--queue_name', type=str, default='jobs', help='name of the queue to poll')
+    parser.add_argument('--queue_name', type=str, default='jobs-stylize', help='name of the queue to poll')
     args = parser.parse_args(argv)
 
     return args
@@ -203,7 +203,7 @@ def main(argv):
     if not os.getenv("AzureStorageQueueName") == None:
         args.queue_name = os.getenv("AzureStorageQueueName")
         
-    queue_name ="test"
+    queue_name ="jobs-stylize"
     queue_client = setup_azure_queue(azure_connection_string, queue_name)
   
     logger.info ("preparing azure resources")

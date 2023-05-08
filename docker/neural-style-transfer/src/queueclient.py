@@ -69,7 +69,7 @@ def handle_message(message):
         config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)
         
-        logger.info(f"searching content in {directory_in}")
+        logger.info(f"searching content={content_name} in folder={directory_in}")
         content_file = find_image_file(directory_in, content_name)
         style_file = find_image_file('/nft/style', style_name)
         logger.info(f"found content_file={content_file} and style_file={style_file}" )

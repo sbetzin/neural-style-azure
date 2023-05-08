@@ -81,7 +81,7 @@ namespace NeuralStyle.Console
             foreach (var style in specificStylesInShare)
             {
                 var styleName = Path.GetFileName(style).Split(new[] { "." }, StringSplitOptions.None)[0];
-                CreateJobs.CreateNew(queue, inVideoImages, new[] { style }, settings, basePath, $@"{videoPath}\out\{styleName}");
+                CreateJobs.CreateNew(queue, inVideoImages, new[] { style }, settings, basePath, $@"{videoPath}\out\{videoName}\{styleName}");
             }
 
 

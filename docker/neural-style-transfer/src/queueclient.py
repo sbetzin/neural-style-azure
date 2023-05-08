@@ -95,7 +95,7 @@ def handle_message(message):
 
 def find_image_file(folder_path, content_name):
     for root, _, files in os.walk(folder_path):
-        logger.info(f"walking {len(files)}")
+        logger.info(f"walking {folder_path}. Found {len(files)} files")
         for file in files:
             logger.info(file)
             if file.lower().endswith(".jpg") and file == content_name:

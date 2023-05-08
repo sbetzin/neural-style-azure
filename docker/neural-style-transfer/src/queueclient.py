@@ -69,10 +69,10 @@ def handle_message(message):
         config = create_config(directory_content, directory_style, directory_out, content_name, style_name, out_file_origcolor_0)
         transfer_job_param_to_config(job, config)
         
-        logger.info(f"searching in content in {directory_in}")
+        logger.info(f"searching content in {directory_in}")
         content_file = find_image_file(directory_in, content_name)
         style_file = find_image_file('/nft/style', style_name)
-        logger.info(f"found{content_file} and {style_file}" )
+        logger.info(f"found content_file={content_file} and style_file={style_file}" )
         
         shutil.copyfile(content_file, local_content_file)
         shutil.copyfile(style_file, local_style_file)
@@ -95,6 +95,7 @@ def handle_message(message):
 
 def find_image_file(folder_path, content_name):
     for root, _, files in os.walk(folder_path):
+        logger.info(f"walking {len(files)}")
         for file in files:
             if file.lower().endswith(".jpg") and file == content_name:
                 return os.path.join(root, file)

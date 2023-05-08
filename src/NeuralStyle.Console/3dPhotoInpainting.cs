@@ -15,11 +15,11 @@ namespace NeuralStyle.Console
             var fps = 30;
             var numFrames = 180;
             var longerSizeLen = 1024;
-            var depthMode = 0;
+            var depthMode = 2;
 
 
             var basicSettings = CreateBasicSettings(contentName, depthMode, fps, numFrames, longerSizeLen);
-            var settings = AddZoomSettings(basicSettings);
+            var settings = AddSlideMoveSettings(basicSettings);
 
             CreateJob(settings);
         }
@@ -37,7 +37,7 @@ namespace NeuralStyle.Console
             var settings = new Dictionary<string, object>
             {
                 { "content_name",  contentName},
-                { "result_name", $"{name}_zoom_out_move.mp4" },
+                { "result_name", $"{name}_d{depthMode}_zoom_out_move.mp4" },
                 { "recreate_depth_mesh", false },
                 { "interpolation_kind", "cubic" },
                 { "depth_mode", depthMode },
@@ -48,6 +48,8 @@ namespace NeuralStyle.Console
             };
             return settings;
         }
+
+
         private static Dictionary<string, object> AddZoomSettings(Dictionary<string, object> settings)
         {
 
@@ -73,5 +75,30 @@ namespace NeuralStyle.Console
 
             return united.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
+        
+        private static Dictionary<string, object> AddSlideMoveSettings(Dictionary<string, object> settings)
+        {
+
+            var addedSettings = new Dictionary<string, object>
+            {
+                {
+                    "coordinates", new[]
+                    {
+                        new[] { 0.0, 0.0, 0.0 },
+                        new[] {-0.02,-0.02,0},
+                        new[] { 0,-0.01,0.01 },
+                        new[] {0.01,0,0.015},
+                        new[] { 0.02,0.01,0.02},
+                        new[] { 0.0, 0.0, 0.0 },
+                    }
+                },
+            };
+            var united= settings.Union(addedSettings);
+
+            return united.ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
+
+
+
     }
 }

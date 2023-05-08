@@ -18,12 +18,13 @@ namespace NeuralStyle.Console
             //var webContainer = Factory.ConstructContainer("$web");
 
             var images = @"C:\Data\images";
+            var basePath = @"C:\Users\gensb\OneDrive\_nft\";
             var video = @"C:\Users\gensb\OneDrive\_nft\video";
             var stylePath = $@"{images}\style";
             var inPath = $@"{images}\in";
             var videoPath = $@"{images}\video";
             var inTodoPath = $@"{images}\in\todo";
-            var inVideoImagesPath = $@"{video}\norwegen-19_move\in";
+            var inVideoImagesPath = $@"{video}\lofoten_reine_slide\in";
             var outPath = $@"{images}\out";
             var sharePath = $@"{images}\share";
 
@@ -36,7 +37,7 @@ namespace NeuralStyle.Console
             var inVideoImages = Directory.GetFiles(inVideoImagesPath, "*.jpg");
 
             var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
-            var specificStylesInShare = Directory.GetFiles(sharePath, "norwegen-19*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
+            var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().ToArray();
 
             specificStylesInShare = specificStylesInShare.Where(File.Exists).ToArray();
 
@@ -67,7 +68,7 @@ namespace NeuralStyle.Console
 
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "frame*.jpg", outPath, videoPath);
+            //SortImages.SortNewImages(@"C:\Users\gensb\OneDrive\neuralimages", "frame*.jpg", outPath, videoPath);
 
 
             //CreateJobs.CreateMissing(container, queue, inDonePath, stylePath, outPath, settings);
@@ -75,8 +76,8 @@ namespace NeuralStyle.Console
 
             //CreateSeries.Fixed(queue, container, singlePic, singleStyle);
 
-            CreateJobs.CreateNew(container, queue, allIn, singleStyle, settings);
-            //CreateJobs.CreateNew(container, queue, inVideoImages, specificStylesInShare, settings);
+            //CreateJobs.CreateNew(container, queue, allIn, singleStyle, settings);
+            CreateJobs.CreateNew(container, queue, inVideoImages, specificStylesInShare, settings, basePath);
 
             //CreateJobs.CreateNew(container, queue, allInDone, singleStyle, settings);
             //CreateJobs.CreateNew(container, queue, allInDone, todoStyles, settings);

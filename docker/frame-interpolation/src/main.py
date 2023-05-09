@@ -1,5 +1,5 @@
 import os
-
+import shutil
 # 0: Alle Meldungen werden angezeigt (Standardverhalten)
 # 1: Nur Warnungen und Fehlermeldungen werden angezeigt
 # 2: Nur Fehlermeldungen werden angezeigt
@@ -15,12 +15,6 @@ from PIL import Image
 from eval import interpolator as interpolator_lib
 from eval import util
 import argparse
-
-def clear_path(path: str):
-    mp4_files = glob.glob(os.path.join(path, "*.mp4"))
-    for file in mp4_files:
-        print(f'   removing {file}')
-        os.remove(file)
 
 def get_files(path: str, extensions) -> list:
     all_files = os.listdir(path)
@@ -73,9 +67,9 @@ def main(target_path: str, out_name: str, fps: int, times_to_interpolate: int, b
     print("GPUs Available: ", len(gpus))
 
     intermediate_path = f'/intermediate'
+    
+    shutil.rmtree(intermediate_path, ignore_errors=True)
     os.makedirs(intermediate_path,exist_ok=True)
-
-    clear_path(intermediate_path)
 
     input_files = get_files(target_path, ['.jpg'])
     print (f'Found {len(input_files)} input files')

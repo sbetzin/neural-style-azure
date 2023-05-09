@@ -22,6 +22,18 @@ logging.basicConfig(
 logger = logging.getLogger("queueclient")
 logger.setLevel(logging.INFO)
 
+# Erstellen Sie einen FileHandler
+file_handler = logging.FileHandler("/nft/log/frameinterpolation.log")
+
+# Erstellen Sie das Formatter-Objekt
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+
+# Weisen Sie das Formatter-Objekt dem FileHandler zu
+file_handler.setFormatter(formatter)
+
+# Fügen Sie den FileHandler zum Logger hinzu
+logger.addHandler(file_handler)
+
 # Only show error messages for the azure core. otherwise the console is spammed with debug messages
 azure_logger = logging.getLogger("azure.core")
 azure_logger.setLevel(logging.ERROR)

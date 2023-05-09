@@ -9,7 +9,7 @@ namespace NeuralStyle.Console
 {
     public static class MaskTransfer
     {
-        public static void Start()
+        public static void Start(string basePath)
         {
             var settings = new Dictionary<string, object>
             {

@@ -12,10 +12,13 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            //NeuralStyleTransfer.Start();
-            //FrameInterpolation.Start();
-            //_3dPhotoInpainting.Start();
-            MaskTransfer.Start();
+            var basePath = @"C:\Users\gensb\OneDrive\_nft";
+
+            //NeuralStyleTransfer.Start(basePath);
+            FrameInterpolation.Start(basePath);
+            //_3dPhotoInpainting.Start(basePath);
+            //MaskTransfer.Start(basePath);
+
             //FolderCheck.IsInFolder(@"C:\Users\gensb\OneDrive\_nft\video2\norwegen-19_move", @"C:\Users\gensb\OneDrive\_nft\video");
 
             Logger.Log("");

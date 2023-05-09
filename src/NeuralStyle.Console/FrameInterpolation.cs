@@ -7,7 +7,7 @@ namespace NeuralStyle.Console
 {
     public class FrameInterpolation
     {
-        public static void Start()
+        public static void Start(string basePath)
         {
             var settings = new Dictionary<string, object>
             {
@@ -20,14 +20,17 @@ namespace NeuralStyle.Console
                 {"out_name" ,"out.mp4"}
             };
 
-            CreateOneInterpolation(settings, @"C:\Users\gensb\OneDrive\_nft\video\lofoten_reine_slide\out\amashiro_01_enhanced_mask_add_nearest");
-
-            //CreateInterpolationsForOutPath(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out");
+            var videoName = "lofoten_reine_slide";
+            var maskedOutName = "amashiro_01_enhanced_mask_add_nearest";
+           
+            //CreateOneInterpolation(settings, basePath, videoName, maskedOutName);
+            CreateInterpolationsForOutPath(settings, basePath, videoName);
 
         }
 
-        private static void CreateInterpolationsForOutPath(Dictionary<string, object> settings, string outPath)
+        private static void CreateInterpolationsForOutPath(Dictionary<string, object> settings, string basePath, string videoName)
         {
+            var outPath = Path.Combine(basePath, "video", videoName, "out");
             var folders = Directory.GetDirectories(outPath);
 
             foreach (var folder in folders)
@@ -35,24 +38,26 @@ namespace NeuralStyle.Console
                 var jpegFiles = Directory.GetFiles(folder, "*.jpg");
                 var mp4Files = Directory.GetFiles(folder, "*.mp4");
 
-                if (jpegFiles.Length > 0 && mp4Files.Length == 0)
+                if (jpegFiles.Length <= 0 || mp4Files.Length != 0)
                 {
-                    CreateOneInterpolation(settings, folder);
+                    continue;
                 }
+
+                var maskedOutName = Path.GetFileName(folder);
+                CreateOneInterpolation(settings, basePath, videoName, maskedOutName);
             }
         }
 
-        private static void CreateOneInterpolation(Dictionary<string, object> settings, string videoPath)
+        private static void CreateOneInterpolation(Dictionary<string, object> settings, string basePath, string videoName, string maskedOutName)
         {
+            var videoPath = Path.Combine(basePath, "video", videoName, "out", maskedOutName);
             Logger.Log($"creating frame-interpolation job for {videoPath}");
 
             var frameInterpolationQueue = Factory.ConstructQueue("jobs-frame-interpolation");
-            var basePath = @"C:\Users\gensb\OneDrive\_nft";
             var unixPath = "/nft/" + videoPath.FindRelativeUnixPath(basePath);
 
-            var folderName = new DirectoryInfo(videoPath).Name;
             var timesToInterpolate = settings["times_to_interpolate"];
-            var outName = $"{folderName}_{timesToInterpolate}.mp4";
+            var outName = $"{maskedOutName}_{timesToInterpolate}.mp4";
 
             settings["target_path"] = unixPath;
             settings["out_name"] = outName;

@@ -9,7 +9,7 @@ namespace NeuralStyle.Console
 {
     public static class _3dPhotoInpainting
     {
-        public static void Start()
+        public static void Start(string basePath)
         {
             var contentName = "sebastian_fenster.jpg";
             var fps = 30;

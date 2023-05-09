@@ -11,11 +11,11 @@ namespace NeuralStyle.Console
 {
     public class NeuralStyleTransfer
     {
-        public static void Start()
+        public static void Start(string basePath)
         {
             var queue = Factory.ConstructQueue("jobs-stylize");
 
-            var basePath = @"C:\Users\gensb\OneDrive\_nft";
+            
             var stylePath = $@"{basePath}\style";
             var inPath = $@"{basePath}\in";
             var videoPath = $@"{basePath}\video";

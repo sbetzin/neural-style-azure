@@ -68,7 +68,10 @@ def create_commandline_from_job(command, job):
         if value == False:
             continue
 
-        command_line.append(f"--{key}={value}")
+        if value is True:
+            command_line.append(f"--{key}")
+        else:
+            command_line.append(f"--{key}={value}")
     
     return command_line
 

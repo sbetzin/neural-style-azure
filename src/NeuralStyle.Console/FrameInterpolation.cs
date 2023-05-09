@@ -20,9 +20,9 @@ namespace NeuralStyle.Console
                 {"out_name" ,"out.mp4"}
             };
 
-            //CreateOneInterpolation(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out\elena_prokopenko_tanz7_enhanced_mask_add_one");
+            CreateOneInterpolation(settings, @"C:\Users\gensb\OneDrive\_nft\video\lofoten_reine_slide\out\amashiro_01_enhanced_mask_add_nearest");
 
-            CreateInterpolationsForOutPath(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out");
+            //CreateInterpolationsForOutPath(settings, @"C:\Users\gensb\OneDrive\_nft\video\norwegen-19_move\out");
 
         }
 
@@ -47,8 +47,8 @@ namespace NeuralStyle.Console
             Logger.Log($"creating frame-interpolation job for {videoPath}");
 
             var frameInterpolationQueue = Factory.ConstructQueue("jobs-frame-interpolation");
-            var basePath = @"C:\Users\gensb\OneDrive\_nft\video\";
-            var unixPath = $@"/nft/video/{videoPath.FindRelativeUnixPath(basePath)}";
+            var basePath = @"C:\Users\gensb\OneDrive\_nft";
+            var unixPath = "/nft/" + videoPath.FindRelativeUnixPath(basePath);
 
             var folderName = new DirectoryInfo(videoPath).Name;
             var timesToInterpolate = settings["times_to_interpolate"];
@@ -56,7 +56,7 @@ namespace NeuralStyle.Console
 
             settings["target_path"] = unixPath;
             settings["out_name"] = outName;
-            
+
             frameInterpolationQueue.CreateJob(settings);
         }
     }

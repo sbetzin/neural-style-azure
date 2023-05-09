@@ -51,7 +51,7 @@ def handle_message(message):
         command_line = create_commandline_from_job("/app/main.py", job)
         run_python(command_line)
  
-        logger.info("Setting exif data")
+        #logger.info("Setting exif data")
         #exifdump.write_exif(out_file_origcolor_0, config)
     except Exception as e:
         logger.exception(e)
@@ -119,7 +119,6 @@ def setup_azure_queue(azure_connection_string, queue_name):
 
     return queue_client
 
-        
 def measure_time(start_time):
     generation_time = time.time() - start_time
 

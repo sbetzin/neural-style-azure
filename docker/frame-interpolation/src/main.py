@@ -84,7 +84,7 @@ def main(target_path: str, out_name: str, fps: int, times_to_interpolate: int, b
         predict_one (frame1, frame2, f'{intermediate_path}/out_{index:04d}.mp4',fps, times_to_interpolate, block_height, block_width)
 
     intermediate_videos = get_files(intermediate_path, ['.mp4'])
-    print (f'Found {len(intermediate_videos)} input files')
+    print (f'Found {len(intermediate_videos)} intermediate_videos files')
 
     if len(intermediate_videos):
         target_video_file = f'{target_path}/{out_name}.mp4'

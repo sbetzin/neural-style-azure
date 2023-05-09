@@ -52,8 +52,8 @@ def neural_style_transfer(logger, config):
     style_img_path = os.path.join(config['style_images_dir'], config['style_img_name'])
     dump_path = os.path.join(config['output_img_dir'], "dump")
     
-    shutil.rmtree(dump_path, ignore_errors=True)
-    os.makedirs(dump_path, exist_ok=True)
+    # shutil.rmtree(dump_path, ignore_errors=True)
+    # os.makedirs(dump_path, exist_ok=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f'using device {device}')

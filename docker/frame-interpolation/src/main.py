@@ -98,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument('--times_to_interpolate', required=False, default=4, type=int, help='Number of times to interpolate')
     parser.add_argument('--block_height', type=int, required=False, default=1, help='Block height')
     parser.add_argument('--block_width', type=int, required=False, default=1, help='Block width')
-    parser.add_argument('--loop', type=bool, required=False, default=True, help='loop to the first frame')
+    parser.add_argument('--loop', action='store_true', required=False, default=True, help='loop to the first frame')
     parser.add_argument('--out_name', type=str, required=False, default="out.mp4")
 
     args = parser.parse_args()

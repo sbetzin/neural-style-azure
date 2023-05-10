@@ -13,30 +13,29 @@ import threading
 from azure.storage.queue import QueueClient
 from azure.core.exceptions import ResourceExistsError
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
+def create_logger(name):
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
 
-logger = logging.getLogger("queueclient")
-logger.setLevel(logging.INFO)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
 
-# Erstellen Sie einen FileHandler
-file_handler = logging.FileHandler("/nft/log/frameinterpolation.log")
+    file_handler = logging.FileHandler(f"/nft/log/{name}.log")
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    file_handler.setFormatter(formatter)
 
-# Erstellen Sie das Formatter-Objekt
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    logger.addHandler(file_handler)
 
-# Weisen Sie das Formatter-Objekt dem FileHandler zu
-file_handler.setFormatter(formatter)
+    # Only show error messages for the azure core. otherwise the console is spammed with debug messages
+    azure_logger = logging.getLogger("azure.core")
+    azure_logger.setLevel(logging.ERROR)
 
-# Fügen Sie den FileHandler zum Logger hinzu
-logger.addHandler(file_handler)
+    return logger, file_handler
 
-# Only show error messages for the azure core. otherwise the console is spammed with debug messages
-azure_logger = logging.getLogger("azure.core")
-azure_logger.setLevel(logging.ERROR)
+logger, file_handler = create_logger("style_transfer")
 
 #insights.enable_logging()
 #telemetrie = insights.create_telemetrie_client()

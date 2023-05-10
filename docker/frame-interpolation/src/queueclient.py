@@ -35,7 +35,7 @@ def create_logger(name):
 
     return logger, file_handler
 
-logger, file_handler = create_logger("style_transfer")
+logger, file_handler = create_logger("frame_interpolation")
 
 #insights.enable_logging()
 #telemetrie = insights.create_telemetrie_client()

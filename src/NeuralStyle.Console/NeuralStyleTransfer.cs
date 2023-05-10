@@ -19,12 +19,12 @@ namespace NeuralStyle.Console
             var stylePath = $@"{basePath}\style";
             var inPath = $@"{basePath}\in";
             var videoPath = $@"{basePath}\video";
-            var sharePath = $@"{basePath}\share";
+            var sharePath = $@"C:\Data\images\share";
 
             var outPath = $@"{basePath}\out";
             var resultPath = $@"{outPath}\result";
 
-            var singleStyle = new[] { $@"{stylePath}\crow_ayahuasca_2.jpg", };
+            var singleStyle = new[] { $@"{stylePath}\surjyasis_basu_01.jpg" };
             var todoStyles = Directory.GetFiles($@"{stylePath}\todo", "*.jpg");
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
@@ -40,7 +40,7 @@ namespace NeuralStyle.Console
             var videoName = $@"lofoten_reine_slide";
             var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().Where(File.Exists).ToArray();
 
-            CreateVideoFrames(queue, settings, specificStylesInShare,  basePath, videoPath, videoName);
+            CreateVideoFrames(queue, settings, singleStyle,  basePath, videoPath, videoName);
 
             //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);

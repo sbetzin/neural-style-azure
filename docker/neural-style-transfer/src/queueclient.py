@@ -15,17 +15,29 @@ from azure.storage.queue import QueueClient
 from neural_style_transfer import neural_style_transfer as neural_style_transfer
 from azure.core.exceptions import ResourceExistsError
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
-logger = logging.getLogger("queueclient")
-logger.setLevel(logging.INFO)
+def create_logger(name):
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
 
-# Only show error messages for the azure core. otherwise the console is spammed with debug messages
-azure_logger = logging.getLogger("azure.core")
-azure_logger.setLevel(logging.ERROR)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+
+    file_handler = logging.FileHandler(f"/nft/log/{name}.log")
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    file_handler.setFormatter(formatter)
+
+    logger.addHandler(file_handler)
+
+    # Only show error messages for the azure core. otherwise the console is spammed with debug messages
+    azure_logger = logging.getLogger("azure.core")
+    azure_logger.setLevel(logging.ERROR)
+
+    return logger, file_handler
+
+logger, file_handler = create_logger("style_transfer")
 
 insights.enable_logging()
 telemetrie = insights.create_telemetrie_client()

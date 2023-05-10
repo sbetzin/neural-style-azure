@@ -21,7 +21,7 @@ RUN chmod 777 /env/
 RUN conda env update
 
 #Download vgg19 modell
-RUN wget -O /home/user/.cache/torch/hub/checkpoints/vgg19-dcbb9e9d.pth https://neuralstylefiles.blob.core.windows.net/models/neural-style-transfer/vgg19-dcbb9e9d.pth
+RUN wget -P /home/user/.cache/torch/hub/checkpoints https://neuralstylefiles.blob.core.windows.net/models/neural-style-transfer/vgg19-dcbb9e9d.pth
 
 # Copy the neural style files (modified) -> this is why we are not cloning the orignal github files
 WORKDIR /app/

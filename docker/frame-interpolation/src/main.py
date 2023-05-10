@@ -75,6 +75,7 @@ def main(target_path: str, out_name: str, fps: int, times_to_interpolate: int, b
     print (f'Found {len(input_files)} input files')
     
     if loop:
+        print("loop=true. Appending the first frame to the end")
         input_files.append(input_files[0])
 
     frame_sets = list(zip(input_files[:-1], input_files[1:]))

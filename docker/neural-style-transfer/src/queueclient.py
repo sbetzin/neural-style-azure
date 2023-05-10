@@ -71,6 +71,7 @@ def handle_message(message):
         
         os.makedirs(directory_content, exist_ok=True)
         os.makedirs(directory_style, exist_ok=True)
+        os.makedirs(directory_out, exist_ok=True)
         
         local_content_file = os.path.join(directory_content, content_name)
         local_style_file =  os.path.join(directory_style, style_name)

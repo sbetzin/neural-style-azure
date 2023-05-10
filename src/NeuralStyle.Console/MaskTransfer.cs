@@ -14,7 +14,7 @@ namespace NeuralStyle.Console
             var settings = new Dictionary<string, object>
             {
                 {"video_name", "lofoten_reine_slide"},
-                {"force_generation", true},
+                {"force_generation", false},
             };
 
             var frameInterpolationQueue = Factory.ConstructQueue("jobs-mask-transfer");

@@ -64,10 +64,6 @@ def handle_message(message):
     except Exception as e:
         logger.exception(e)
  
-def read_stdout(process):
-    for line in process.stdout:
-        logger.info(line.strip())
-
 def create_commandline_from_job(command, job):
     command_line = ["python", command]
 
@@ -86,18 +82,17 @@ def create_commandline_from_job(command, job):
 def run_python(command_line):
     logger.info(f'Starting command: {" ".join(command_line)}')
 
-    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=0)
+    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    stdout_thread = threading.Thread(target=read_stdout, args=(process,))
-    stdout_thread.start()
+    while process.poll() is None:  # solange der Prozess läuft
+        output = process.stdout.readline()
+        if output:
+            logger.info(output)
 
     _, stderr = process.communicate()
-    stdout_thread.join()
 
     if stderr:
         logger.error(f"Fehlermeldungen:\n{stderr}")
- 
-
 
 def poll_queue(queue_client):
     try:

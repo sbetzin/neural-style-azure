@@ -87,7 +87,7 @@ def run_python(command_line):
     process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
     while process.poll() is None:  # solange der Prozess läuft
-        output = process.stdout.readline()
+        output = process.stdout.readline().strip()
         if output:
             logger.info(output)
 

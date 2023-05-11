@@ -84,17 +84,17 @@ def create_commandline_from_job(command, job):
 def run_python(command_line):
     logger.info(f'Starting command: {" ".join(command_line)}')
 
-    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    process = subprocess.Popen(command_line, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 
     while process.poll() is None:  # solange der Prozess läuft
         output = process.stdout.readline().strip()
         if output:
             logger.info(output)
 
-    _, stderr = process.communicate()
+    # _, stderr = process.communicate()
 
-    if stderr:
-        logger.error(f"Fehlermeldungen:\n{stderr}")
+    # if stderr:
+    #     logger.error(f"Fehlermeldungen:\n{stderr}")
 
  
 

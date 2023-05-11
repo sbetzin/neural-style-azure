@@ -14,8 +14,8 @@ namespace NeuralStyle.Console
 
             var basePath = @"C:\Users\gensb\OneDrive\_nft";
 
-            //NeuralStyleTransfer.Start(basePath);
-            FrameInterpolation.Start(basePath);
+            NeuralStyleTransfer.Start(basePath);
+            //FrameInterpolation.Start(basePath);
             //_3dPhotoInpainting.Start(basePath);
             //MaskTransfer.Start(basePath);
 

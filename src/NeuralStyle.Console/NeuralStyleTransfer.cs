@@ -35,12 +35,12 @@ namespace NeuralStyle.Console
             var settings = GetDefaultSettings();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            SortImages.SortNewImages(resultPath, "*.jpg", outPath);
+            //SortImages.SortNewImages(resultPath, "*.jpg", outPath);
 
-            var videoName = $@"lofoten_reine_slide";
-            var specificStylesInShare = Directory.GetFiles(sharePath, "lofoten_reine*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().Where(File.Exists).ToArray();
+            var videoName = $@"close_up_01_move01";
+            var specificStylesInShare = Directory.GetFiles(sharePath, "close_up_01*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().Where(File.Exists).ToArray();
 
-            CreateVideoFrames(queue, settings, singleStyle,  basePath, videoPath, videoName);
+            CreateVideoFrames(queue, settings, specificStylesInShare,  basePath, videoPath, videoName);
 
             //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);

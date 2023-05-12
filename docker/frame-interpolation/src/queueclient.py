@@ -82,7 +82,8 @@ def create_commandline_from_job(command, job):
     return command_line
 
 def run_python(command_line):
-    os.system(command_line)
+    command_string = " ".join(command_line)
+    os.system(command_string)
 
 def poll_queue(queue_client):
     try:

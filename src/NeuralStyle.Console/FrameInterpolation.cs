@@ -20,8 +20,8 @@ namespace NeuralStyle.Console
                 {"out_name" ,"out.mp4"}
             };
 
-            var videoName = "lofoten_reine_slide";
-            var maskedOutName = "amashiro_01_enhanced_mask_add_nearest";
+            var videoName = "close_up_01_move01";
+            var maskedOutName = "misc_8_enhanced_mask_left_to_right";
            
             //CreateOneInterpolation(settings, basePath, videoName, maskedOutName);
             CreateInterpolationsForOutPath(settings, basePath, videoName);

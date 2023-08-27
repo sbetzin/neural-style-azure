@@ -1,25 +1,22 @@
-﻿using NeuralStyle.Core.Cloud;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NeuralStyle.Console.MovePathes;
+using NeuralStyle.Core.Cloud;
 
 namespace NeuralStyle.Console
 {
     public static class _3dPhotoInpainting
     {
-        public static void Start(string basePath)
+        public static void Start(string basePath, string contentName)
         {
-            var contentName = "sebastian_fenster.jpg";
             var fps = 30;
             var numFrames = 180;
             var longerSizeLen = 1024;
             var depthMode = 2;
 
 
-            var basicSettings = CreateBasicSettings(contentName, depthMode, fps, numFrames, longerSizeLen);
-            var settings = AddSlideMoveSettings(basicSettings);
+            var settings = CreateBasicSettings(contentName, depthMode, fps, numFrames, longerSizeLen);
+            settings.AddZoomMovement();
 
             CreateJob(settings);
         }
@@ -36,8 +33,8 @@ namespace NeuralStyle.Console
 
             var settings = new Dictionary<string, object>
             {
-                { "content_name",  contentName},
-                { "result_name", $"{name}_d{depthMode}_zoom_out_move.mp4" },
+                { "content_name", contentName },
+                { "result_name", $"{name}_d{depthMode}_#movename#.mp4" },
                 { "recreate_depth_mesh", false },
                 { "interpolation_kind", "cubic" },
                 { "depth_mode", depthMode },
@@ -46,59 +43,8 @@ namespace NeuralStyle.Console
                 { "longer_side_len", longerSizeLen },
                 { "crop_border", new[] { 0.05, 0.05, 0.05, 0.05 } }
             };
+
             return settings;
         }
-
-
-        private static Dictionary<string, object> AddZoomSettings(Dictionary<string, object> settings)
-        {
-
-            var addedSettings = new Dictionary<string, object>
-            {
-                {
-                    "coordinates", new[]
-                    {
-                        new[] { 0.0, 0.0, 0.0 },
-                        new[] { 0.0, 0.0, -0.1 },
-                        new[] { 0.01, 0, -0.09 },
-                        new[] { 0, 0.01, -0.08 },
-                        new[] { -0.01, 0, -0.07 },
-                        new[] { 0, -0.01, -0.06 },
-                        new[] { 0.01, 0, -0.05 },
-                        new[] { 0, 0.01, -0.04 },
-                        new[] { -0.01, 0, -0.03 },
-                        new[] { 0.0, 0.0, 0.0 },
-                    }
-                },
-            };
-            var united= settings.Union(addedSettings);
-
-            return united.ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-        
-        private static Dictionary<string, object> AddSlideMoveSettings(Dictionary<string, object> settings)
-        {
-
-            var addedSettings = new Dictionary<string, object>
-            {
-                {
-                    "coordinates", new[]
-                    {
-                        new[] { 0.0, 0.0, 0.0 },
-                        new[] {-0.02,-0.02,0},
-                        new[] { 0,-0.01,0.01 },
-                        new[] {0.01,0,0.015},
-                        new[] { 0.02,0.01,0.02},
-                        new[] { 0.0, 0.0, 0.0 },
-                    }
-                },
-            };
-            var united= settings.Union(addedSettings);
-
-            return united.ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-
-
-
     }
 }

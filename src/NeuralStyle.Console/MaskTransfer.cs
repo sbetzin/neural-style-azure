@@ -13,7 +13,7 @@ namespace NeuralStyle.Console
         {
             var settings = new Dictionary<string, object>
             {
-                {"video_name", "lofoten_reine_slide"},
+                {"video_name", "close_up_01_move01"},
                 {"force_generation", false},
             };
 

@@ -15,7 +15,6 @@ namespace NeuralStyle.Console
         {
             var queue = Factory.ConstructQueue("jobs-stylize");
 
-            
             var stylePath = $@"{basePath}\style";
             var inPath = $@"{basePath}\in";
             var videoPath = $@"{basePath}\video";
@@ -29,23 +28,23 @@ namespace NeuralStyle.Console
             var allStyles = Directory.GetFiles(stylePath, "*.jpg");
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
 
-            var allIn = Directory.GetFiles(inPath, "*.jpg");
-            var singlePic = new[] { $@"{inPath}\sergis_01.jpg" };
+            var allIn = Directory.GetFiles(inPath, "kroatien*.jpg");
+            var singlePic = new[] { $@"{inPath}\woman_03.jpg", $@"{inPath}\woman_04.jpg", $@"{inPath}\woman_05.jpg" };
 
             var settings = GetDefaultSettings();
 
             //UpdateNames.Ensure_Correct_Filenames(images);
-            //SortImages.SortNewImages(resultPath, "*.jpg", outPath);
+            //SortImages.SortNewImages(outPath, "*.jpg", $@"C:\Data\images\out");
 
             var videoName = $@"close_up_01_move01";
             var specificStylesInShare = Directory.GetFiles(sharePath, "close_up_01*.jpg").ToList().Select(image => image.GetTags().Style).Select(inStyle => $@"{stylePath}\{inStyle}.jpg").Distinct().Where(File.Exists).ToArray();
 
-            CreateVideoFrames(queue, settings, specificStylesInShare,  basePath, videoPath, videoName);
+            //CreateVideoFrames(queue, settings, specificStylesInShare,  basePath, videoPath, videoName);
 
             //CreateJobs.CreateMissing(queue, inDonePath, stylePath, outPath, settings);
             //SortImages.CreateMissingHardlinkgs(outPath);
 
-            //CreateJobs.CreateNew(queue, allIn, singleStyle, settings);
+            CreateJobs.CreateNew(queue, allIn, allStyles, settings, basePath, outPath);
             //CreateJobs.CreateNew(queue, allInDone, singleStyle, settings);
             //CreateJobs.CreateNew(queue, allInDone, todoStyles, settings);
 
@@ -54,7 +53,7 @@ namespace NeuralStyle.Console
         private static void CreateVideoFrames(QueueClient queue, JobSettings settings, string[] styles, string basePath, string videoPath, string videoName)
         {
             var inVideoImages = Directory.GetFiles($@"{videoPath}\{videoName}\in", "*.jpg");
-           
+
             foreach (var style in styles)
             {
                 var styleName = Path.GetFileName(style).Split(new[] { "." }, StringSplitOptions.None)[0];

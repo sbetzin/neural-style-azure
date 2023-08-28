@@ -51,16 +51,18 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePathes.cs" />
     <Compile Include="Cloud\BlobAdapter.cs" />
     <Compile Include="Cloud\Factory.cs" />
     <Compile Include="EnumExtensions.cs" />
-    <Compile Include="Features\CreateMiningMetaData.cs" />
-    <Compile Include="Features\CreateSeries.cs" />
-    <Compile Include="Features\Templating.cs" />
+    <Compile Include="Features\NeuralStyleTransfer\CreateSettings.cs" />
+    <Compile Include="Features\WebpageCreation\CreateMiningMetaData.cs" />
+    <Compile Include="Features\NeuralStyleTransfer\CreateSeries.cs" />
+    <Compile Include="Features\WebpageCreation\Templating.cs" />
     <Compile Include="Folders\FolderCheck.cs" />
     <Compile Include="Imaging\ExifAdapter.cs" />
-    <Compile Include="Features\CreateJobs.cs" />
-    <Compile Include="Features\FindMissingCombinations.cs" />
+    <Compile Include="Features\NeuralStyleTransfer\CreateJobs.cs" />
+    <Compile Include="Features\NeuralStyleTransfer\FindMissingCombinations.cs" />
     <Compile Include="Features\SortImages.cs" />
     <Compile Include="Features\UpdateNames.cs" />
     <Compile Include="Features\UpdateTags.cs" />

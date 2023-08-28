@@ -1,15 +1,12 @@
-﻿using Azure.Storage.Blobs;
+﻿using System;
 using Azure.Storage.Queues;
 using NeuralStyle.Core.Model;
-using System;
-using System.IO;
-using System.Linq;
 
-namespace NeuralStyle.Core.Features
+namespace NeuralStyle.Core.Features.NeuralStyleTransfer
 {
     public static class CreateSeries
     {
-        public static void Fixed(QueueClient queue, string[] singlePic, string[] singleStyle, string basePath, string outPath)
+        public static void Fixed(string[] singlePic, string[] singleStyle, string basePath, string outPath)
         {
             var min = 3e8;
             var max = 3e9;
@@ -30,7 +27,7 @@ namespace NeuralStyle.Core.Features
                     Init = "content",
                 };
 
-                CreateJobs.CreateNew(queue, singlePic, singleStyle, settings, basePath, outPath);
+                CreateJobs.CreateNew(singlePic, singleStyle, settings, basePath, outPath);
             }
         }
     }

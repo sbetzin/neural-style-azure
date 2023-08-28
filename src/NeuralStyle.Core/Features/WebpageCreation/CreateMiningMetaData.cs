@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using NeuralStyle.Core.Imaging;
 
-namespace NeuralStyle.Core.Features
+namespace NeuralStyle.Core.Features.WebpageCreation
 {
     public static class CreateMiningMetaData
     {

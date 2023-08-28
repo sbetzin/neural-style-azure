@@ -4,7 +4,7 @@ using NeuralStyle.Core.Cloud;
 using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Templating;
 
-namespace NeuralStyle.Core.Features
+namespace NeuralStyle.Core.Features.WebpageCreation
 {
     public static class CreateWebpages
     {

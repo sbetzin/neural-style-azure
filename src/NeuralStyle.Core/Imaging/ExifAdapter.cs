@@ -15,16 +15,14 @@ namespace NeuralStyle.Core.Imaging
         {
             try
             {
-                using (var reader = new ExifReader(file))
-                {
-                    reader.GetTagValue(ExifTags.XPSubject, out string styleImage);
-                    reader.GetTagValue(ExifTags.XPTitle, out string inImage);
+                using var reader = new ExifReader(file);
+                reader.GetTagValue(ExifTags.XPSubject, out string styleImage);
+                reader.GetTagValue(ExifTags.XPTitle, out string inImage);
 
-                    styleImage = styleImage.FixUnicodeBug();
-                    inImage = inImage.FixUnicodeBug();
+                styleImage = styleImage.FixUnicodeBug();
+                inImage = inImage.FixUnicodeBug();
 
-                    return (inImage, styleImage);
-                }
+                return (inImage, styleImage);
             }
             catch (ExifLibException)
             {
@@ -59,13 +57,11 @@ namespace NeuralStyle.Core.Imaging
         {
             var bytes = File.ReadAllBytes(file);
             var stream = new MemoryStream(bytes);
-            using (var bitmap = Bitmap.FromStream(stream))
-            {
-                bitmap.UpdateTag(40091, image);
-                bitmap.UpdateTag(40095, style);
+            using var bitmap = Bitmap.FromStream(stream);
+            bitmap.UpdateTag(40091, image);
+            bitmap.UpdateTag(40095, style);
 
-                bitmap.Save(file);
-            }
+            bitmap.Save(file);
         }
 
         public static void UpdateTag(this Image image, int tagId, string value)
@@ -90,18 +86,16 @@ namespace NeuralStyle.Core.Imaging
             var bytes = File.ReadAllBytes(file);
             var stream = new MemoryStream(bytes);
 
-            using (var bitmap = Image.FromStream(stream))
+            using var bitmap = Image.FromStream(stream);
+            var tags = bitmap.PropertyItems;
+            foreach (var tag in tags)
             {
-                var tags = bitmap.PropertyItems;
-                foreach (var tag in tags)
-                {
-                    tag.Value = tag.Value.FixUnicodeBug();
+                tag.Value = tag.Value.FixUnicodeBug();
 
-                    bitmap.SetPropertyItem(tag);
-                }
-
-                bitmap.Save(file);
+                bitmap.SetPropertyItem(tag);
             }
+
+            bitmap.Save(file);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Runtime.Serialization;
 using System.Text;
 using ExifLib;
@@ -58,7 +59,7 @@ namespace NeuralStyle.Core.Imaging
         {
             var bytes = File.ReadAllBytes(file);
             var stream = new MemoryStream(bytes);
-            using (var bitmap = Image.FromStream(stream))
+            using (var bitmap = Bitmap.FromStream(stream))
             {
                 bitmap.UpdateTag(40091, image);
                 bitmap.UpdateTag(40095, style);

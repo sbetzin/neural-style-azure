@@ -7,16 +7,18 @@ using NeuralStyle.Core.Features.NeuralStyleTransfer;
 using NeuralStyle.Core.Folders;
 using SharpShell.Attributes;
 using SharpShell.Diagnostics;
+using SharpShell.Interop;
 using SharpShell.SharpContextMenu;
 
 namespace NeuralStyle.ExplorerExtension
 {
     [ComVisible(true)]
-    [COMServerAssociation(AssociationType.Directory, ".jpg")]
-    public class ExplorerMenuExtensions : SharpContextMenu
+    [COMServerAssociation(AssociationType.AllFiles)]
+    public class ExplorerMenu : SharpContextMenu
     {
         protected override bool CanShowMenu()
         {
+
             if (SelectedItemPaths.Count() > 1)
             {
                 return false;
@@ -24,7 +26,7 @@ namespace NeuralStyle.ExplorerExtension
 
             var path = SelectedItemPaths.First();
 
-            var isInFolder = FolderCheck.IsInFolder(path, @"C:\Users\gensb\OneDrive\_nft\video");
+            var isInFolder = FolderCheck.IsInFolder(path, @"C:\Users\gensb\OneDrive\_nft");
 
             return isInFolder;
         }

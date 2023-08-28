@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace NeuralStyle.ExplorerExtension
 {
-    public static class MenuCreation
+    public static class MenuItemCreation
     {
         public static void CreateMenuItem(this ContextMenuStrip menu, string text, EventHandler targetFunction)
         {

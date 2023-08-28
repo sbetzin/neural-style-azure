@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NeuralStyle.ExplorerExtension</RootNamespace>
     <AssemblyName>NeuralStyle.ExplorerExtension</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -53,8 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExplorerMenuExtensions.cs" />
-    <Compile Include="MenuCreation.cs" />
+    <Compile Include="ExplorerMenu.cs" />
+    <Compile Include="MenuItemCreation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

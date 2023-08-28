@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeuralStyle.ExplorerExtension;
 using Xunit;
 
 namespace NeuralStyle.Tests
@@ -13,9 +14,8 @@ namespace NeuralStyle.Tests
         [Fact]
         public static void TestLargeImage()
         {
-            var target = @"C:\Data\images\print\lofoten_reine_abstract_1_1000px_cw_0.01_sw_50_iter_500_origcolor_0.jpg";
+            var menu = new ExplorerMenu();
 
-            //CreateEnlargeJob.CreateLargeImageJob(target);
         }
 
     }

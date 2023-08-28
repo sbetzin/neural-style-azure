@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -12,7 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralStyle.Core\NeuralStyle.Core.csproj" />
-    <ProjectReference Include="..\NeuralStyle.ExplorerExtension\NeuralStyle.ExplorerExtension.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

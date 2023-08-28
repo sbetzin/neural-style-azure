@@ -23,11 +23,13 @@ namespace NeuralStyle.ExplorerExtension
             {
                 return false;
             }
-
+            
             var path = SelectedItemPaths.First();
+            var isInFolder = FolderCheck.IsInFolder(path, BasePathes.InPath());
 
-            var isInFolder = FolderCheck.IsInFolder(path, @"C:\Users\gensb\OneDrive\_nft");
+            Logging.Log($"Checking file {path} if member in base path {BasePathes.BasePath()} = {isInFolder}");
 
+            
             return isInFolder;
         }
 
@@ -49,9 +51,14 @@ namespace NeuralStyle.ExplorerExtension
             var allStyles = BasePathes.GetAllStyles();
             var settings = CreateSettings.GetDefaultSettings();
 
-
-            CreateJobs.CreateNew(inImages, allStyles, settings, BasePathes.BasePath(), BasePathes.OutPath());
-
+            try
+            {
+                CreateJobs.CreateNew(inImages, allStyles, settings, BasePathes.BasePath(), BasePathes.OutPath());
+            }
+            catch (Exception e)
+            {
+                Logging.Error(e.ToString());
+            }
         }
     }
 }

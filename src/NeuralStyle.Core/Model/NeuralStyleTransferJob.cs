@@ -1,6 +1,4 @@
-﻿using Org.BouncyCastle.Utilities;
-
-namespace NeuralStyle.Core.Model
+﻿namespace NeuralStyle.Core.Model
 {
     public class NeuralStyleTransferJob
     {

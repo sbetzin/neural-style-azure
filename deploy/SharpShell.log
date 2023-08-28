@@ -1,0 +1,227 @@
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:53:08.110Z - explorer - SharpShell Diagnostics Initialised. Process explorer.
+2023-08-28 13:53:08.113Z - explorer - ExplorerMenu: Initializing shell extension...
+2023-08-28 13:53:08.117Z - explorer - ExplorerMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:53:08.121Z - explorer - ExplorerMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:53:12.891Z - explorer - ExplorerMenu: Invoke command index 0
+2023-08-28 13:53:12.895Z - explorer - Found 1 images to stylize
+2023-08-28 13:54:41.305Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 13:54:41.315Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 13:54:41.324Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /u "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 13:54:41.417Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 13:54:41.422Z - RegAsm - Unregistering server for type ExplorerMenu
+2023-08-28 13:54:41.426Z - RegAsm - Preparing to unregister SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 13:54:41.437Z - RegAsm - Unregistration of ExplorerMenu completed
+2023-08-28 13:54:41.470Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 13:54:41.477Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types un-registered successfully
+
+2023-08-28 13:54:41.484Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll uninstalled.
+2023-08-28 13:54:42.957Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 13:54:42.967Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 13:54:42.977Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /codebase "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 13:54:43.096Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 13:54:43.105Z - RegAsm - Registering server for type ExplorerMenu
+2023-08-28 13:54:43.112Z - RegAsm - Preparing to register SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 13:54:43.128Z - RegAsm - Registration of ExplorerMenu completed
+2023-08-28 13:54:43.145Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 13:54:43.153Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types registered successfully
+
+2023-08-28 13:54:43.162Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll installed and registered.
+Message: SharpShell Diagnostics Initialised. Process explorer.
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Invoke Unicode verb OpenNewWindow
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:55:08.981Z - explorer - SharpShell Diagnostics Initialised. Process explorer.
+2023-08-28 13:55:08.983Z - explorer - ExplorerMenu: Initializing shell extension...
+2023-08-28 13:55:08.987Z - explorer - ExplorerMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:55:08.991Z - explorer - ExplorerMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 13:55:12.720Z - explorer - ExplorerMenu: Invoke command index 0
+2023-08-28 13:55:12.724Z - explorer - Found 1 images to stylize
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Data\Development\Private\neural-style-azure\deploy\SharpShell.log
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Data\Development\Private\neural-style-azure\deploy\SharpShell.log
+2023-08-28 13:55:34.954Z - explorer - ExplorerMenu: Initializing shell extension...
+2023-08-28 13:55:34.956Z - explorer - ExplorerMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Data\Development\Private\neural-style-azure\deploy\SharpShell.log
+2023-08-28 13:55:34.959Z - explorer - ExplorerMenu: Query Context Menu for items: 
+C:\Data\Development\Private\neural-style-azure\deploy\SharpShell.log
+2023-08-28 14:00:06.473Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 14:00:06.483Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 14:00:06.493Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /u "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 14:00:06.605Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 14:00:06.610Z - RegAsm - Unregistering server for type ExplorerMenu
+2023-08-28 14:00:06.616Z - RegAsm - Preparing to unregister SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 14:00:06.627Z - RegAsm - Unregistration of ExplorerMenu completed
+2023-08-28 14:00:06.656Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 14:00:06.660Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types un-registered successfully
+
+2023-08-28 14:00:06.665Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll uninstalled.
+Message: SharpShell Diagnostics Initialised. Process explorer.
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Invoke Unicode verb OpenNewWindow
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\File Explorer.lnk
+Message: OptaneContextMenu: Invoke Unicode verb OpenNewWindow
+2023-08-28 17:32:42.208Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 17:32:42.223Z - ServerRegistrationManager - Started the Server Registration Manager.
+Message: SharpShell Diagnostics Initialised. Process ServerManager.
+Message: OptaneIconOverlay: GetPriority called to get icon overlay priority.
+Message: OptaneIconOverlay: GetPriority called to get icon overlay priority.
+Message: OptaneIconOverlay: GetPriority called to get icon overlay priority.
+Message: OptaneIconOverlay: GetPriority called to get icon overlay priority.
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Downloads - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Desktop - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\AppData\Local\SynologyDrive\SystemFolders\1 - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Documents - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Videos - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\Public\Desktop\BL-30.lnk - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Pictures - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Music - returning False
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:34:02.426Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 17:34:02.441Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 17:34:02.453Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /codebase "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 17:34:02.714Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 17:34:02.722Z - RegAsm - Registering server for type ExplorerMenu
+2023-08-28 17:34:02.728Z - RegAsm - Preparing to register SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 17:34:02.741Z - RegAsm - Registration of ExplorerMenu completed
+2023-08-28 17:34:02.753Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 17:34:02.757Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types registered successfully
+
+2023-08-28 17:34:02.760Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll installed and registered.
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\AppData\Local\SynologyDrive\SystemFolders\1 - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Desktop - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Documents - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Downloads - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Music - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Pictures - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\gensb\Videos - returning False
+Message: OptaneIconOverlay: IsMemberOf for C:\Users\Public\Desktop\BL-30.lnk - returning False
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:34:21.378Z - ServerManager - SharpShell Diagnostics Initialised. Process ServerManager.
+2023-08-28 17:34:21.381Z - ServerManager - ExplorerMenu: Initializing shell extension...
+2023-08-28 17:34:21.384Z - ServerManager - ExplorerMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:34:21.388Z - ServerManager - ExplorerMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:34:21.463Z - ServerManager - Checking file C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg if member in base path C:\Users\gensb\OneDrive\_nft = True
+Message: OptaneContextMenu: Initializing shell extension...
+Message: OptaneContextMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+Message: OptaneContextMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:36:18.765Z - ServerManager - ExplorerMenu: Initializing shell extension...
+2023-08-28 17:36:18.772Z - ServerManager - ExplorerMenu: Shell extension initialised.
+Parent folder: <none>
+Items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:36:18.778Z - ServerManager - ExplorerMenu: Query Context Menu for items: 
+C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg
+2023-08-28 17:36:18.783Z - ServerManager - Checking file C:\Users\gensb\OneDrive\_nft\in\kroatien_07.jpg if member in base path C:\Users\gensb\OneDrive\_nft = True
+2023-08-28 17:36:27.042Z - ServerManager - ExplorerMenu: Invoke command index 0
+2023-08-28 17:36:30.803Z - ServerManager - Found 1 images to stylize
+2023-08-28 17:43:08.600Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 17:43:08.616Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 17:43:08.630Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /u "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 17:43:08.877Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 17:43:08.884Z - RegAsm - Unregistering server for type ExplorerMenu
+2023-08-28 17:43:08.891Z - RegAsm - Preparing to unregister SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 17:43:08.906Z - RegAsm - Unregistration of ExplorerMenu completed
+2023-08-28 17:43:08.939Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 17:43:08.943Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types un-registered successfully
+
+2023-08-28 17:43:08.948Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll uninstalled.
+2023-08-28 17:43:11.246Z - ServerRegistrationManager - SharpShell Diagnostics Initialised. Process ServerRegistrationManager.
+2023-08-28 17:43:11.258Z - ServerRegistrationManager - Started the Server Registration Manager.
+2023-08-28 17:43:11.266Z - ServerRegistrationManager - RegAsm: preparing to run C:\WINDOWS\Microsoft.Net\Framework64\v4.0.30319\regasm.exe /codebase "C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll"
+2023-08-28 17:43:11.411Z - RegAsm - SharpShell Diagnostics Initialised. Process RegAsm.
+2023-08-28 17:43:11.421Z - RegAsm - Registering server for type ExplorerMenu
+2023-08-28 17:43:11.429Z - RegAsm - Preparing to register SharpShell Server ExplorerMenu as OS64Bit
+2023-08-28 17:43:11.443Z - RegAsm - Registration of ExplorerMenu completed
+2023-08-28 17:43:11.456Z - ServerRegistrationManager - RegAsm: exited with code 0
+2023-08-28 17:43:11.461Z - ServerRegistrationManager - RegAsm: Output: Microsoft .NET Framework Assembly Registration Utility version 4.8.9032.0
+for Microsoft .NET Framework version 4.8.9032.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Types registered successfully
+
+2023-08-28 17:43:11.468Z - ServerRegistrationManager -     C:\Data\Development\Private\neural-style-azure\deploy\ExplorerExtension\NeuralStyle.ExplorerExtension.dll installed and registered.

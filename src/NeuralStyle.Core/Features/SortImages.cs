@@ -3,7 +3,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text.RegularExpressions;
 using AngleSharp.Text;
-using FFMpegCore;
 using NeuralStyle.Core.Imaging;
 using NeuralStyle.Core.Links;
 

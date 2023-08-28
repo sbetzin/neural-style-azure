@@ -10,12 +10,21 @@ namespace NeuralStyle.Core.Folders
     {
         public static bool IsInFolder(string folder, string inFolder)
         {
-            var baseUri = new Uri(folder, UriKind.Absolute);
-            var targetUri = new Uri(inFolder, UriKind.Absolute);
+            var baseUri = new Uri(inFolder, UriKind.Absolute);
+            var targetUri = new Uri(folder, UriKind.Absolute);
+            var segments = baseUri.Segments.Length;
 
-            var pairs = baseUri.Segments.Take(7).Zip(targetUri.Segments.Take(7), (s, s1) => s == s1).ToList();
+            var pairs = baseUri.Segments.Take(segments).Zip(targetUri.Segments.Take(segments), (s, s1) => s.RemoveFolderSeparator() == s1.RemoveFolderSeparator()).ToList();
 
-            return pairs.All(result => true);
+            var allTrue=  pairs.All(result => result);
+
+            return allTrue;
+
+        }
+
+        private static string RemoveFolderSeparator(this string folder)
+        {
+            return folder.Replace(@"/", "");
         }
     }
 }

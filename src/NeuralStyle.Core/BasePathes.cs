@@ -6,7 +6,7 @@ namespace NeuralStyle.Core
     {
         public static string BasePath()
         {
-            return @"C:\Users\gensb\OneDrive\_nft";
+            return @"C:\Data\OneDrive\_nft";
         }
 
         public static string StylePath()

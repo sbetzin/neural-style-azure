@@ -12,9 +12,9 @@ namespace NeuralStyle.Console
         {
             Logger.NewLog += System.Console.WriteLine;
 
-            NeuralStyleTransfer.Start();
+            //NeuralStyleTransfer.Start();
             //FrameInterpolation.Start(basePath);
-            //_3dPhotoInpainting.Start(basePath, "kroatien_04.jpg");
+            _3dPhotoInpainting.Start("close_up_02.jpg");
             //MaskTransfer.Start(basePath);
 
             //FolderCheck.IsInFolder(@"C:\Users\gensb\OneDrive\_nft\video2\norwegen-19_move", @"C:\Users\gensb\OneDrive\_nft\video");

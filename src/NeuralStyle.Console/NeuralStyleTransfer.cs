@@ -16,7 +16,7 @@ namespace NeuralStyle.Console
             var inPath = BasePathes.InPath();
 
             var allStyles = BasePathes.GetAllStyles();
-            var inImages = BasePathes.GetInImages("kroatien_06*.jpg");
+            var inImages = BasePathes.GetInImages("close_up_02.jpg");
 
             var specificStyles = Directory.GetFiles(stylePath, "crow*.jpg");
             var singlePic = new[] { $@"{inPath}\woman_03.jpg", $@"{inPath}\woman_04.jpg", $@"{inPath}\woman_05.jpg" };
